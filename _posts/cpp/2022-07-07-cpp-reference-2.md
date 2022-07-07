@@ -18,11 +18,9 @@ last_modified_at : 2022-07-07
 
 참조는 주로 함수의 매개변수로 사용된다. 그것은 어떤 함수에서 사용하는 변수의 이름을 그 함수를 호출한 프로그램(호출 함수)에 있는 어떤 변수의 대용 이름으로 만든다. 이러한 방식으로 매개변수를 전달하는 것을 참조로 전달이라 한다.
 
-![img](https://postfiles.pstatic.net/20120805_144/daejoon3_13441744957227jHAI_PNG/%C2%FC%C1%B6_%B0%AA%C0%B8%B7%CE%C0%FC%B4%DE.PNG?type=w2)
+![image](https://user-images.githubusercontent.com/13410737/177801552-4ff5950e-c7af-41a0-bede-c31a8cb6d947.png)
 
-
-
-![img](https://postfiles.pstatic.net/20120805_257/daejoon3_1344174496113CbUSr_PNG/%C2%FC%C1%B6_%C2%FC%C1%B6%B7%CE_%C0%FC%B4%DE.PNG?type=w2)
+![image](https://user-images.githubusercontent.com/13410737/177801646-329372de-e05e-4ae2-b61a-e8723bd90a67.png)
 
 이 그림을 보며 예제 코드를 분석해보자.
 
