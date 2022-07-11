@@ -51,24 +51,29 @@ last_modified_at : 2022-07-11
 
 핸들러 매핑은 요청 정보를 기준으로 어떤 컨트롤러를 사용할지 선정하는 인터페이스이다. 핸들러 매핑 인터페이스는 여러 구현체를 가지며, 대표적인 구현체 클래스는 다음과 같다.
 
-`BeanNameUrlHandlerMapping`
+- `BeanNameUrlHandlerMapping`
 
-- 빈 이름을 URL로 사용하는 매핑 전략이다.
-- 빈을 정의할 때 슬래시('/')가 들어가면 매핑 대상이 된다.
-- 예) @Bean("/hello")
+  - 빈 이름을 URL로 사용하는 매핑 전략이다.
 
-`ControllerClassNameHandlerMapping`
+  - 빈을 정의할 때 슬래시('/')가 들어가면 매핑 대상이 된다.
 
-- URL과 일치하는 클래스 이름을 갖는 빈을 컨트롤러로 사용하는 전략이다.
-- 이름 중 Controller를 제외하고 앞 부분에 작성된 suffix를 소문자로 매핑한다.
+  - 예) @Bean("/hello")
 
-`SimpleUrlHandlerMapping`
 
-- URL 패턴에 매핑된 컨트롤러를 사용하는 전략이다.
+- `ControllerClassNameHandlerMapping`
 
-`DefaultAnnotationHandlerMapping`
+  - URL과 일치하는 클래스 이름을 갖는 빈을 컨트롤러로 사용하는 전략이다.
 
-- 어노테이션으로 URL과 컨트롤러를 매핑하는 방법이다.
+  - 이름 중 Controller를 제외하고 앞 부분에 작성된 suffix를 소문자로 매핑한다.
+
+
+- `SimpleUrlHandlerMapping`
+  - URL 패턴에 매핑된 컨트롤러를 사용하는 전략이다.
+
+
+- `DefaultAnnotationHandlerMapping`
+  - 어노테이션으로 URL과 컨트롤러를 매핑하는 방법이다.
+
 
 
 
