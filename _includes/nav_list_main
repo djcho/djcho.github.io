@@ -53,6 +53,14 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+        <span class="nav__sub-title">📂 Framework</span>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "SpringBoot" %}
+                        <li><a href="/categories/spring-boot" class="">스프링 부트({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
         <span class="nav__sub-title">📂 Coding Test</span>
             <ul>
                 {% for category in site.categories %}
