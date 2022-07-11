@@ -82,7 +82,6 @@ last_modified_at : 2022-07-11
 
 
 'spring-boot-starter'의 여러 라이브러리를 함께 사용할 때는 의존성이 겹칠 수 있다. 이로 인해 버전 충돌이 발생할 수 있는데 ,의존성 조합 충돌 문제가 없도록 'spring-boot-starter-parent'가 검증된 조합을 제공한다.
-
 {: .notice--warning}
 
 <br>
