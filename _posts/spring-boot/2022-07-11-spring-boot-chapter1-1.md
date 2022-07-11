@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter1.1]스프링 부트란?"
+title : "[SpringBoot][Chapter1.1]스프링 프레임워크"
 categories:
 - SpringBoot
 tag :
@@ -8,7 +8,7 @@ toc: true
 toc_sticky : true
 published : true
 date : 2022-07-11
-last_modified_at : 2022-07-11스인프런에 있는 홍정모 교수님의 홍정모의 따라 하며 배우는 C++ 강의를 듣고 정리한 필기입니다. 😀    
+last_modified_at : 2022-07-11
 ---
 
 
