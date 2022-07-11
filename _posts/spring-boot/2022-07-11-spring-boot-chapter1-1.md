@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter1.1]스프링 프레임워크"
+title : "[SpringBoot][Chapter1.1] 스프링 프레임워크"
 categories:
 - SpringBoot
 tag :
