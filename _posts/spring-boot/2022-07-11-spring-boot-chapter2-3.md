@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter2.3] 레이어드 아키텍처"
+title : "[SpringBoot][Chapter2.3] 기초 지식 - 레이어드 아키텍처"
 categories:
 - SpringBoot
 tag :

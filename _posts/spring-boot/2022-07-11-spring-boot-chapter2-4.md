@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter2.4] 디자인 패턴"
+title : "[SpringBoot][Chapter2.4] 기초 지식 - 디자인 패턴"
 categories:
 - SpringBoot
 tag :

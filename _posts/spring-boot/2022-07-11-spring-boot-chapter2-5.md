@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter2.5] REST API"
+title : "[SpringBoot][Chapter2.5] 기초 지식 - REST API"
 categories:
 - SpringBoot
 tag :

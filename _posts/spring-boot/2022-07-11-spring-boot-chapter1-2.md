@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter1.2] 스프링 프레임워크 vs. 스프링 부트"
+title : "[SpringBoot][Chapter1.2] 스프링 부트란? - 스프링 프레임워크 vs. 스프링 부트"
 categories:
 - SpringBoot
 tag :

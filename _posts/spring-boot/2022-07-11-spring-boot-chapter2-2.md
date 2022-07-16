@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter2.2] 스프링 부트의 동작 방식"
+title : "[SpringBoot][Chapter2.2] 기초 지식 - 스프링 부트의 동작 방식"
 categories:
 - SpringBoot
 tag :
