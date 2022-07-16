@@ -51,6 +51,9 @@ last_modified_at : 2022-07-16
   - 코드의 확장성도 좋아진다.
 - 각 레이어가 독립적으로 작성되면 다른 레이어와의 의존성을 낮춰 단위 테스트에 용이하다.
 
+
+### 스프링 부트의 레이어드 아키텍처
+
 스프링 부트는 별도의 설정 없이 spring-boot-starter-web 의 의존성을 사용할 때는 기본적으로 스프링 MVC 구조를 띠게 되며, 대체로 아래와 같은 레이어드 아키텍처를 이룬다.
 
 ![image](https://user-images.githubusercontent.com/13410737/179356088-deb4dd3b-b062-4b5b-8d71-452a890bb2fd.png){: .align-center}
