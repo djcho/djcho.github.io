@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter2.2] 기초 지식 - 스프링 부트의 동작 방
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Framework, Java]
+- [SpringBoot, Spring, Java]
 toc: true
 toc_sticky : true
 published : true

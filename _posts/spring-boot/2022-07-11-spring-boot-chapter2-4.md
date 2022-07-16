@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter2.4] 기초 지식 - 디자인 패턴"
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Framework, Java, GoF, DesignPattern]
+- [SpringBoot, Spring, Java, GoF, DesignPattern]
 toc: true
 toc_sticky : true
 published : true

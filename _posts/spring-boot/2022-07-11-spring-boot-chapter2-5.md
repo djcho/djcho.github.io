@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter2.5] 기초 지식 - REST API"
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Framework, Java, REST]
+- [SpringBoot, Spring, Java, REST]
 toc: true
 toc_sticky : true
 published : true

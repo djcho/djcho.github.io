@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter1.1] 스프링 부트란? - 스프링 프레임워�
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Framework, Java]
+- [SpringBoot, Spring, Java]
 toc: true
 toc_sticky : true
 published : true

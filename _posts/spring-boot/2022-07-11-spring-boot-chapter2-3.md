@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter2.3] 기초 지식 - 레이어드 아키텍처"
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Framework, Java]
+- [SpringBoot, Spring, Java]
 toc: true
 toc_sticky : true
 published : true

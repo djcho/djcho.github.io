@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter3.1] 개발 환경 구성 - 자바 JDK 설치"
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Framework, Java, REST]
+- [SpringBoot, Spring, Java]
 toc: true
 toc_sticky : true
 published : true

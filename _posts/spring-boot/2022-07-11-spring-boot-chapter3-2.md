@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter3.2] 개발 환경 구성 - 인텔리제이 IDEA �
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Framework, Java, REST, Intelij]
+- [SpringBoot, Spring, Java, Intelij]
 toc: true
 toc_sticky : true
 published : true
