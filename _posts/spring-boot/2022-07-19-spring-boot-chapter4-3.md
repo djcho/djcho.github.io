@@ -34,7 +34,7 @@ last_modified_at : 2022-07-19
 
 컨트롤러에 포함된 로직에서는 애플리케이션의 사용자 또는 클라이언트가 입력한 값에 대한 응답을 수행한다. 특별한 경우를 제외한 모든 요청은 컨트롤러를 통해 진행돼야 한다. 이번 예제는 컨트롤러 내부에서 모든 로직을 처리했지만 데이터를 다루거나 별도의 로직을 처리해야 하는 경우네는 서비스 또는 데이터 액세스 레이어까지 요청을 전달하는 경우가 일반적이다. `HelloController` 클래스에는 아래와 같은 코드를 작성한다.
 
-```Java
+```java
 package com.springboot.hello.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,6 +103,6 @@ Talend API Tester 는 HTTP 통신을 테스트하는 프로그램이다. GET, PO
 
 위와 같이 설정한 후 테스트를 진행하면 아래와 같은 응답 화면이 출력된다. 앞서 웹 브라우저에서 확인했을 때와 마찬가지로 'Hello World'가 정상적으로 출력되는 모습을 확인할 수 있다.
 
-![image-20220719014624790](C:\Users\uesha\AppData\Roaming\Typora\typora-user-images\image-20220719014624790.png){: .align-center}
+![image](https://user-images.githubusercontent.com/13410737/179562559-0720131c-4eca-4270-aa79-106dd9b42225.png){: .align-center}
 
 Talend API Tester의 장점은 HTTP 헤더를 볼 수 있다는 점이다. REST 통신에서는 Body 값뿐만 아니라 헤더에도 값을 추가해서 요청에 필요한 데이터를 담아 보내는 경우가 많다. 이와 관련된 자세한 사항은 시큐리티(Spring Security)를 다루는 13장에서 자세히 다룬다.
