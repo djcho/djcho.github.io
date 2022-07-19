@@ -24,11 +24,13 @@ last_modified_at : 2022-07-19
 
 API를 개발하면 명세를 관리해야 한다. 명세란에 해당 API가 어떤 로직을 수행하는지 설명하고 이 로직을 수행하기 위해 어떤 값을 요청하며, 이에 따른 응답값으로는 무엇을 받을 수 있는지를 정리한 자료이다.
 
-API는 개발 과정에서 계속 변경되므로 작성한 명세 문서도 주기적인 업데이트가 필요하다. 또한 명세 작업은 번거롭고 시간 또한 오래 걸린다. 이 같은 문제를 해결하기 위해 등장한 것이 바로 [^Swagger]라는 오픈소스 프로젝트이다.
+API는 개발 과정에서 계속 변경되므로 작성한 명세 문서도 주기적인 업데이트가 필요하다. 또한 명세 작업은 번거롭고 시간 또한 오래 걸린다. 이 같은 문제를 해결하기 위해 등장한 것이 바로 [Swagger]라는 오픈소스 프로젝트이다.
 
 Swagger를 사용하기 위해서는 먼저 pom.xml 파일에 의존성을 추가해야 한다.
 
-[^Swapgger]: https://swagger.io
+[Swagger]: https://swagger.io
+
+
 
 ```xml
     <dependencies>
@@ -81,7 +83,7 @@ public class SwaggerConfiguration {
 
 위 내용을 구현하면 Swagger 사용을 위한 기본적인 설정이 완료된다. Swagger에서 스캔할 패키지 범위를 `RequestHandlerSelectors.basePackage()`를 사용해 설정한다. 현재 프로젝트의 루트 패키지는 `com.springboot.api`로 설정돼 있어 그대로 작성했다. 그럼 하위 패키지와 클래스를 모두 스캔해서 문서를 생성한다.
 
-인텔리제이 IDEA에서 애플리케이션을 실행한 후 웹 브라우저를 통해 http://localhost:8080/swagger-ui.html로 접속하면 아래와 같이 Swagger 페이지가 출력된다.
+인텔리제이 IDEA에서 애플리케이션을 실행한 후 웹 브라우저를 통해 <a herf="http://localhost:8080/swagger-ui.html" target="_blank"> http://localhost:8080/swagger-ui.html</a>로 접속하면 아래와 같이 Swagger 페이지가 출력된다.
 
 
 
