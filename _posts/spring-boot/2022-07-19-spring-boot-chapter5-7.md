@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter5.7] API 작성법 - 로깅 라이브러리 - Logba
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Java, Intelij, Swagger]
+- [SpringBoot, Spring, Java, Intelij, Logback]
 toc: true
 toc_sticky : true
 published : true
