@@ -55,6 +55,8 @@ public SimpleJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
 
 엔티티 매니저는 엔티티 매니저 팩토리(`EntityManagerFactory`)가 만든다. 엔티티 매니저 팩토리는 데이터베이스에 대응하는 객체로서 스프링 부트에서는 자동 설정 기능이 있기 때문에 `application.properties`에서 작성한 최소한의 설정만으로도 동작하지만 JPA의 구현체 중 하나인 하이버네이트에서는 `persistence.xml` 이라는 설정 파일을 구성하고 사용해야 하는 객체이다. 아래는 `persistence.xml`파일의 예를 보여 준다.
 
+<br>
+
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 
