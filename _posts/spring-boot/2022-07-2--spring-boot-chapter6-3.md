@@ -32,9 +32,9 @@ JPA(Java Persistence API)는 자바 진영의 ORM 기술 표준으로 채택된 
 
 JPA의 메커니즘을 보면 내부적으로 JDBC를 사용한다. 개발자가 직접 JDBC를 구현하면 SQL에 의존하게 되는 문제 등이 있어 개발 효율성이 떨어지는데, JPAC는 이 같은 문제점을 보완해서 개발자 대신 적절한 SQL을 생성하고 데이터베이스를 조작해서 객체를 자동으로 매핑하는 역할을 수행한다.
 
-JPA 기반의 구현체는 대표적으로 세 가지가 있다. 아래와 같이 하이버네이트(Hibernate), 이클립스 링크(EclipseLink), 데이터 뉴클리어스(DataNucleus)이며, 그중 가장 많이 사요오디는 구현체는 하이버네이트이다.
+JPA 기반의 구현체는 대표적으로 세 가지가 있다. 아래와 같이 하이버네이트(Hibernate), 이클립스 링크(EclipseLink), 데이터 뉴클리어스(DataNucleus)이며, 그중 가장 많이 사용하는는 구현체는 하이버네이트이다.
 
 <br>
 
-![image](https://user-images.githubusercontent.com/13410737/180010492-727b810a-2775-46a9-af00-14a45e633285.png)
+![image](https://user-images.githubusercontent.com/13410737/180010492-727b810a-2775-46a9-af00-14a45e633285.png){: .align-center}
 
