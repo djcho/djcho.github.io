@@ -26,7 +26,11 @@ last_modified_at : 2022-07-11
 
 아래는 일반적인 웹 요청이 들어왔을 때의 스프링 부트의 동작 구조이다.
 
+<br>
+
 ![image](https://user-images.githubusercontent.com/13410737/178304203-73309bc8-8e24-4c90-81e6-dd645acd09ee.png){: .align-center}
+
+<br>
 
 서블릿은 클라이언트의 요청을 처리하고 결과를 반환하는 자바 웹 프로그래밍 기술이다. 일반적으로 서블릿은 서블릿 컨테이너(Servlet Container)에서 관리한다.
 
@@ -76,16 +80,25 @@ last_modified_at : 2022-07-11
 
 
 
-
 뷰 리졸버는 뷰의 렌더링 역할을 담당하는 뷰 객체를 반환한다.
+
+<br>
 
 ![image](https://user-images.githubusercontent.com/13410737/178307234-2b870321-4503-4f93-a197-7d1ebaa80fee.png){: .align-center}
 
+<br>
+
 뷰가 없는 REST 형식의 @ResponseBody를 사용한다면 뷰 리졸버를 호출하지 않고 MessageConverter 를 거쳐 JSON 형식으로 변환해서 응답한다.
+
+<br>
 
 ![image](https://user-images.githubusercontent.com/13410737/178307708-c258722d-4700-42b6-a23a-a287dc315373.png){: .align-center}
 
+<br>
+
 MessageConverter는 요청과 응답에 대한 Body 값을 변환하는 역할을 수행한다. 스프링 부트의 자동 설정 내역을 보면 httpMessageConverter 인터페이스를 사용하고 있다. 아래 예제는 spring.factories 에 정의된 HttpMessageConvertersAutoConfiguration 클래스이다.
+
+<br>
 
 ```java
 //HttpMessageConverterAutoConfiguration 에서 확인할 수 있는 HttpMessageConvert
@@ -108,6 +121,8 @@ public class HttpMessageConvertersAutoConfiguration{
     ...생략...
 }
 ```
+
+<br>
 
 2번째 줄의 httpMessageConverter 인터페이스를 빈으로 등록하는 것을 볼 수 있다. 해당 인터페이스를 기반으로 하는 구현체 클래스는 다양하며, Content-Type을 참고해서 Converter 를 선정한다. **<u>스프링 부트에서는 자동 설정되기 때문에 별도 설정이 필요하지 않다.</u>**
 

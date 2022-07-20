@@ -44,7 +44,7 @@ Logback의 특징은 다음과 같다.
 [slf4j]: https://www.slf4j.org/
 [Logback]: https://logback.qos.ch/
 
-
+<br>
 
 > **💡 Tip**
 >
@@ -52,23 +52,21 @@ Logback의 특징은 다음과 같다.
 >
 > - <a href="https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html" target="_blank">https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html</a>
 
-
+<br>
 
 ### Logback 설정
 
-
-
 이제 Logback을 사용하기 위한 설정 파일을 만들어보자. 일반적으로 클래스패스(classpath)에 있는 설정 파일을 자동으로 참조하므로 Logback 설정 파일은 리소스 폴더 안에 생성한다. 파일명의 경우 일반적인 자바 또는 스프링 프로젝트에서는 `logback.xml`이라는 이름으로 참조하지만 스프링 부트에서는 `logback-spring.xml` 파일을 참조한다. 따라서 아래와 같이 `logback-spring.xml` 파일을 추가한다.
 
-
+<br>
 
 ![image](https://user-images.githubusercontent.com/13410737/179761396-7e806bd5-c715-4efa-9b0b-69867960282a.png){: .align-center}
 
-
+<br>
 
 이 설정 파일은 XML 형식을 띠고 있다. 파일을 생성한 후 내부에 아래와 같이 몇 가지 정해진 규칙을 따라 내용을 추가하면 된다.
 
-
+<br>
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -109,7 +107,7 @@ Logback의 특징은 다음과 같다.
 </configuration>
 ```
 
-
+<br>
 
 #### Appender 영역
 
@@ -119,7 +117,7 @@ Appender 영역은 로그의 형태를 설정하고 어떤 방법으로 출력�
 
 ![image](https://user-images.githubusercontent.com/13410737/179763142-16f0423b-d4a6-4a8b-973a-f1c6e8a872b6.png){: .align-center}
 
-
+<br>
 
 Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현체를 등록해서 로그를 원하는 형식으로 출력할 수 있다. Appender의 대표적인 구현체는 다음과 같다.
 
@@ -129,11 +127,11 @@ Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현�
 - `SMTPAppender` : 메일로 로그를 전송
 - `DBAppender` : 데이터베이스에 로그를 저장
 
-
+<br>
 
 로그를 어떤 방식으로 저장할지 지정하는 방법을 살펴보자. 아래 코드를 보면 `appender`요소의 `class`속성에 각 구현체를 정의하는 것을 볼 수 있다. 그리고 하단에 `filter` 요소로 각 Appender가 어떤 레벨로 로그를 기록하는지 지정한다.
 
-
+<br>
 
 ```xml
  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -155,11 +153,11 @@ Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현�
     </appender>
 ```
 
-
+<br>
 
 다음으로 `encoder` 요소를 통해 로그의 표현 형식을 패턴(pattern)으로 정의한다. 사용 가능한 패턴은 몇 가지 정해져 있으며, 대표적인 패턴은 다음과 같다.
 
-
+<br>
 
 | 패턴            | 의미                                               |
 | --------------- | -------------------------------------------------- |
@@ -180,25 +178,23 @@ Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현�
 | %r              | 애플리케이션 실행 후 로깅이 발생한 시점까지의 시간 |
 | %L              | 로깅이 발생한 호출 지점의 라인수                   |
 
-
+<br>
 
 위와 같은 패턴을 활용해 다음과 같은 패턴을 만들 수 있다.
 
-
+<br>
 
 ```xml
 <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%thread] %logger %msg%n</pattern>
 ```
 
-
+<br>
 
 #### Root 영역
 
-
-
 설정 파일에 정의된 Appender를 활용하려면 Root 영역에서 Appender를 참조해서 로깅 레벨을 설정한다. 만약 특정 패키지에 대해 다른 로깅 레벨을 설정하고 싶다면 root 대신 logger를 사용해 아래와 같이 지정할 수 있다.
 
-
+<br>
 
 ```xml
     <root level="INFO">
@@ -207,11 +203,11 @@ Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현�
     </root>
 ```
 
-
+<br>
 
 또는
 
-
+<br>
 
 ```xml
     <logger name="com.springboot.api.controller" level="DEBUG" additivity="false">
@@ -220,11 +216,11 @@ Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현�
     </logger>
 ```
 
-
+<br>
 
 `logger` 요소의 `name` 속성에는 패키지 단위로 로깅이 적용될 범위를 지정하고 `level`속성으로 로그 레벨을 지정한다. `additivity` 속성은 앞에서 지정한 패키지 범위에 하위 패키지를 포함할지 여부를 결정한다. 기본값은 `true`이며, 이 경우 하위 패키지를 모두 포함한다.
 
-
+<br>
 
 > **💡 Tip**
 >
@@ -232,15 +228,13 @@ Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현�
 >
 > - <a href="https://https://logback.qos.ch/manual/introduction.html" target="_blank">https://https://logback.qos.ch/manual/introduction.html</a>
 
-
+<br>
 
 #### Logback 적용하기
 
-
-
 이제 실습 중인 프로젝트에 Logback를 적용해 보겠다. Logback은 출력할 메시지를 Appender에게 전달할 Logger 객체를 각 클래스에 정의해서 사용한다. 이전에 작성했던 `GetController`에 `Logger`를 적용해보겠다.  아래와 같이 `GetController`의 `LOGGER` 전역 변수로 `Logger`객체를 정의한다.
 
-
+<br>
 
 ```java
 @RestController
@@ -253,13 +247,13 @@ public class GetController {
 }
 ```
 
-
+<br>
 
  `Logger`는 `LoggerFactory`를 통해 객체를 생성한다. 이 때 클래스의 이름을 함께 지정해서 클래스의 정보를 `Logger`에서 가져가게 한다.
 
 이어서 아래와 같이 로그를 출력하는 코드를 삽입해보자. 
 
-
+<br>
 
 ```java
     //http://localhost:8080/api/v1/get-api/hello
@@ -276,19 +270,19 @@ public class GetController {
     }
 ```
 
-
+<br>
 
 `GetController`의 코드를 수정하면 `info` 레벨에서 로그가 출력된다. 실제로 로그가 출력되는지 확인하기 위해 Swagger 페이지에 접속해서 테스트를 진행해보겠다. 아래와 같이 `Logger`를 삽입ㅇ한 메서드를 선택한 후 [Execute] 버튼을 눌러 테스트를 실행한다.
 
-
+<br>
 
 ![image](https://user-images.githubusercontent.com/13410737/179768119-1eda7dcd-6661-4f5d-b743-47b03b26df84.png){: .align-center}
 
-
+<br>
 
 로그를 통해 컨트롤러에 들어오는 값을 확인하고 싶다면 아래와 같이 코드를 작성한다.
 
-
+<br>
 
 ```java
     //http://localhost:8080/api/v1/get-api/variable1/{String 값}
@@ -299,11 +293,11 @@ public class GetController {
     }
 ```
 
-
+<br>
 
 위 어럼 변수를 지정해 변수로 들어오는 값을 로깅할 수도 있다. 변수의 값이 들어갈 부분을 중괄호 ({})로 지정하면 호매팅을 통해 로그 메시지가 구성된다.
 
-
+<br>
 
 > 자바에서 문자열을 합치는 방법은 여러 가지 있다. 다음과 같은 방법을 알아보고 연산 속도를 비교해보면 더 좋은 코드를 작성하는 데 도움이 된다.
 >
@@ -312,15 +306,15 @@ public class GetController {
 > 3. String 클래스의 append() 메서드 활용
 > 4. String 클래스의 format() 메서드 활용
 
-
+<br>
 
 Swagger를 통해 'Wikibooks' 라는 단어를 입력하고 호출하면 아래와 같은 출력 결과를 확인할 수 있다.
 
-
+<br>
 
 ![image](https://user-images.githubusercontent.com/13410737/179769078-2d65ba6b-b300-4528-b017-2a6fea7ba1ba.png){: .align-center}
 
-
+<br>
 
 > **로그로 무엇을 기록해야 할까?**
 >

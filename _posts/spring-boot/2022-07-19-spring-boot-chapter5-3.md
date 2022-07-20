@@ -26,6 +26,8 @@ POST API는 웹 애플리케이션을 통해 데이터베이스 등의 저장소
 
 POST API를 만들기 위해 우선 아래와 같이 `PostController`라는 이름의 컨트롤러 클래스를 생성하고 `@RequestMapping` 어노테이션을 이용해 공통 URL을 설정한다.
 
+<br>
+
 ```java
 package com.springboot.api.controller;
 
@@ -39,11 +41,13 @@ public class PostController {
 }
 ```
 
-
+<br>
 
 ### @RequestMapping으로 구현하기
 
 POST API에서 `@RequestMapping`을 사용하는 방법은 GET API 와 크게 다르지 않다. 요청 처리 메서드를 정의할 때 아래처럼 `method` 요소를 `RequestMethod.POST`로 설정하는 부분을 제외하면 GET API와 동일하다.
+
+<br>
 
 ```java
  @RequestMapping(value = "/domain", method = RequestMethod.POST)
@@ -52,15 +56,21 @@ POST API에서 `@RequestMapping`을 사용하는 방법은 GET API 와 크게 �
     }
 ```
 
-
+<br>
 
 ### @RequestBody를 활용한 POST 메서드 구현
 
 위 에서는 별도의 리소스를 받지 않고 단지 POST 요청만 받는 메서드를 구현했다. 일반적으로 POST 형식의 요청은 클라이언트가 서버에 리소스를 저장하는 데 사용한다. 그러므로 클라이언트의 요청 트래픽에 값이 포함돼 있다. 즉, POST 요청에서는 리소스를 담기 위해 HTTP Body에 값을 넣어 전송한다. 다음과 같이 Talend API Tester 에서 Body 영역에 값을 입력할 수 있다.
 
+<br>
+
 ![image](https://user-images.githubusercontent.com/13410737/179670964-ed6dfd89-9501-450d-9b86-17cba1301f38.png){: .align-center}
 
+<br>
+
 Body 영역에 작성되는 값은 일정한 형태를 취한다. 일반적으로 JSON(JavaScript Object Notation) 형식으로 전송되며, 이 책에서도 가장 대중적으로 사용되는 JSON 형식으로 값을 주고받을 계정이다. 이렇게 서버에 들어온 요청은 아래와 같이 처리할 수 있다.
+
+<br>
 
 ```java
     //http://localhost:8080/api/v1/post-api/member
@@ -75,15 +85,21 @@ Body 영역에 작성되는 값은 일정한 형태를 취한다. 일반적으�
     }
 ```
 
+<br>
+
 2번 줄을 보면 `@RequestMapping` 대신 `@PostMapping`을 사용했다. 이 어노테이션을 사용하며 `method` 요소를 정의하지 않아도 된다. 그리고 3번 줄에서 `@RequestBody`라는 어노테이션을 사용했는데 ,`@RequestBody`는 HTTP의 Body 내용을 해당 어노테이션이 지정된 객체에 매핑하는 역할을 한다.
+
+<br>
 
 > **💡 Tip. JSON이란?**
 >
 > JSON은 'JavaScript Object Notation'의 줄임말로 자바스크립트의 객체 문법을 따르는 문자 기반의 데이터 포맷이다. 현재는 자바스크립트 외에도 다수의 프로그래밍 환경에서 사용한다. 대체로 네트워크를 통해 데이터를 전달할 때 사용하며, 문자열 형태로 작성되기 때문에 파싱하기도 쉽다는 장점이 있다.
 
-
+<br>
 
 `Map` 객체는 요청을 통해 어떤 값이 들어오게 될지 특정하기 어려울 때 주로 사용한다. 요청 메시지에 들어갈 값이 정해져 있다면 아래와 같이 DTO 객체를 매개변수로 삼아 작성할 수 있다. 
+
+<br>
 
 ```java
     // http://localhost:8080/api/v1/post-api/member2
@@ -93,6 +109,12 @@ Body 영역에 작성되는 값은 일정한 형태를 취한다. 일반적으�
     }
 ```
 
+<br>
+
 위와 같이 작성하면 `MemberDto`의 멤버 변수를 요청 메시지의 키와 매핑해 값을 가져온다.
 
+<br>
+
 ![image](https://user-images.githubusercontent.com/13410737/179670868-ecfc71f2-df0d-4629-b666-8751414342fa.png){: .align-center}
+
+<br>

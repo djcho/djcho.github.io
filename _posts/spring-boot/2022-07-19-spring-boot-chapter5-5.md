@@ -26,6 +26,8 @@ DELETE API는 웹 애플리케이션 서버를 거쳐 데이터베이스 등의 
 
 먼저 아래와 같이 컨트롤러 클래스를 작성한다. 이 컨트롤러에서 작성하는 메서드는 GET 메서드를 작성하는 방법과 동일하므로 간단하게 소개한다.
 
+<br>
+
 ```java
 package com.springboot.api.controller;
 
@@ -39,11 +41,13 @@ public class DeleteController {
 }
 ```
 
-
+<br>
 
 ### @PathVariable과 @RequestParam을 활용한 DELETE 메서드 구현
 
 `@PathVariable`을 이용하면 URI에 포함된 값을 받아 로직을 처리할 수 있다.
+
+<br>
 
 ```java
     // http://localhost:8080/api/v1/delete-api/{String 값}
@@ -53,11 +57,11 @@ public class DeleteController {
     }
 ```
 
-
+<br>
 
 `@DeleteMapping` 어노테이션에 정의한 `value`의 이름과 메서드의 매개변수 이름을 동일하게 설정해야 삭제할 값이 주입된다. 또는 `@RequestParam` 어노테이션을 통해 쿼리스트링 값도 받을 수 있다.
 
-
+<br>
 
 ```java
     // http://localhost:8080/api/v1/delete-api/request1?email=value
@@ -66,4 +70,4 @@ public class DeleteController {
         return "e-mail : " + email;
 ```
 
-![image](https://user-images.githubusercontent.com/13410737/179677059-c0294b96-ea7b-4a7e-99ac-a5f08bc801a4.png){: .align-center}
+<br>![image](https://user-images.githubusercontent.com/13410737/179677059-c0294b96-ea7b-4a7e-99ac-a5f08bc801a4.png){: .align-center}

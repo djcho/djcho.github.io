@@ -24,6 +24,8 @@ last_modified_at : 2022-07-11
 
 스프링 프레임워크는 기존 개발 방식의 문제와 한계를 극복하기 위해 다양한 기능을 제공한다. 하지만 기능이 많은 만큼 설정이 복잡한 편이다.
 
+<br>
+
 ```xml
 <!--스프링의 하이버네이트 관련 설정 파일-->
 
@@ -52,17 +54,19 @@ last_modified_at : 2022-07-11
 <tx:annotation-driven transaction-manager="transactionManager"/>
 ```
 
+<br>
+
 위처럼 필요한 모듈들을 추가하다 보면 설정이 복잡해지는 문제를 해결하기 위해 등장한 것이 스프링 부트(Spring Boot)이다.
 
 > **Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run"**
 >
 > **(스프링 부트를 이용하면 단독으로 실행 가능한 사용 수준의 스프링 기반 애플리케이션을 손쉽게 만들 수 있습니다.)**
 
-
+<br>
 
 즉, 별도의 복잡한 설정을 하지 않아도 스프링 부트를 사용하면 개발이 쉬워진다는 뜻이다.
 
-
+<br>
 
 ### 의존성 관리
 
@@ -90,6 +94,8 @@ last_modified_at : 2022-07-11
 
 스프링 부트는 스프링 프레임워크의 기능을 사용하기 위한 자동 설정(Auto Configuration)을 지원한다. 자동 설정은 애플리케이션에 추가된 라이브러리를 실행하는 데 필요한 환경 설정을 알아서 찾아준다. 즉, 애플리케이션을 개발하는 데 필요한 의존성을 추가하면 프레임워크가 이를 자동으로 관리해준다. 
 
+<br>
+
 ```java
 //스프링 부트의 메인 애플리케이션 코드
 
@@ -101,6 +107,8 @@ public class SpringBootApplication{
 }
 ```
 
+<br>
+
 @SpringBootApplication 어노테이션은 여러 어노테이션을 합쳐 놓은 인터페이스지만 기능 위주로 보면 크게 다음 세 개의 어노테이션을 합쳐놓은 구성이다.
 
 - @SpringBootConfiguration
@@ -109,13 +117,13 @@ public class SpringBootApplication{
 
 스프링 부트 애플리케이션이 실행되면 @ComponentScan 어노테이션이 @Component 시리즈 어노테이션이 붙은 클래스를 발견해 빈(bean)으로 등록한다. 이후 @EnableAutoConfiguration 어노테이션을 통해 'spring-boot-autoconfigure' 패키지 안에 spring.factories 파일을 추가해 다양한 자동 설정이 일부 조건을 거쳐 적용 된다.
 
-
+<br>
 
 ### 내장 WAS
 
 스프링 부트의 각 웹 애플리케이션에는 내장 WAS(Web Application Server)가 존재한다.  스프링 부트의 자동 설정 기능은 톰캣에도 적용되므로 특별한 설정 없이도 톰캣을 실행할 수 있으며 필요에 따라서는 톰캣이 아닌 다른 웹서버(Jetty, Undertow 등)으로 대체할 수도 있다.
 
-
+<br>
 
 ### 모니터링
 
