@@ -1,9 +1,9 @@
 ---
-title : "[SpringBoot][Chapter2.1] 서버 간 통신"
+title : "[SpringBoot][Chapter2.1] 기초 지식 - 서버 간 통신"
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Framework, Java]
+- [SpringBoot, Spring, Java]
 toc: true
 toc_sticky : true
 published : true
