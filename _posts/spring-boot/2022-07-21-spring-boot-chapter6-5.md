@@ -59,7 +59,6 @@ public SimpleJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <persistence xmlns="http://xmlns.jcp.org./xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmls.jcp.org/xml/ns/persistence_2_1.xsd" version="2.1">

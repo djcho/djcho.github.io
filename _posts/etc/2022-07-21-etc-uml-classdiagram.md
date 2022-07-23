@@ -25,14 +25,12 @@ UML이란 Unified Modeling Language 의 약어로 1997년 OMG(Object Management 
 - 유지보수를 위한 설계의 back-end 문서
 
 UML은 크게 시스템의 개념, 관계 등을 나타내고 각 요소들의 정적인 면을 보기 위한 구조 다이어그램과  각 요소들의 변화나 흐름, 주고 받는 데이터 등의 동작을 보기 위한 행위 다이어그램이 존재한다. 각 유형에는 7개 씩 총 14개의 세부 다이어그램이 존재하며 클래스 다이어그램은 구조 다이어그램에 속한다.
-
 <br>
 
 ### 클래스 다이어그램
 클래스 다이어그램은 클래스 내부의 정적인 내용이나 클래스 사이의 관계를 표현하는 다이어그램으로 시스템의 일부 또는 전체 구조를 나타낼 수 있다. 클래스 다이어그램은 의존 관계를 명확히 보여주며 순환 의존이 발생하는 지점을 찾아낼 수도 있다. 클래스 다이어그램의 모양새는 아래 그림과 같다.
 
 ![image](https://user-images.githubusercontent.com/13410737/180127877-7e6ed339-f30f-4ac2-848d-f09feab418cc.png){: .align-center}
-
 <br>
 
 ### 클래스 표현
@@ -71,6 +69,7 @@ public class Person {
 | ------ | ---------- | ------------------------------------------------ |
 | static | _          | 필드나 메서드에 언더바를 적용한다.               |
 | final  | {readOnly} | 필드나 메서드 뒤에 {readOnly} 키워드를 추가한다. |
+
 <br>
 
 | 접근 제어자 | 표시 | 설명                                                         |
@@ -103,8 +102,6 @@ public interface Developer {
 
 ![image](https://user-images.githubusercontent.com/13410737/180132144-21951a04-c564-4848-a185-fcbbc4550095.png){: .align-center}
 
-<br>
-
 ```java
 public class Math {
     public static final double PI = 3.14159;
@@ -136,7 +133,7 @@ public abstract class Person {
 }
 ```
 
-![image-20220721140634989](C:\Users\djcho\AppData\Roaming\Typora\typora-user-images\image-20220721140634989.png){: .align-center}
+![image](https://user-images.githubusercontent.com/13410737/180592853-4aac5b7c-b9f2-4a1b-8597-0534e39a364b.png){: .align-center}
 
 <br>
 
@@ -189,7 +186,6 @@ public class Admin extends User {
 
 #### **실체화(Realization)**
 실체화 관계는 interface의 스펙만 있는 메서드를 오버라이딩 하여 실제 기능을 구현하는 것을 말한다.
-
 <br>
 
 ```java
@@ -210,6 +206,7 @@ public class ServiceImpl implements Service{
 ![image](https://user-images.githubusercontent.com/13410737/180138647-2547c9cf-c9a8-414f-9d44-af2ae4a27b2e.png){: .align-center}
 <br>
 Realization을 나타내는 표기법은 2가지가 있다. 첫 번째는 인터페이스를 클래스처럼 표기하고 스테레오 타입 « interface » 를 추가한다. 그리고 인터페이스와 클래스 사이의 Realize 관계는 점선과 인터페이스 쪽의 비어있는 삼각형으로 연결한다. 두 번째는 인터페이스를 원으로 표기하고 인터페이스의 이름을 명시한다. 그리고 인터페이스와 클래스 사이의 관계는 실선으로 연결한다.
+<br>
 
 #### 의존(Dependency)
 
