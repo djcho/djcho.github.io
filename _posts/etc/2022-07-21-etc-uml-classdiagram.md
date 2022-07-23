@@ -1,14 +1,14 @@
 ---
 title : "[UML]클래스 다이어그램"
 categories:
-- SpringBoot
+- Etc
 tag :
-- [SpringBoot, Spring, Java, Intelij, JPA]
+- [Etc, UML, Java, ClassDiagram]
 toc: true
 toc_sticky : true
 published : true
-date : 2022-07-20
-last_modified_at : 2022-07-20
+date : 2022-07-21
+last_modified_at : 2022-07-21
 ---
 
 
