@@ -188,11 +188,13 @@ public class Admin extends User {
 실체화 관계는 interface의 스펙만 있는 메서드를 오버라이딩 하여 실제 기능을 구현하는 것을 말한다.
 
 <br>
+
 ```java
 public interface Service{
     public Object getObject();
 }
 ```
+
 ```java
 public class ServiceImpl implements Service{
     @Override
@@ -201,6 +203,7 @@ public class ServiceImpl implements Service{
     } 
 }
 ```
+
 ![image](https://user-images.githubusercontent.com/13410737/180138647-2547c9cf-c9a8-414f-9d44-af2ae4a27b2e.png){: .align-center}
 <br>
 Realization을 나타내는 표기법은 2가지가 있다. 첫 번째는 인터페이스를 클래스처럼 표기하고 스테레오 타입 « interface » 를 추가한다. 그리고 인터페이스와 클래스 사이의 Realize 관계는 점선과 인터페이스 쪽의 비어있는 삼각형으로 연결한다. 두 번째는 인터페이스를 원으로 표기하고 인터페이스의 이름을 명시한다. 그리고 인터페이스와 클래스 사이의 관계는 실선으로 연결한다.
