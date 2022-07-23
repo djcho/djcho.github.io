@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter6.6] DB연동 - 엔티티 설계"
+title : "[SpringBoot][Chapter6.7] DB연동 - 엔티티 설계"
 categories:
 - SpringBoot
 tag :
