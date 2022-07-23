@@ -53,7 +53,7 @@ last_modified_at : 2022-07-20
 
 <br>
 
-![image-20220720225331039](C:\Users\uesha\AppData\Roaming\Typora\typora-user-images\image-20220720225331039.png){: .align-center}
+![image](https://user-images.githubusercontent.com/13410737/180593780-84f24b68-4048-4f61-85a7-d22c1b55233d.png){: .align-center}
 
 <br>
 

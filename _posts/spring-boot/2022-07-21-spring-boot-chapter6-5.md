@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter6.2] DB연동 - 영속성 컨텍스트"
+title : "[SpringBoot][Chapter6.5] DB연동 - 영속성 컨텍스트"
 categories:
 - SpringBoot
 tag :

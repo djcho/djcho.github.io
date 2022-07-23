@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter6.2] DB연동 - JPA"
+title : "[SpringBoot][Chapter6.3] DB연동 - JPA"
 categories:
 - SpringBoot
 tag :

@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter6.2] DB연동 - 하이버네이트"
+title : "[SpringBoot][Chapter6.4] DB연동 - 하이버네이트"
 categories:
 - SpringBoot
 tag :
