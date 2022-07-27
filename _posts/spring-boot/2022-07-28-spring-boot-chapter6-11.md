@@ -387,4 +387,4 @@ public class Product extends BaseEntity {
 
 `@Data` 는 앞서 설먕힌 `@Getter/Setter`, `@RequiredArgsConstructor`, `@ToString`, `@EqualsAndHashCode` 를 모두 포괄하는 어노테이션이다. 즉, 앞에서 살펴본 각각의 어노테이션에서 생성하는 대부분의 코드가 필요하다면 `@Data` 어노테이션으로 앞에서 설명한 코드를 전부 한 번에 생성할 수 있다.
 
-> 롬복과 관련된 자세한 기능은 공식 사이트의 `features` 항목(<a href="https://projectlombok.org/features/all">href="https://projectlombok.org/features/all</a>)에서 확인할 수 있다.
+> 롬복과 관련된 자세한 기능은 공식 사이트의 `features` 항목(<a href="https://projectlombok.org/features/all">https://projectlombok.org/features/all</a>)에서 확인할 수 있다.
