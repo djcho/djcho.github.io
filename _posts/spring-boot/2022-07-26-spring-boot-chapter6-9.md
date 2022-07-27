@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter6.9] DB연동 - DAO 설계"
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Java, Intelij]
+- [SpringBoot, Spring, Java, Intelij, Jpa]
 toc: true
 toc_sticky : true
 published : true
