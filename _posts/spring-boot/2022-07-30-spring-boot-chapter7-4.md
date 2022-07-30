@@ -678,3 +678,321 @@ public class ProductServiceTest {
 }
 ```
 
+<br>
+
+단위 테스트를 위해서는 외부 요인을 모두 배제하도록 코드를 작성해야 한다. 이번 예제에서는 `@SpringBootTest`, `@WebMvcTest` 등의 `@...Test` 어노테이션이 선언돼 있지 않다.
+
+이후 17번 줄을 보면 Mockito의 `mock()` 메서드를 통해 Mock 객체로 `ProductRepository`를 주입 받았다. 이 객체를 기반으로 20~23번 줄과 같이 각 테스트 전에 `ProductService` 객체를 초기화해서 사용한다.
+
+25~44번 줄은 본격적인 테스트 코드이다. 테스트 코드를 Given-When-Then 패턴을 기반으로 작성됐다. Given 구문에 해당하는 27~34번 줄에서는 테스트에 사용될 `Product` 엔티티 객체를 생성하고 `ProductRepository`의 동작에 대한 결괏값 리턴을 설정한다.
+
+그리고 36번 줄에서 테스트하고자 하는 `ProductService`의 `getProduct()` 메서드를 호출해서 동작을 테스트한다.
+
+테스트에서 리턴 받은 `ProductResponseDto` 객체에 대해서 38~41번 줄과 같이 Assertion을 통해 값을 검증함으로써 테스트의 목적을 달성하는지 확인한다. 마지막으로는 검증 보완을 위해 42번 줄과 같이 `verify()` 메서드로 부가 검증을 시도한다.
+
+이어서 `saveProduct()` 메서드에 대한 테스트 코드를 작성하겠다.
+
+<br>
+
+```java
+package com.springboot.test.service.impl;
+
+import com.springboot.test.data.dto.ProductDto;
+import com.springboot.test.data.dto.ProductResponseDto;
+import com.springboot.test.data.entity.Product;
+import com.springboot.test.data.repository.ProductRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+
+public class ProductServiceTest {
+
+    private ProductRepository productRepository = Mockito.mock(ProductRepository.class);
+    private ProductServiceImpl productService;
+
+    @BeforeEach
+    public void setUpTest(){
+        productService = new ProductServiceImpl(productRepository);
+    }
+
+    @Test
+    void saveProductTest(){
+        Mockito.when(productRepository.save(any(Product.class)))
+                .then(returnsFirstArg());
+
+        ProductResponseDto productResponseDto = productService.saveProduct(
+                new ProductDto("펜", 1000, 1234));
+
+        Assertions.assertEquals(productResponseDto.getName(), "펜");
+        Assertions.assertEquals(productResponseDto.getPrice(), 1000);
+        Assertions.assertEquals(productResponseDto.getStock(), 1234);
+
+        verify(productRepository).save(any());
+    }
+}
+```
+
+<br>
+
+예제에서 살펴볼 내용은 28번 줄의 `any()`이다. `any()`는 Mockito 의 `ArgumentMatchers`에서 제공하는 메서드로서 Mock 객체의 동작을 정의하거나 검증하는 단계에서 조건으로 특정 매개변수의 전달을 설정하지 않고 메서드의 실행만을 확인하거나 좀 더 큰 범위의 클래스 객체를 매개변수로 전달받는 등의 상황에 사용한다. 28번 줄에서 `any(Product.class)`로 동작을 설정했는데, 일반적으로 `given()`의로 정의된 Mock 객체의 메서드 동작 감지는 매개변수의 비교를 통해 이뤄지거나 레퍼런스 변수의 비교는 주솟값으로 이뤄지기 때문에 `any()`를 사용해 클래스만 정의하는 경우도 있다.
+
+지금까지 소개한 테스트는 Mock 객체를 활용한 방식이었다. 큰 차이는 없지만 Mock 객체를 직접 생성하지 않고 `@MockBean` 어노테이션을 사용해 스프링 컨테이너에 Mock 객체를 주입 받는 방식을 소개하겠다.
+
+<br>
+
+```java
+@ExtendWith(SpringExtension.class)
+@Import({ProductServiceImpl.class})
+class ProductServiceTest2 {
+    
+    @MockBean
+    ProductRepository productRepository;
+    
+    @Autowired
+    ProductService productService;
+    
+    ... 테스트 코드 생략 ...
+}
+```
+
+<br>
+
+동작은 설정하는 `ProductRepository`에 대한 초기화 작업을 어떻게 진행하는지는 비교하기 위한 코드이다. 이전 예제에서는 Mockito를 통해 리포지토리를 Mock 객체로 대체하는 작업을 수행하고 서비스 객체를 직접 초기화했다.
+
+반면 이번 예제에서는 스프링에서 제공하는 테스트 어노테이션을 통해 Mock 객체를 생성하고 의존성 주입을 받고 있다. 둘의 차이라면 스프링의 기능에 의존하느냐 의존하지 않느냐의 차이 뿐이다. 두 예제 모두 Mock 객체를 활용한 테스트 방식인 것은 동일하나 `@MockBean`을 사용하는 방식은 스프링에 Mock객체를 등록해 주입받는 형식이며 `Mockito.mock()`을 사용하는 방식은 스프링 빈에 등록하지 않고 직접 객체를 초기화해서 사용하는 방식이다. 둘 다 테스트 속도에는 큰 차이는 없지만 아무래도 스프링을 사용하지 않는 Mock 객체를 직접 생성하는 방식이 더 빠르게 동작한다.
+
+위 예제에서는 스프링에서 객체를 주입받기 위해 `@ExtendWith(SpringExtension.class)` 를 사용해 JUnit 5의 테스트에서 스프링 테스트 컨텍스트를 사용하도록 설정한다. 그리고 8번 줄에서 `@Autowired` 어노테이션으로 주입받는 `ProductService`를 주입받기 위해 직접 2번 줄에서 클래스를 `@Import` 어노테이션을 통해 사용한다.
+
+<br>
+
+> **💡 Tip.**
+>
+> SpringExtension 클래스는 JUnit 5의 Jupiter 테스트에 스프링 테스트 컨텍스트  프레임워크(Spring TestContextFramework)를 통합하는 역할을 수행한다. 자세한 내용은 다음 URL을 참고한다.
+>
+> - <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/SpringExtension.html" target="_blank">https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/SpringExtension.html</a>
+
+<br>
+
+
+
+### 리포지토리 객체의 테스트
+
+리포티토리는 개발자가 구현하는 레이어 중에서 가장 데이터베이스와 가깝다. 그리고 `JpaRepository`를 상속받아 기본적인 쿼리 메서드를 사용할 수 있다. 그렇게 때문에 리포지토리 테스트는 특히 구현하는 목적에 대해 고민하고 작성해야 한다.
+
+리포지토리 객체의 테스트 코드를 작성할 때 고려할 내용을 몇 가지 이야기하겠다. 먼저 `findById()`, `save()` 같은 기본 메서드에 대한 테스트는 큰 의미가 없다. 리포지토리의 기본 메서드는 테스트 검증을 마치고 제공된 것이기 때문이다.
+
+데이터베이스의 연동 여부는 테스트 시 고려해 볼 사항이다. 굳이 따지자면 데이터베이스는 외부 요인에 속한다. 만약 단위 테스트를 고려한다면 데이터베이스를 제외할 수 있다. 혹은 테스트용으로 다른 데이터베이스를 사용하는 경우도 있다. 왜냐하면 데이터베이스를 사용한 테스트는 테스트 과정에서 데이터베이스에 테스트 데이터가 적재되기 때문이다. 그렇기 때문에 데이터베이스를 연동한 테스트는 테스트 데이터를 제거하는 코드까지 포함해서 작성하는 것이 좋다. 다만 이처럼 테스트 데이터의 적재를 신경 써야 하는 테스트 환경이라면 잘못된 테스트 코드가 실행되면서 발생할 수 있는 사이드 이펙트를 고려해서 데이터베이스 연동 없이 테스트하는 편이 좋을 수도 있다.
+
+이 책에서는 마리아DB를 사용한다. 여기서는 데이터베이스를 제외한 테스트 상황을 가정해서 테스트 데이터베이스로 <a href="https://www.h2database.com" target="_blank">H2 DB</a> 를 사용하는 방법을 간략하게 소개하고 기본 테스트 환경에서는 마리아DB를 그래도 사용할 예정이다. 그리고 실습을 위한 코드이므로 `JpaRepository`에서 제공하는 기본 메서드로 예제를 진행하겠다.
+
+먼저 H2 DB를 사용한 테스트 코드를 작성하겠다. 별도의 설정이 없다면 테스트 환경에서는 임베디드 데이터베이스를 사용한다. H2 DB를 사용하려면 `pom.xml` 파일에 아래와 같이 의존성을 추가해야 한다.
+
+<br>
+
+```xml
+<dependencies>
+    ...생략...
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>test</scope>
+    </dependency>
+    ...생략...
+</dependencies>
+```
+
+<br>
+
+데이터베이스에 값을 저장하는 테스트 코드는 아래와 같이 작성한다. 테스트 코드를 작성하기 위해 `test/com.springboot.test` 내에 `data/repository` 패키지를 생성한 후 `ProductRepositoryTestByH2.java` 파일을 생성한다.
+
+<br>
+
+```java
+@DataJpaTest
+public class ProductRepositoryTestByH2 {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Test
+    void saveTest() {
+        // given
+        Product product = new Product();
+        product.setName("펜");
+        product.setPrice(1000);
+        product.setStock(1000);
+
+        // when
+        Product savedProduct = productRepository.save(product);
+
+        // then
+        assertEquals(product.getName(), savedProduct.getName());
+        assertEquals(product.getPrice(), savedProduct.getPrice());
+        assertEquals(product.getStock(), savedProduct.getStock());
+    }
+}
+```
+
+<br>
+
+위 예제의 1번 줄에서는 `@DataJpaTest` 어노테이션을 사용하고 있다. `@DataJpaTest`는 다음과 같은 기능을 제공한다.
+
+- JPA와 관련된 설정만 로드해서 테스트를 진행한다.
+- 기본적으로 `@Transactional` 어노테이션을 포함하고 있어 테스트 코드가 종료되면 자동으로 데이터베이스의 롤백이 진행된다.
+- 기본값으로 임베디드 데이터베이스를 사용한다. 다른 데이터베이스를 사용하라면 별도의 설정을 거쳐 사용 가능하다.
+
+
+
+`@DataJpaTest` 어노테이션을 선언했기 때문에 4~5번 줄에서는 리포지토리를 정상적으로 주입받을 수 있다.
+
+7~22번 줄은 Given-When-Then 패턴으로 작성된 테스트 코드이다. Given 구문에서는 테스트에서 사용할 `Product` 엔티티를 만들고, When 구문에서 생성된 엔티티를 기반으로 `save()` 메서드를 호출해서 테스트를 진행한다. 이후 정상적인 테스트가 이뤄졌는지 체크하기 위해 `save()` 메서드의 리턴 객체와 Given에서 생성한 엔티티 객체의 값이 일치하는지 `assertEquals()` 메서드를 통해 검증한다.
+
+데이터 조회에 대한 테스트는 아래와 같다.
+
+<br>
+
+```java
+@DataJpaTest
+public class ProductRepositoryTestByH2 {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Test
+    void selectTest() {
+        // given
+        Product product = new Product();
+        product.setName("펜");
+        product.setPrice(1000);
+        product.setStock(1000);
+
+        Product savedProduct = productRepository.saveAndFlush(product);
+
+        // when
+        Product foundProduct = productRepository.findById(savedProduct.getNumber()).get();
+
+        // then
+        assertEquals(product.getName(), foundProduct.getName());
+        assertEquals(product.getPrice(), foundProduct.getPrice());
+        assertEquals(product.getStock(), foundProduct.getStock());
+    }
+}
+```
+
+<br>
+
+데이터베이스 조회 테스트를 위해서는 먼저 데이터베이스에 테스트 데이터를 추가해야 한다. 따라서 15번 줄과 같이 Given 절에서 객체를 데이터베이스에 저장하는 작업을 수행한다. 그후 18번 줄의 조회 메서드를 호출해서 테스트를 진행하고 이후 코드에서 데이터를 비교하며 검증을 수행한다.
+
+위의 두 예제 테스트를 실행하면  H2 DB에서 실행되는 것을 확인할 수 있다. 기존에 가용하고 있던 마리아DB에서 테스트하기 위해서는 별도의 설정이 필요하다. 이번 실습을 위해 같은 패키지 경로에 `ProductRepositoryTest.java` 파일을 생성하고 아래와 같이 코드를 작성한다.
+
+<br>
+
+```java
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class ProductRepositoryTest {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Test
+    void save() {
+        Product product = new Product();
+        product.setName("펜");
+        product.setPrice(1000);
+        product.setStock(1000);
+
+        Product savedProduct = productRepository.save(product);
+
+        assertEquals(product.getName(), savedProduct.getName());
+        assertEquals(product.getPrice(), savedProduct.getPrice());
+        assertEquals(product.getStock(), savedProduct.getStock());
+    }
+
+}
+```
+
+<br>
+
+위 예제의 2번 줄에 있는 `replace` 요소는 `@AutoConfigureTestDatabase` 어노테이션의 값을 조정하는 작업을 수행한다. `replace` 속성의 기본값은 `Replcae.ANY` 이며, 이 경우 임베디드 메모리 데이터베이스를 사용한다. 이 속성값을 `Replace.NONE` 으로 변경하면 애플리케이션에서 실제로 사용하는 데이터베이스로 테스트가 가능하다.
+
+그리고 지금까지 다룬 `@DataJpaTest`를 사용하지 않고 `@SpringBootTest` 어노테이션으로도 테스트할 수 있다. 이번 실습을 위해 같은 패키지 경로에 `ProductRepositoryTest2.java` 파일을 생성한다. `@SpringBootTest` 어노테이션을 사용한 CRUD 테스트는 아래와 같다.
+
+<br>
+
+```java
+@SpringBootTest
+public class ProductRepositoryTest2
+{
+    @Autowired
+    ProductRepository productRepository;
+
+    @Test
+    public void basicCRUDTest() {
+        /* create */
+        // given
+        Product givenProduct = Product.builder()
+                .name("노트")
+                .price(1000)
+                .stock(500)
+                .build();
+
+        // when
+        Product savedProduct = productRepository.save(givenProduct);
+
+        // then
+        Assertions.assertThat(savedProduct.getNumber())
+                .isEqualTo(givenProduct.getNumber());
+        Assertions.assertThat(savedProduct.getName())
+                .isEqualTo(givenProduct.getName());
+        Assertions.assertThat(savedProduct.getPrice())
+                .isEqualTo(givenProduct.getPrice());
+        Assertions.assertThat(savedProduct.getStock())
+                .isEqualTo(givenProduct.getStock());
+
+        /* read */
+        // when
+        Product selectProduct = productRepository.findById(savedProduct.getNumber())
+                .orElseThrow(RuntimeException::new);
+
+        // then
+        Assertions.assertThat(selectProduct.getNumber())
+                .isEqualTo(givenProduct.getNumber());
+        Assertions.assertThat(selectProduct.getName())
+                .isEqualTo(givenProduct.getName());
+        Assertions.assertThat(selectProduct.getPrice())
+                .isEqualTo(givenProduct.getPrice());
+        Assertions.assertThat(selectProduct.getStock())
+                .isEqualTo(givenProduct.getStock());
+
+        /* update */
+        // when
+        Product foundProduct = productRepository.findById(selectProduct.getNumber())
+                .orElseThrow(RuntimeException::new);
+
+        foundProduct.setName("장난감");
+
+        Product updatedProduct = productRepository.save(foundProduct);
+
+        // then
+        assertEquals(updatedProduct.getName(), "장난감");
+
+        /* delete */
+        // when
+        productRepository.delete(updatedProduct);
+
+        // then
+        assertFalse(productRepository.findById(selectProduct.getNumber()).isPresent());
+    }
+
+}
+```
+
+<br>
+
+이 예제에서는 CRUD의 모든 기능을 한 테스트 코드에 작성했다. 기본 메서드를 테스트하기 때문에 Given 구문을 한 번만 사용해 전체 테스트에 활용했다. `@SpringBootTest`어노테이션을 활용하면 스프링의 모든 설정을 가져오고 빈 객체도 전체를 스캔하기 때문에 의존성 주입에 대해 고민할 필요 없이 테스트가 가능하다. 다만 테스트의 속도가 느리므로 다른 방법으로 테스트할 수 있다면 대안을 고려해보는 것이 좋다.
