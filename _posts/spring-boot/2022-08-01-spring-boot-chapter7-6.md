@@ -3,7 +3,7 @@ title : "[SpringBoot][Chapter7.6] 테스트 코드 작성하기 - 테스트 주�
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Java, Intelij, JaCoCo]
+- [SpringBoot, Spring, Java, Intelij, TDD]
 toc: true
 toc_sticky : true
 published : true
