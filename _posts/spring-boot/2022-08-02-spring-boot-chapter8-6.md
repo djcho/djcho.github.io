@@ -128,7 +128,7 @@ QueryDSL을 사용하려면 몇 가지 설정이 필요하다. 먼저 `pom.xml`�
 
 QueryDSL은 지금까지 작성했던 엔티티 클래스와 Q도메인(QDomain)이라는 쿼리 타입의 클래스를 자체적으로 생성해서 메타데이터로 사용하는데, 이를 통해 SQL과 같은 쿼리를 생성해서 제공한다.
 
-만약 Q도메인 클래스(`QProduct`)가 제대로 생성되지 않았다면 프로젝트 폴더를 마우스 오른쪽 버틍느로 클릭한 후 [Maven] → [Generate Sources and Update Folders]를 선택한다.
+만약 Q도메인 클래스(`QProduct`)가 제대로 생성되지 않았다면 프로젝트 폴더를 마우스 오른쪽 버튼으로 클릭한 후 [Maven] → [Generate Sources and Update Folders]를 선택한다.
 
 또한 코드가 정상적으로 동작하지 않는다면 IDE의 설정을 조정해야 한다. 인텔리제이 IDEA 에서 [Ctrl + Alt + Shift + S]를 클릭하거나 메뉴에서 [File] → [Project Structure]를 차례로 선택해 설정 창을 연 다음 [Modules] 탭을 클릭한다. 그러고 나서 아래와 같이 `generated-sources`를 눌러 [Mark as] 항목에 있는 [Sources]를 눌러 IDE에서 소스파일로 인식할 수 있게 설정한다.
 
@@ -140,7 +140,7 @@ QueryDSL은 지금까지 작성했던 엔티티 클래스와 Q도메인(QDomain)
 
 ### 기본적인 QueryDSL 사용하기
 
-앞의 프로젝트 설정을 마치면 QueryDSL을 사용할 준비가 끝났다. 우선 테슽 코드로 기본적인 QueryDSL 사용법을 알아보겠다. 아래와 같이 테스트 코드를 작성해서 QueryDSL의 동작을 확인할 수 있다.
+앞의 프로젝트 설정을 마치면 QueryDSL을 사용할 준비가 끝났다. 우선 테스트 코드로 기본적인 QueryDSL 사용법을 알아보겠다. 아래와 같이 테스트 코드를 작성해서 QueryDSL의 동작을 확인할 수 있다.
 
 <br>
 
@@ -322,7 +322,7 @@ void queryDslTest4() {
 
 #### QuerydslPredicateExecutor
 
-`QuerydslPredicateExecutor`는 `JpaRepository`와 함께 리포지토리에서 QueryDSL을 사용할 수 있게 인터페이스를 제공한다. 아래와 같이 리포지토리를 보자. 기존 리포지토리를 그대로 이용해도 되지만 예쩨를 구분하기 위해 `QProductRepository`라는 이름의 클래스를 생성했다.
+`QuerydslPredicateExecutor`는 `JpaRepository`와 함께 리포지토리에서 QueryDSL을 사용할 수 있게 인터페이스를 제공한다. 아래와 같이 리포지토리를 보자. 기존 리포지토리를 그대로 이용해도 되지만 예제를 구분하기 위해 `QProductRepository`라는 이름의 클래스를 생성했다.
 
 <br>
 
