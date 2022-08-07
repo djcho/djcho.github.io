@@ -179,7 +179,7 @@ public class ValidRequestDto {
 
 <br>
 
-![image-20220808000017341](/Users/n21808003_djcho/Library/Application Support/typora-user-images/image-20220808000017341.png){: .align-center}
+![image](https://user-images.githubusercontent.com/13410737/183298172-ee21c36d-b822-4e36-b13b-2ea4d6488d8d.png){: .align-center}
 
 <br>
 
