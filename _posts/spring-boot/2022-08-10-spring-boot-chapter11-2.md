@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter11.1] 액추에이터 - 프로젝트 생성"
+title : "[SpringBoot][Chapter11.2] 액추에이터 - 엔드포인트"
 categories:
 - SpringBoot
 tag :
