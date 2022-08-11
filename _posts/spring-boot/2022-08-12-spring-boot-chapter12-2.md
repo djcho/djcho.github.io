@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter12.2] 서버 간 통신 - RestTemplate"
+title : "[SpringBoot][Chapter12.2] 서버 간 통신 - RestTemplate 사용하기"
 categories:
 - SpringBoot
 tag :

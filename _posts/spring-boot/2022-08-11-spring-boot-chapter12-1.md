@@ -1,5 +1,5 @@
 ---
-title : "[SpringBoot][Chapter12.1] 서버 간 통신 - RestTemplate"
+title : "[SpringBoot][Chapter12.1] 서버 간 통신 - RestTemplate 이란?"
 categories:
 - SpringBoot
 tag :
