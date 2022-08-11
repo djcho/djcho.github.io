@@ -153,7 +153,7 @@ public class NoteEndpoint {
 
 <br>
 
-![image](https://user-images.githubusercontent.com/13410737/183941473-adda824d-9131-46ef-a996-326b617c37a0.png)
+![image](https://user-images.githubusercontent.com/13410737/183941473-adda824d-9131-46ef-a996-326b617c37a0.png){: .align-center}
 
 <br>
 
