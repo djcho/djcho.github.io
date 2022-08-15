@@ -8,7 +8,7 @@ toc: true
 toc_sticky : true
 published : true
 date : 2022-08-15
-last_modified_at : 2022-08-15
+last_modified_at : 2022-08-16
 ---
 
 
@@ -522,7 +522,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean{
         if(token != null && jwtTokenProvider.validateToken(token)){
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료")
+            LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
@@ -549,4 +549,515 @@ public class JwtAuthenticationFilter extends GenericFilterBean{
 메서드의 내부 로직을 보면 `JwtTokenProvider`를 통해 `servletRequest`에서 토큰을 추출하고, 토큰에 대한 유효성을 검사한다. 토큰이 유효하다면 `Authentication` 객체를 생성해서 `SecurityContextHolder`에 추가하는 작업을 수행한다.
 
 
+
+### SecurityConfiguration 구현
+
+지금까지 실습을 통해 스프링 시큐리티를 적용하기 위한 컴포넌트를 구현했다. 이제 스프링 시큐리티와 관련된 설정을 진행하겠다. 스프링 시큐리티를 설정하는 대표적인 방법은 `WebSecurityConfigureAdapter`를 상속받는 `Configuration` 클래스를 구현하는 것이다. 전체적인 `SecurityConfiguration` 클래스의 구현은 아래와 같다.
+
+<br>
+
+```java
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    public SecurityConfiguration(JwtTokenProvider jwtTokenProvider){
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception{
+        httpSecurity.httpBasic().disable()
+
+                .csrf().disable()
+
+                .sessionManagement()
+                .sessionCreationPolicy(
+                        SessionCreationPolicy.STATELESS)
+
+                .and()
+                .authorizeRequests()
+                .antMatchers("*/sign-api/sign-in", "sign-api/sign-up",
+                        "/sign-api/exception").permitAll()
+                .antMatchers(HttpMethod.GET, "product/**").permitAll()
+
+                .antMatchers("**exception**").permitAll()
+
+                .anyRequest().hasRole("ADMIN")
+
+                .and()
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                        UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity webSecurity){
+        webSecurity.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
+                "/swgger-ui.html", "/webjars/**", "/swagger/**", "/sign-api/exception");
+    }
+}
+```
+
+<br>
+
+위 코드의 구조를 살펴보자. `SecurityConfiguration` 클래스의 주요 메서드는 두 가지로, `WebSecurity` 파라미터를 받은 `configure()` 메서드와 `HttpSecurity` 파라미터를 받은 `configure()`메서드이다.
+
+먼저 살펴볼  메서드는 11~39번 줄의 `HttpSecurity`를 설정하는 `configure()` 메서드이다. 스프링 시큐리티의 설정은 대부분 `HttpSecurity`를 통해 진행된다. 대표적인 기능은 다음과 같다.
+
+- 리소스 접근 권한 설정
+- 인증 실패 시 발생하는 예외 처리
+- 인증 로직 커스터마이징
+- csrf, cors 등의 스프링 시큐리티 설정
+
+지금부터 `configure()` 메서드에 작성돼 있는 코드를 설정별로 구분해 설명하겠다. 모든 설정은 전달 받은 `HttpSecurity` 에 설정된다.
+
+<br>
+
+**`httpBasic().disable()`**
+
+UI를 사용하는 것을 기본값으로 가진 시큐리티 설정은 비활성화한다.
+
+<br>
+
+**`csrf().disable()`**
+
+REST API에서는 CSRF 보안이 필요 없기 때문에 비활성화하는 로직이다. CSRF는 Cross-Site Request Forgery의 줄임말로 '사이트 간 요청 위조'를 의미한다. '사이트 간 요청 위조'란 웹 애플리케이션의 취약점 중 하나로서 사용자가 자신의 의지와 무관하게 웹 애플리케이션을 대상으로 공격자가 의도한 행동을 함으로써 특정 페이지의 보안을 취약하게 한다거나 수정, 삭제 등의 작업을 하는 공격 방법이다. 스프링 시큐리티의 `crsf()`메서드는 기본적으로 CSRF 토큰을 발급해서 클라이언트로부터 요청을 받을 때마다 토큰을 검증하는 방식으로 동작한다. 브라우저 사용 환경이 아니라면 비활성화해도 크게 문제가 되지 않는다.
+
+<br>
+
+**`sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)`**
+
+REST PI 기반 애플리케이션의 동작 방식을 설정한다. 지금 진행 중인 프로젝트에서는 JWT 토큰으로 인증을 처리하며, 세션은 사용하지 않기 때문에 STATELESS로 설정한다.
+
+<br>
+
+**`authorizeRequest()`**
+
+애플리케이션에 들어오는 요청에 대한 사용 권한을 체크한다. 이어서 사용한 `antMatchers()` 메서드는 `antPattern` 을 통해 권한을 설정하는 역할을 한다. 23~29번 줄에 설정된 내용은 다음과 같은 설정을 수행한다.
+
+- '/sign-api/sign-in', '/sign-api/sign-up', '/sign-api/exception' 경로에 대해서는 모두에게 허용한다.
+- '/product' 로 시작하는 경로의 GET 요청을 모두 허용한다.
+- 'exception' 단어가 들어간 경로는 모두 허용한다.
+- 기타 요청은 인증된 권한을 가진 사용자에게 허용한다.
+
+<br>
+
+**`exceptionHandling().accessDenieHandler()`**
+
+ 권한을 확인하는 과정에서 통과하지 못하는 예외가 발생할 경우 예외를 전달한다.
+
+<br>
+
+**`exceptionHandling().authenticationEntryPoint()`**
+
+인증 과정에서 예외가 발생할 경우 예외를 전달한다.
+
+<br>
+
+각 메서드는 `CustomAccessDeniedHandler()`와 `CustomAuthenticationEntryPoint`로 예외를 전달한다. 각 클래스는 ㅇ니후 내용에서 살펴보겠다.
+
+앞에서 이야기한 것처럼 스프링 시큐리티는 각각의 역할을 수행하는 필터들이 체인 형태로 구성돼 순서대로 동작한다. 이책에서는 실습을 통해 JWT로 인증하는 필터를 생성했으며, 이 필터의 등록은 `HttpSecurity` 설정에서 진행한다. 37~38번 줄의 `addFilterBefore()` 메서드를 사용해 어느 필터 앞에 추가할 것인지 설정할 수 있는데, 현재 구현돼 있는 설정은 스프링 시큐리티에서 인증을 처리하는 필터인 `UsernamePasswordAuthenticationFilter`앞에 앞에서 생성한 `JwtAuthenticationFilter`를 추가하겠다는 의미이다. 추가된 필터에서 인증이 정상적으로 처리되면 `UsernamePasswordAuthenticationFilter`는 자동으로 통과되기 때문에 위와 같은 구성을 선택했다.
+
+다음으로 볼 부분은 42~45번 줄의 `WebSecurity`를 사용하는 `configure()` 메서드이다. `WebSecurity`는 `HttpSecurity` 앞단에 적용되며, 전체적으로 스프링 시큐리티의 영향권 밖에 있다. 즉, 인증과 인가가 모두 적용되기 전에 동작하는 설정이다. 그렇기 때문에 다양한 곳에서 사용되지 않고 인증과 인가가 적용되지 않는 리소스 접근에 대해서만 사용한다. 예제에서는 Swagger에 적용되는 인증과 인가를 피하기 위해 `ignoring()` 메서드를 사용해 Swagger와 관련된 경로에 대한 예외 처리를 수행한다. 의미상 예외 처리라고 표현했지만 정확하게는 인증, 인가를 무시하는 경로를 설정한 것이다.
+
+
+
+#### 커스텀 AccessDeniedhandler, AuthenticationEntryPoint 구현
+
+앞에서 살펴본 예제에서는 인증과 인가 과정의 예외 상황에서 `CustomAccessDeniedHandler`와 `CustomAuthenticationEntryPoint`로 예외를 전달하고 있었다. 이번 절에서는 이렇란 클래스를 작성하는 방법을 알아보겠다.
+
+먼저 `AccessDeniedHandler` 인터페이스의 구현체 클래스를 생성하겠다. 기본적으로 아래와 같이 `handle()` 메서드를 오버라이딩해서 구현하게 된다.
+
+<br>
+
+```java
+@Component
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);
+    
+    @Override
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                       AccessDeniedException e) throws IOException, ServletException {
+        LOGGER.info("[handle] 접근이 막혔을 경우 경로 리다이렉트");
+        httpServletResponse.sendRedirect("/sign-api/exception");
+    }
+}
+```
+
+<br>
+
+`AccessDeniedException`은 액세스 권한이 없는 리소스에 접근할 경우 발생하는 예외이다. 이 예외를 처리하기 위해 `AccessDeniedHandler` 인터페이스가 사용되며, `SecurityConfiguration`에도 `exceptionHandling()` 메서드를 통해 추가했다. `AccessDeniedHandler`의 구현 클래스인 `CustomAccessDeniedHandler` 클래스는 `handle()` 메서드를 오버라이딩한다. 이 메서드는 `HttpServletRequest`와 `HttpSeervletResponse`, `AccessDeniedException`을 파라미터로 가져온다.
+
+이번 예제에서는 `response`에서 리다이렉트하는 `sendRedirect()`메서드를 활용하는 방식으로 구현했다. 10번 줄에서 경로를 정의하면 다음과 같이 리다이렉트되어 정의한 예외 메서드가 호출되는 것을 볼 수 있다.
+
+```
+[INFO ] [http-nio-8080-exec-2] com.springboot.security.config.security.CustomAccessDeniedHandler
+[handle] 접근이 막혔을 경우 경로 리다이렉트
+[ERROR] [http-nio-8080-exec-6] com.springboot.security.controller.SignController ExceptionHandler 호출, null, 접근이 금지되었습니다.
+```
+
+로그에 출력된 스레드 번호를 보면 리다이렉트됐기 때문에 다른 스레드에서 동작하는 것을 볼 수 있따.
+
+다음은 인증이 실패한 상황을 처리하는 `AuthenticationEntryPoint` 인터페이스를 구현한 `CustomAuthenticationEntryPoint` 클래스이다. 전체 코드는 아래와 같다.
+
+<br>
+
+```java
+@Component
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(CustomAuthenticationEntryPoint.class);
+
+    @Override
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                         AuthenticationException e) throws IOException, ServletException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        LOGGER.info("[commence] 인증 실패로 response.sendError 발생");
+
+        EntryPointErrorResponse entryPointErrorResponse = new EntryPointErrorResponse();
+        entryPointErrorResponse.setMsg("인증이 실패하였습니다.");
+
+        httpServletResponse.setStatus(401);
+        httpServletResponse.setContentType("application/json");
+        httpServletResponse.setCharacterEncoding("utf-8");
+        httpServletResponse.getWriter().write(objectMapper.writeValueAsString(entryPointErrorResponse));
+    }
+}
+```
+
+<br>
+
+위 예제에서 사용된 `EntryPointErrorResponse` 는 `dto` 패키지에 아래와 같이 생성한다.
+
+<br>
+
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class EntryPointErrorResponse {
+
+    private String msg;
+}
+```
+
+<br>
+
+클래스 구조는 앞에서 본 `AccessDeniedHandler`와 크게 다르지 않으며, `commence()` 메서드를 오버라이딩해서 코드를 구현한다. 이 `commence()` 메서드는 `HttpServletRequest`, `HttpServletResponse`, `AuthenticationException`을 매개변수로 받는데, 이번 예제에서는 예외 처리를 위해 리다이렉트가 아니라 직접 `Response`를 생성해서 클라이언트에게 응답하는 방식으로 구현돼 있다.
+
+컨트롤러에서는 응답을 위한 설정들이 자동으로 구현되기 때문에 별도의 작업이 필요하지 않았지만 여기서는 응닶값을 설정할 필요가 있다. 메시지를 담기 위해 `EntryPointErrorResponse` 객체를 사용해 메시지를 설정하고 ,`response`에 상태 코드(status)와 콘텐츠 타입(Content-type)등을 설정한 후 `ObjectMapper`를 사용해 `EntryPointErrorResponse` 객체를 바디 값으로 파싱한다.
+
+굳이 메시지를 설정할 필요가 없다면 `commence()` 메서드 내부에 아래와 같이 한 줄만 작성하는 식으로 인증 실패 코드만 전달할 수 있다.
+
+<br>
+
+```java
+@Override
+public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                     AuthenticationException e) throws IOException, ServletException {
+    httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+}
+```
+
+<br>
+
+전체적인 코드 구조가 `AccessDeniedHandler`와 동일하기 때문에 지금까지 소개한 세 가지 응답을 구성하는 방식을 각 메서드에 혼용할 수도 있다.
+
+
+
+### 회원가입과 로그인 구현
+
+앞절에서 인증에 사용되는 `UserDetails` 인터페이스 구현제 클래스로 `User`엔티티를 생성했다. 지금까지는 `User` 객체를 통해 인증하는 방법을 구현했는데, 이번 절에서는 `User` 객체를 생성하기 위해 회원가입을 구현하고 `User` 객체로 인증을 시도하는 로그인을 구현하겠다.
+
+회원가입과 로그인의 도메인은 Sign으로 통합해서 표현할 예정이며, 각각 Sign-up, Sign-in 으로 구분해서 기능을 구현한다. 먼저 서비스 레이어를 구현하겠다. `SignService` 인터페이스에 정의된 메서드는 아래와 같다.
+
+<br>
+
+```java
+public interface SignService {
+    
+    SignUpResultDto signUp(String id, String password, String name, String role);
+    
+    SignInResultDto signIn(String id, String password) throws RuntimeException;
+}
+```
+
+<br>
+
+`SignService`인터페이스를 구현한 `SignServiceImpl` 클래스의 전체 코드는 다음과 같다.
+
+<br>
+
+```java
+@Service
+public class SignServiceImpl implements SignService {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(SignServiceImpl.class);
+
+    public UserRepository userRepository;
+    public JwtTokenProvider jwtTokenProvider;
+    public PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public SignServiceImpl(UserRepository userRepository, JwtTokenProvider
+            jwtTokenProvider, PasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public SignUpResultDto signUp(String id, String password, String name, String role) {
+        LOGGER.info("[getSignUpResult] 회원 가입 정보 전달");
+        User user;
+        if(role.equalsIgnoreCase("admin")){
+            user = User.builder()
+                    .uid(id)
+                    .name(name)
+                    .password(password)
+                    .roles(Collections.singletonList("ROLE_ADMIN"))
+                    .build();
+        }else {
+            user = User.builder()
+                    .uid(id)
+                    .name(name)
+                    .password(passwordEncoder.encode(password))
+                    .roles(Collections.singletonList("ROLE_USER"))
+                    .build();
+        }
+
+        User savedUser = userRepository.save(user);
+        SignUpResultDto signUpResultDto = new SignInResultDto();
+
+        LOGGER.info("[getSignUpResult] userEntity 값이 들어왔는지 확인 후 결과값 주입");
+        if(!savedUser.getName().isEmpty()){
+            LOGGER.info("[getSignUpResult] 정상 처리 완료");
+            setSuccessResult(signUpResultDto);
+        } else{
+            LOGGER.info("[getSignUpResult] 실패 처리 완료");
+            setFailResult(signUpResultDto);
+        }
+        return signUpResultDto;
+    }
+
+    @Override
+    public SignInResultDto signIn(String id, String password) throws RuntimeException {
+        LOGGER.info("[getSignInResult] signDataHandler 로 회원 정보 요청");
+        User user = userRepository.getByUid(id);
+        LOGGER.info("[getSignInResult] Id : {}", id);
+        
+        LOGGER.info("[getSignInResult] 패스워드 비교 수행");
+        if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new RuntimeException();
+        }
+        LOGGER.info("[getSignInResult] 패스워드 일치");
+        
+        LOGGER.info("[getSignInResult] SignInResultDto 객체 생성");
+        SignInResultDto signInResultDto = SignInResultDto.builder()
+                .token(jwtTokenProvider.createToken(String.valueOf(user.getUid()),
+                        user.getRoles()))
+                .build();
+        
+        LOGGER.info("[getSignInResult] SignInResultDto 객체에 값 주입");
+        setSuccessResult(signInResultDto);
+        
+        return signInResultDto;
+    }
+    
+    private void setSuccessResult(SignUpResultDto result){
+        result.setSuccess(true);
+        result.setCode(CommonResponse.SUCCESS.getCode());
+        result.setMsg(CommonResponse.SUCCESS.getMsg());
+    }
+    
+    private void setFailResult(SignUpResultDto result){
+        result.setSuccess(false);
+        result.setCode(CommonResponse.FAIL.getCode());
+        result.setMsg(CommonResponse.FAIL.getMsg());
+    }
+}
+```
+
+<br>
+
+예제의 6~16번 줄에서는 회원가입과 로그인을 구현하기 위해 세 가지 객체에 대한 의존성 주입을 받는다.
+
+18~36번 줄에서는 회원가입을 구현한다. 현재 애플리케이션에서는 `ADMIN`과 `USER`로 권한을 구분하고 있다. `signUp()` 메서드는 그에 맞게 전달받은 `role`객체를 확인해 `User` 엔티티의 `roles` 변수에 추가해서 엔티티를 생성한다. 패스워드는 암호화해서 저장해야 하기 때문에 `PasswordEncoder`를 활용해 인코딩을 수행한다. `PasswordEncoder`는 아래와 같이 별도의 `@Configuration` 클래스를 생성하고 `@Bean` 객체로 등록하도록 구현했다.
+
+<br>
+
+```java
+@Configuration
+public class PasswordEncodeConfiguration {
+
+    @Bean
+    public PasswordEncoder pAsswordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+}
+```
+
+<br>
+
+위 예제는 빈 객체를 등록하기 위해서 생성된 클래스이기 때문에 `SecurityConfiguration` 클래스 같이 이미 생성된 `@Configuration` 클래스 내부에 4~7번 줄의 `passwordEncoder()` 메서드를 정의해도 충분하다.
+
+이렇게 생성된 엔티티를 `UserRepository` 를 통해 저장한다. 실제 엔터프라이즈 환경에서는 회원가입을 위한 필드도 많고 코드도 복잡하겠지만 이 책에서는 부가적인 사항들은 모두 배제하고 회원가입 자체만 구현하겠다.
+
+이제 회원으로 가입한 사용자의 아이디와 패스워드를 가지고 로그인을 수행할 수 있다. 로그인 메서드는 52~74번 줄에 구현돼 있다.
+
+로그인은 미리 저장돼 있는 계정 정보와 요청을 통해 전달된 계정 정보가 일치하는지 확인하는 작업이다. `signIn()`메서드는 아이디와 패스워드를 입력받아 처리하게 된다. 내부 로직을 좀 더 자세히 살펴보겠다.
+
+1. `id`를 기반으로 `UserRepository`에서 `User` 엔티티를 가져온다.
+2. `PasswordEncoder`를 사용해 데이터베이스에 저장돼 있던 패스워드와 입력받은 패스워드가 일치하는지 확인하는 작업을 수행한다. 이번 예제에서는 패스워드가 일치하지 않아 예외를 발생시키는 `RuntimeException`을 사용했지만 별도의 커스텀 예외를 만들어서 사용하기도 한다.
+3. 패스워드가 일치해서 인증을 통과하면 `JwtTokenProvider`를 통해 `id`와 `role` 값을 전달해서 토큰을 생성한 후 `Response`에 담아 전달한다.
+
+<br>
+
+76~86번 줄은 결과 데이터를 설정하는 메서드이다. 회원기입와 로그인 메서드에서 사용할 수 있게 설정돼 있으며, 각 메서드는 DTO를 전달받아 값을 설정한다. 이때 사용된 `CommonResponse` 클래스는 다음과 같이 작성돼 있다.
+
+<br>
+
+```java
+public enum CommonResponse {
+
+    SUCCESS(0, "Success"), FAIL(-1, "Fail");
+
+    int code;
+    String msg;
+
+    CommonResponse(int code, String msg){
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+}
+```
+
+<br>
+
+이제 회원가입과 로그인을 API로 노출하는 컨트롤러를 생성해야 하는데 사실상 서비스 레이어로 요청을 전달하고 응답하는 역할만 수행하기 때문에 코드만 소개하겠다. `SignController`의 전체 코드는 아래와 같다.
+
+<br>
+
+```java
+@RestController
+@RequestMapping("/sign-api")
+public class SignController {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(SignController.class);
+    private final SignService signService;
+    
+    @Autowired
+    public SignController(SignService signService){
+        this.signService = signService;
+    }
+    
+    @PostMapping(value = "/sign-in")
+    public SignInResultDto signIn(
+            @ApiParam(value = "ID", required = true) @RequestParam String id,
+            @ApiParam(value = "Password", required = true) @RequestParam String password) throws RuntimeException{
+        LOGGER.info("[signIn] 로그인을 시도하고 있습니다. id : {}, pw : ****", id);
+        SignInResultDto signInResultDto = signService.signIn(id, password);
+        
+        if(signInResultDto.getCode() == 0){
+            LOGGER.info("[signIn] 정상적으로 로그인되었습니다. id : {}, token : {}", id, 
+                    signInResultDto.getToken());
+        }
+        return signInResultDto;
+    }
+    
+    @PostMapping(value = "/sign-up")
+    public SignUpResultDto signUp(
+            @ApiParam(value = "ID", required = true) @RequestParam String id,
+            @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
+            @ApiParam(value = "이름", required = true) @RequestParam String name,
+            @ApiParam(value = "권한", required = true) @RequestParam String role) {
+        LOGGER.info("[signUp] 회원가입을 수행합니다. id = {}, password : ****, name : {}, role : {}",
+                id, name, role);
+        SignUpResultDto signUpResultDto = signService.signUp(id, password, name, role);
+
+        LOGGER.info("[signUp] 회원가입을 완료했습니다. id : {}", id);
+        return signUpResultDto;
+    }
+    
+    @GetMapping(value = "/exception")
+    public void exceptionTest() throws RuntimeException{
+        throw new RuntimeException("접근이 금지되었습니다.");
+    }
+    
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<Map<String, String>> ExceptionHandler(RuntimeException e){
+        HttpHeaders responseHeaders = new HttpHeaders();
+        //responseHeaders.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        
+        LOGGER.error("ExceptionHandler 호출, {}, {}", e.getCause(), e.getMessage());
+        
+        Map<String, String> map = new HashMap<>();
+        map.put("error type", httpStatus.getReasonPhrase());
+        map.put("code", "400");
+        map.put("message", "에러 발생");
+        
+        return new ResponseEntity<>(map, responseHeaders, httpStatus);
+    }
+}
+```
+
+<br>
+
+클라이언트는 위와 같이 계정을 생성하고 로그인 과정을 거쳐 토큰값을 전달받음으로써 이 애플리케이션에서 제공하는 API 서비스를 사용할 준비를 마친다. `Response` 로 전달되는 `SignUpResultDto`와 `SignInResultDto` 클래스는 각각 아래와 같다.
+
+<br>
+
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class SignUpResultDto {
+
+    private boolean success;
+
+    private int code;
+
+    private String msg;
+}
+```
+
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class SignInResultDto extends SignUpResultDto{
+    private String token;
+
+    @Builder
+    public SignInResultDto(boolean success, int code, String msg, String token) {
+        super(success, code, msg);
+        this.token = token;
+    }
+
+}
+```
+
+<br>
+
+여기까지 구현이 완료되면 정상적으로 스프링 시큐리티가 동작하는 애플리케이션 환경이 완성된 것이다. 다음 절에서는 애플리케이션의 동작을 확인하겠다.
 
