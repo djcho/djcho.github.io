@@ -463,7 +463,7 @@ public boolean validateToken(String token){
 
 ### JwtAuthenticationFilter 구현
 
-`JwtAuthenticationFilter`는 JWT 토큰을 인증하고 `SecurityContextHolder`에 추가하는 필터를 설정하는 클래스이다. 우선 전체 코드를 보면 아래와 같아.
+`JwtAuthenticationFilter`는 JWT 토큰을 인증하고 `SecurityContextHolder`에 추가하는 필터를 설정하는 클래스이다. 우선 전체 코드를 보면 아래와 같다.
 
 <br>
 
@@ -579,9 +579,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("*/sign-api/sign-in", "sign-api/sign-up",
+                .antMatchers("/sign-api/sign-in", "/sign-api/sign-up",
                         "/sign-api/exception").permitAll()
-                .antMatchers(HttpMethod.GET, "product/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/product/**").permitAll()
 
                 .antMatchers("**exception**").permitAll()
 
@@ -1060,4 +1060,356 @@ public class SignInResultDto extends SignUpResultDto{
 <br>
 
 여기까지 구현이 완료되면 정상적으로 스프링 시큐리티가 동작하는 애플리케이션 환경이 완성된 것이다. 다음 절에서는 애플리케이션의 동작을 확인하겠다.
+
+
+
+### 스프링 시큐리티 테스트
+
+이번에는 클라이언트 입장이 되어 스프링 시큐리티가 동작하는 상황에서 테스트를 수행해 보겠다. Swagger를 활용할 예정이며, Swagger 페이지를 접속하는 경로는 앞에 예제에서 `WebSecurity`를 사용하는 `configure()`메서드에서 인증에 대한 예외 처리를 했기 때문에 정상적으로 접속이 가능하다.
+
+
+
+#### 애플리케이션 가동 로그
+
+먼저 애플리케이션을 가동했을 때 나타나는 스프링 시큐리티와 관련된 로그를 살펴보겠다. 애플리케이션이 가동되면 스프링 시큐리티와 관련된 빈도 초기화되어 등록되면서 몇 가지 로그를 확인할 수 있다. `DEBUG` 레벨에서 로그를 확인하면 내용이 너무 많아지기 때문에 `INFO`레벨에서 확인할 수 있는 로그와 예제에서 작성한 커스텀 로그들을 살펴보겠다. 맨 먼저 살펴볼 로그는 다음과 같다.
+
+<br>
+
+```
+[INFO ] [main] com.springboot.security.config.security.JwtTokenProvider [init] JwtTokenProvider 내 secretKey 초기화 시작
+flature!@#
+ZmxhdHVyZSFAIw==
+[INFO ] [main] com.springboot.security.config.security.JwtTokenProvider [init] JwtTokenProvider 내 secretKey 초기화 완료
+```
+
+<br>
+
+`JwtTokenProvider` 클래스는 `@Component`로 등록돼 있고 `@PostConstruct`로 `init()` 메서드가 정의돼 있다. 2~3번 줄의 로그는 임의로 적은 것이며, `init()` 메서드에서는 `application.properties` 파일에 정의돼 있는 `secretKey`의 값을 가져와 인코딩하는 작업을 수행한다.
+
+이어서 다음과 같은 로그를 보겠다.
+
+<br>
+
+```
+[INFO ] [main] org.springframework.security.web.DefaultSecurityFilterChain Will secure Ant [pattern='/v2/api-docs'] with []
+[INFO ] [main] org.springframework.security.web.DefaultSecurityFilterChain Will secure Ant [pattern='/swagger-resources/**'] with []
+[INFO ] [main] org.springframework.security.web.DefaultSecurityFilterChain Will secure Ant [pattern='/swagger-ui.html'] with []
+[INFO ] [main] org.springframework.security.web.DefaultSecurityFilterChain Will secure Ant [pattern='/webjars/**'] with []
+[INFO ] [main] org.springframework.security.web.DefaultSecurityFilterChain Will secure Ant [pattern='/swagger/**'] with []
+[INFO ] [main] org.springframework.security.web.DefaultSecurityFilterChain Will secure Ant [pattern='/sign-api/exception'] with []
+[INFO ] [main] org.springframework.security.web.DefaultSecurityFilterChain Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1c24639e, 
+org.springframework.security.web.context.SecurityContextPersistenceFilter@4c9bed65, 
+org.springframework.security.web.header.HeaderWriterFilter@5a464be7, 
+org.springframework.security.web.authentication.logout.LogoutFilter@263f6e96, 
+com.springboot.security.config.security.JwtAuthenticationFilter@5c9168c3, 
+org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7e35d743, 
+org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@32bae609, 
+org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4ac0fdc7, 
+org.springframework.security.web.session.SessionManagementFilter@28521ed5, 
+org.springframework.security.web.access.ExceptionTranslationFilter@6c167296, 
+org.springframework.security.web.access.intercept.FilterSecurityInterceptor@54cce500]
+```
+
+<br>
+
+참고로 가독성을 위해 7번 줄에 나열된 필터 배열을 줄로 구분했다. `DefaultSecurityFilterChain` 은 `SecurityFilterChain` 인터페이스의 구현체 클래스이다. `DefaultSecurityFilterChain`의 일부 코드는 아래와 같다.
+
+<br>
+
+```java
+public final class DefaultSecurityFilterChain implements SecurityFilterChain {
+    private static final Log logger = LogFactory.getLog(DefaultSecurityFilterChain.class);
+    private final RequestMatcher requestMatcher;
+    private final List<Filter> filters;
+
+    public DefaultSecurityFilterChain(RequestMatcher requestMatcher, Filter... filters) {
+        this(requestMatcher, Arrays.asList(filters));
+    }
+
+    public DefaultSecurityFilterChain(RequestMatcher requestMatcher, List<Filter> filters) {
+        logger.info(LogMessage.format("Will secure %s with %s", requestMatcher, filters));
+        this.requestMatcher = requestMatcher;
+        this.filters = new ArrayList(filters);
+    }
+    ...생략...
+}
+```
+
+<br>
+
+`DefaultSecurityFilterChain`은 `HttpSecurity`에 의해 호출되며, 그 과정에서 위 예제의 13~17번 줄의 생성자를 통해 사용될 `Filter`를 전달받는다.
+
+앞에서 살펴본 애플리케이션 가동 로그 중 `DefaultSecurityFilterChain`에 대한 1~6번  줄의 로그에서는 `SecurityConfiguration` 클래스에서 설정한 `WebSecurity`를 활용하는 `configure()` 메서드를 제외한 경로들을 표현하고 있으며, 7~20번 줄은 제외된 경로 외의 모든 요청에 대해 나열된 필터를 거친다는 것을 나타낸다. 여기에 나열된 필터를 보면 앞절에서 소개한 필터 목록의 필터들이 순서대로 나열된 것을 볼 수 있다. 그중 13번 줄에서는 앞에서 생성한 필터에 추가했던 `JwtAuthenticationFilter`를 볼 수 있다.
+
+
+
+#### 정상적인 동작 시나리오
+
+그럼 정상적으로 동작하는 시나리오를 기반으로 테스트를 수행하겠다. 절차는 다음과 같다.
+
+1. 회원가입에 성공한다.
+2. 회원가입에 성공한 계정 정보를 기반으로 로그인을 성공한다.
+   - 로그인에 성공하면  토큰을 발급 받는다.
+3. 상품 컨트롤러의 상품 등록 API를 호출한다.
+   - API 호출 시 로그인 과정에서 받은 토큰을 헤더에 추가해서 전달한다.
+4. 정상적으로 상품 등록을 마친다.
+
+<br>
+
+먼저 Swagger 페이지에 접속해 회원가입을 진행한다. 아래와 같이 값을 입력한다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184886239-e2c9c34d-9737-4bd5-b7ad-cafeae6a394d.png){: .align-center}
+
+<br>
+
+입력값은 다음과 닽다.
+
+- id : flature
+- name : 장정우
+- password : 1234
+- role : ADMIN
+
+<br>
+
+입력값을 제한하지 않았기 때문에 임의로 입력해도 무관한다. 다만 role만 `USER`와 `ADMIN`으로 구분해서 객체를 생성하는 과정이 서비스 레이어에 있기 때문에 유의해서 입력해야 한다. 위와 같이 입력하면 아래와 같이 정상적인 회원가입 완료 화면이 출력된다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184887003-07c04e6e-7805-4b38-b788-1f5c9aef06d3.png){: .align-center}
+
+<br>
+
+이제 회원가입한 정보를 통해 로그인을 수행한다. 로그인을 위해 회원가입할 때 입력한 `id`와 `password`를 사용한다. 아래와 같이 입력해 로그인을 수행한다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184887206-c97d2b45-0497-4a4f-9e1b-95310d63bd1c.png){: .align-center}
+
+<br>
+
+입력값은 다음과 같다.
+
+- id : flature
+- password : 1234
+
+<br>
+
+위와 같이 입력하면 정상적으로 로그인되면서 아래와 같은 결과를 볼 수 있다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184891495-83121a59-13c5-43c7-81c8-a9d4d8922f2b.png){: .align-center}
+
+<br>
+
+결괏값에서 응답으로 온 토큰값도 볼 수 있다. 앞으로 인증이 필요한 리소스에 접근할 때는 이 토큰값을 헤더에 추가해서 전달해야 한다.
+
+이제 상품 등록 API를 통해 상품을 등록해보겠다. 아래와 같이 상품 정보를 기입한다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184893792-25191968-4f87-4bff-a887-0070e0e28499.png){: .align-center}
+
+<br>
+
+입력 값은 다음과 같다.
+
+**헤더**
+
+- X-AUTH-TOKEN : eyJhbGciOiJIUzI1Ni...(로그인 성공 후 발급받은 토큰)
+
+**Body**
+
+- name : 공책
+- price : 2000
+- stock : 3500
+
+<br>
+
+이 과정에서 헤더 값을 입력할 수 있는 폼이 나오지 않는다면 다음과 같이 `ProductController` 클래스의 `createProduct()` 메서드에 Swagger의 어노테이션을 지정한다.
+
+<br>
+
+```java
+@ApiImplicitParams({
+        @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 발급 받는 access_token", required = true, dataType = "String", paramType = "header")
+})
+@PostMapping()
+public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductDto productDto){
+    long currentTime = System.currentTimeMillis();
+    ProductResponseDto productResponseDto = productService.saveProduct(productDto);
+
+    LOGGER.info("[createProduct] Response Time : {}ms", System.currentTimeMillis() - currentTime);
+
+    return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
+}
+```
+
+<br>
+
+위와 같이 입력하면 상품 등록이 문제없이 완료된다. 상품 등록의 결과 화면은 아래와 같다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184894009-ca923d46-ef71-43d1-b8e8-8e0cfff19310.png){: .align-center}
+
+<br>
+
+상품이 정상적으로 등록됐는지 확인하려면 상품 조회 API를 이용해 확인할 수 있다. 조회 기능은 별도의 토큰을 전달하지 않아도 사용할 수 있게 보안 설정을 했기 때문에 토큰 없이 사용할 수 있다.
+
+
+
+#### 비정상적인 동작 시나리오 - 인증 예외 발생
+
+스프링 시큐리티의 동작을 확인하는 시나리오에서 비정상적인 동작은 크게 두 가지로 구분할 수 있다. 바로 인증이 실패한 경우와 인가가 실패한 경우이다. 먼저 확인할 시나리오는 인증 과정에서 예외가 발생하는 상황이다. 절차는 다음과 같다.
+
+1. 회원가입에 성공한다.
+2. 회원가입에 성공한 계정 정보를 기반으로 로그인에 성공한다.
+   - 로그인에 성공하면 토큰을 발급 받는다.
+3. 상품 컨트롤러의 상품 등록  API를 호출한다.
+   - API 호출 시 로그인 과정에서 받은 토큰을 변조해서 헤더에 추가한 후 전달한다.
+4. 인증 예외 메시지가 응답으로 돌아온다.
+
+<br>
+
+회원가입과 로그인은 정상적인 동작 시나리오와 동일하기 때문에 이번 테스트에서도 그대로 이용하겠다. 남은 것은 상품 등록 API를 사용하는 과정에서 토큰의 값을 변조해서 전달하는 과정을 통해 인증 예외가 발생하는지 확인하는 과정이다. 이를 위해 아래와 같이 토큰값을 임의의 값으로 입력하고 요청한다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184895110-4c0e4231-dc01-44c0-a1d1-69cb7f25b0db.png){: .align-center}
+
+<br>
+
+위와 같이 토큰값을 변조하고 API를 호출하면 아래와 같이 메시지가 응답으로 돌아온다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184895282-de2ed133-7f22-4ebc-8af6-38f19531df13.png){: .align-center}
+
+<br>
+
+인증에 실패했기 때문에 예제의 `CustomAuthenticationEntryPoint`에 구현한 예외 상황에 대한 메시지가 담긴 응답이 애플리케이션에서 생성되고 클라이언트에게 전달된 것을 볼 수 있다.
+
+<br>
+
+```java
+@Component
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(CustomAuthenticationEntryPoint.class);
+
+    @Override
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                         AuthenticationException e) throws IOException, ServletException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        LOGGER.info("[commence] 인증 실패로 response.sendError 발생");
+
+        EntryPointErrorResponse entryPointErrorResponse = new EntryPointErrorResponse();
+        entryPointErrorResponse.setMsg("인증이 실패하였습니다.");
+
+        httpServletResponse.setStatus(401);
+        httpServletResponse.setContentType("application/json");
+        httpServletResponse.setCharacterEncoding("utf-8");
+        httpServletResponse.getWriter().write(objectMapper.writeValueAsString(entryPointErrorResponse));
+    }
+}
+```
+
+<br>
+
+
+
+#### 비정상적인 동작 시나리오 - 인가 예외 발생
+
+그 다음은 인가 과정에서 예외가 발생하는 상황이다. 절차는 다음과 같다.
+
+1. 회원가입에 성공한다.
+2. 회원가입에 성공한 계정 정보를 기반으로 로그인에 성공한다.
+   - 로그인에 성공하면 토큰을 발급 받는다.
+3. 상품 컨트롤러의 상품 등록  API를 호출한다.
+   - API 호출 시 로그인 과정에서 받은 토큰을 헤더에 추가한 후 전달한다.
+4. 인가 예외 발생으로 `/exception`으로 리다이렉트 후 예외 메시지가 응답으로 돌아온다.
+
+<br>
+
+이 시나리오는 권한 예외를 확인해야 하기 때문에 회원가입을 다시 진행해야 한다. 현재 권한은 `SecurityConfiguration` 클래스에서 볼 수 있듯이 `ADMIN`에게만 부여돼 있고 `USER`에게는 부여되지 않은 상황이다. 새로운 회원가입 단계에서 `USER` 권한을 받아야 이 시나리오를 진행할 수 있다. 이를 위해 아래와 같이 입력해서 회원가입을 진행한다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184896271-cbaef45e-0a4f-4481-a076-0f9b90d8c95a.png){: .align-center}
+
+<br>
+
+입력값은 다음과 같다.
+
+- id : user_flature
+- name : 장정우
+- password : 1234
+- role : USER
+
+<br>
+
+이와 같이 입력하고 회원가입을 진행하면 아래와 같이 정상적으로 회원가입이 완료된다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184896535-dbc283f4-fb4b-4d1e-9ef6-a99bf1209212.png){: .align-center}
+
+<br>
+
+그러고 나서 아래와 같이 로그인을 수행한다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184896723-5171c6cc-b6fb-4789-866b-b26d15e193ec.png){: .align-center}
+
+<br>
+
+회원가입할 때 입력했던 아이디와 패스워드를 입력하면 아래와 같이 정상적으로 로그인에 성공한다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184896900-9464ffd3-38db-4524-9694-d32ecc7f10ed.png){: .align-center}
+
+<br>
+
+이제 상품 등록 API를 호출한다. 아래와 같이 로그인 과정에서 발급받은 토큰값을 이용해 호출을 시도하겠다.
+
+<br>
+
+![image](https://user-images.githubusercontent.com/13410737/184897186-c4e7a589-ac41-4841-84d4-ef3f2e509ff4.png){: .align-center}
+
+<br>
+
+위와 같이 설정하고 호출하면 권한이 없을 때 발생하는 인가 예외가 발생한다. IDE 내 콘솔 로그를 보면 다음과 같이 출력된다.
+
+<br>
+
+```
+[INFO ] [http-nio-8080-exec-4] com.springboot.security.config.security.JwtTokenProvider [validateToken] 토큰 유효 체크 시작
+[INFO ] [http-nio-8080-exec-4] com.springboot.security.config.security.JwtTokenProvider [getAuthentication] 토큰 인증 정보 조회 시작
+[INFO ] [http-nio-8080-exec-4] com.springboot.security.config.security.JwtTokenProvider [getUsername] 토큰 기발 회원 구별 정보 추출
+[INFO ] [http-nio-8080-exec-4] com.springboot.security.config.security.JwtTokenProvider [getUsername] 토큰 기반 회원 구별 정보 추출 완료, info : user_flature
+[INFO ] [http-nio-8080-exec-4] com.springboot.security.service.impl.UserDetailsServiceImpl [loadUserByUsername] loadUserByUsername 수행, username : user_flature
+[INFO ] [http-nio-8080-exec-4] com.springboot.security.config.security.JwtTokenProvider [getAuthentication] 토큰 인증 정보 조회 완료, UserDetails UserName : user_flature
+[INFO ] [http-nio-8080-exec-4] com.springboot.security.config.security.JwtAuthenticationFilter [doFilterInternal] token 값 유효성 체크 완료
+[INFO ] [http-nio-8080-exec-4] com.springboot.security.config.security.CustomAccessDeniedHandler [handle] 접근이 막혔을 경우 경로 리다이렉트
+[ERROR] [http-nio-8080-exec-5] com.springboot.security.controller.SignController ExceptionHandler 호출, null, 접근이 금지되었습니다.
+```
+
+<br>
+
+로그의 2~7번 줄을 보면 토큰의 유효성 체크를 통해 인증은 정상적으로 성공한 것을 볼 수 있다. 다만 8번 줄처럼 인가가 실패해서 접근이 막힌 것을 볼 수 있다. 이때 인가 예외에 대한 처리는 `CustomAccessDeniedHandler`에서 수행하고 있다.
+
+
+
+## 정리
+
+스프링 시큐리티는 매우 다양한 방법으로 구현할 수 있게 설계돼 있다. 이 책에서는 다루지 않았지만 로그인 폼을 사용해 로그인과 회원가입 기능을 개발할 수도 있으며, OAuth나 소셜 로그인을 연동해서도 구현할 수 있다.
+
+어떤 애플리케이션을 개발하느냐에 따라 서비스의 특성에 맞게 스프링 시큐리티를 적용해야 한다. 가령 외부에 노출되지 않는 일부 서비스는 성능상의 이점을 살리기 위해 스프링 시큐리티를 적용하지 않을 수도 있다.
+
+스프링 시큐리티가 어떤 구성요소로 이뤄져 있는지 이해한 후 다양한 응용 방법에 대해 배우는 것을 권장한다.
 
