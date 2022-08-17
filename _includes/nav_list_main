@@ -33,6 +33,13 @@
             </ul>
             <ul>
                 {% for category in site.categories %}
+                    {% if category[0] == "GofDesignPattern" %}
+                        <li><a href="/categories/gof-design-pattern" class="">디자인 패턴({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for category in site.categories %}
                     {% if category[0] == "Csharp" %}
                         <li><a href="/categories/csharp" class="">C# ({{category[1].size}})</a></li>
                     {% endif %}
