@@ -1,9 +1,9 @@
 ---
 title : "[C++][DesignPattern] 생성 패턴 - 생성 패턴이란?"
 categories:
-- SpringBoot
+- GofDesignPattern
 tag :
-- [SpringBoot, Spring, Java, Intelij, SpringSecurity, JWT]
+- [C++, GoF, DesignPattern, CreationalPattern]
 toc: true
 toc_sticky : true
 published : true
