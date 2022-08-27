@@ -108,7 +108,7 @@ HelloWorld
 
 ### 코드
 
-```C++
+```c++
 //Attribute Parser in C++ - Hacker Rank Solution
 #include <cmath>
 #include <cstdio>
@@ -354,8 +354,9 @@ int main() {
 
     return 0;
 }
-
 ```
+
+
 
 <br>
 
