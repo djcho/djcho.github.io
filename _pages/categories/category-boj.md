@@ -1,5 +1,5 @@
 ---
-title: "백준 알고리즘 사이트 문제 풀이"
+title: "백준 알고리즘 문제 풀이"
 layout: archive
 permalink: categories/boj
 author_profile: true
