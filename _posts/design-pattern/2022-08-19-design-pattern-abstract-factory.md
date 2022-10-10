@@ -61,7 +61,7 @@ last_modified_at : 2022-08-19
 - **ConcreteFactory** : 구체적인 제품에 대한 객체를 생성하는 연산을 구현한다.
 - **AbstractProduct** : 개념적 제품 객체에 대한 인터페이스를 정의한다.
 - **ConcreteProduct** : 구체적으로 팩토리가 생성할 객체를 정의하고, **AbstractProduct**가 정의하는 인터페이스를 구현한다.
-- **Client **: AbstractFactory 와 AbstractProduct 클래스에 선언된 인터페이스를 사용한다.
+- **Client** : AbstractFactory 와 AbstractProduct 클래스에 선언된 인터페이스를 사용한다.
 
 
 
@@ -98,8 +98,6 @@ last_modified_at : 2022-08-19
 
 미로를 생성하는 프로그램을 작성한다고 가정한다. `MazeFactory` 클래스는 미로의 구성 요소들, 방, 벽과 방 사이의 문을 만들어 낸다.
 
-<br>
-
 ```c++
 class MazeFactory {
   public:
@@ -120,11 +118,7 @@ class MazeFactory {
 }
 ```
 
- <br>
-
 추상 팩토리를 적용하지 않은 앞의 예제에서의 `CreateMaze()` 메서드는 다른 메서드를 이용해서 방들 사이에 문이 있는 방 두 개 짜리 미로를 만들어 내는 역할을 한다. `CreateMaze`는 클래스 이름이 하드코딩되어 있기 때문에 서로 다른 구성요소를 가지고 미로를 만들어 내기가 힘들다. 아래 코드는 `MazeFactory`를 매개변수로 받도록 하여 그 문제를 해결한 `CreateMaze` 메서드이다.
-
-<br>
 
 ```c++
 Maze* MazeGame::CreateMaze(MazeFactory& factory) {
@@ -150,11 +144,7 @@ Maze* MazeGame::CreateMaze(MazeFactory& factory) {
 }
 ```
 
-<br>
-
 `EnchantedMazeFactory` 를 `MazeFactory`에서 서브클래싱한 후, 메서드를 재정의하여 Room, Wall을 상속하는 다른 서브클래스의 인스턴스를 반환하게 만든다.
-
-<br>
 
 ```c++
 // 마법이 걸린 미로 팩토리
@@ -174,11 +164,7 @@ protected:
 }
 ```
 
-<br>
-
 만약 폭탄이 장착된 방을 만들고 싶다거나 폭탄이 터진 후 손상된 벽의 모습을 구현하려면 아래와 같이 만들면 된다.
-
-<br>
 
 ```c++
 // 폭탄이 장착된 미로 팩토리
@@ -192,8 +178,6 @@ class BombedMazeFactory : public MazeFactory{
 }
 ```
 
-<br>
-
 폭탄이 들어 있을 수 있는 간단한 미로를 만드려며, 그냥 `BombedMazeFactory`를 `CreateMaze`에 넘겨서 호출하면 된다.
 
 ```c++
@@ -205,8 +189,6 @@ BombedMazeFactory factory;
 // CreateMaze 메서드 호출 시 생성의 책임을 지닐 BombedMazeFactory 인스턴스를 매개변수로 전달
 game.CreateMaze(factory);
 ```
-
-<br>
 
 마법이 걸린 미로를 만드려면, 마찬가지로 `EnchantedMazeFactory`의 인스턴스를 `CreateMaze` 메서드에 넘기면 된다. 
 
