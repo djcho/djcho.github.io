@@ -38,14 +38,14 @@ CP는 Windows 의 데스크탑 진입 전의 모듈인만큼 문제가 발생 �
 
 ![image](https://user-images.githubusercontent.com/13410737/195750242-2a96c6fd-7a07-48be-9f62-c721a4b542cc.png){: .align-center}
 
-프로젝트 기본 설정이 `다중 스레드DLL(/MD)`로 설정되어 있기 때문에 빌드한 Visual Studio 의 버전에 따른 재배포 패키지가 테스트 환경에 설치되어야 한다.
-{: .notice--warning}
-
 
 
 ### 테스트 환경에 적용
 
 테스트 환경에 적용하기 위해 위에서 빌드한 SampleV2CredcentialProvider.dll 와 프로젝트 내부에 포함되어 있는 register.reg 파일을 테스트 환경으로 복사한다.
+
+프로젝트 기본 설정이 `다중 스레드DLL(/MD)`로 설정되어 있기 때문에 빌드한 Visual Studio 의 버전에 따른 재배포 패키지가 테스트 환경에 설치되어야 한다.
+{: .notice--warning}
 
 #### 커스텀 CP 바이너리 복사
 
