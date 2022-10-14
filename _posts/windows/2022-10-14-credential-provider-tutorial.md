@@ -119,7 +119,7 @@ DEFINE_GUID(CLSID_CSample, 0x5fd3d285, 0x0dd9, 0x4362, 0x88, 0x55, 0xe0, 0xab, 0
 
 이 인터페이스에서는 커스텀 CP에서 다루고자하는 UI 정보들을 LogonUI 에서 얻어갈 수 있도록 메서드들이 구성되어 있다. 
 
-```C++
+```c++
 IFACEMETHODIMP SetUsageScenario(CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus, DWORD dwFlags);
 IFACEMETHODIMP SetSerialization(_In_ CREDENTIAL_PROVIDER_CREDENTIAL_SERIALIZATION const *pcpcs);
 
@@ -134,6 +134,8 @@ _Outptr_result_nullonfailure_ ICredentialProviderCredential **ppcpc);
 
 IFACEMETHODIMP SetUserArray(_In_ ICredentialProviderUserArray *users);
 ```
+
+
 
 - `SetUsageScenario()` : 현재 CP가 어떤 시나리오 상에서 로드되었는지가 입력된다. CP가 처음 로드될 때 호출되며 대표적인 시나리오는 아래와 같다.
   - CPUS_LOGON : 사용자의 데스크탑이 아직 열리지 않은 상태에서의 로그인할 때의 시나리오
