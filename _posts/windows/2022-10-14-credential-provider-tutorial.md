@@ -135,6 +135,8 @@ _Outptr_result_nullonfailure_ ICredentialProviderCredential **ppcpc);
 IFACEMETHODIMP SetUserArray(_In_ ICredentialProviderUserArray *users);
 ```
 
+
+
 - `SetUsageScenario()` : 현재 CP가 어떤 시나리오 상에서 로드되었는지가 입력된다. CP가 처음 로드될 때 호출되며 대표적인 시나리오는 아래와 같다.
   - CPUS_LOGON : 사용자의 데스크탑이 아직 열리지 않은 상태에서의 로그인할 때의 시나리오
   - CPUS_UNLOCK_WORKSTATION : 사용자의 데스크탑이 이미 열려 있는 상태에서 화면 잠금 했을 때 시나리오
