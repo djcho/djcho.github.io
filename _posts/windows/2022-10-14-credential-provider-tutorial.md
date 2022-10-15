@@ -119,7 +119,7 @@ DEFINE_GUID(CLSID_CSample, 0x5fd3d285, 0x0dd9, 0x4362, 0x88, 0x55, 0xe0, 0xab, 0
 
 이 인터페이스에서는 커스텀 CP에서 다루고자하는 UI 정보들을 LogonUI 에서 얻어갈 수 있도록 메서드들이 구성되어 있다. 
 
-```C++
+```c++
 IFACEMETHODIMP SetUsageScenario(CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus, DWORD dwFlags);
 IFACEMETHODIMP SetSerialization(_In_ CREDENTIAL_PROVIDER_CREDENTIAL_SERIALIZATION const *pcpcs);
 
