@@ -35,6 +35,10 @@ Windows 의 데스크탑 진입 전의 모듈인만큼 문제가 발생 시 최�
 
 ### COM Interop 파일 생성
 
+CP는 COM Interface의 구현체이며 이 구현체 바이너리를 시스템에 COM 등록시켜 노출 시키고  LogonUI.exe 에 의해 호출될 수 있도록 Windows 가 관리하는 CP 목록 레지스트리에 이 구현체의 GUID를 등록한다. 이 말은 C++이던 C#이던 CP Interface만 잘 구현해 놓고 시스템에 등록해 둔다면 LogonUI.exe 에서 호출될 수 있음을 의미하는데, 그러려면 우선 Windows 에서 정의해둔 CP 관련 COM Interface를 C# 코드에서 사용할 수 있도록 COM Interop 라이브러리가 필요하다. 다행히도 이 라이브러리는 Windows SDK에서 제공하는 credentialprovider.idl 파일을 사용하여 개발자가 직접 만들 수 있으며 이 CP with C# 프로젝트를 시작할 수 있게 해주는 핵심 라이브러리이다.
+
+
+
 #### idl 파일 수정
 
 Windows SDK 에서 제공하는 기본 credentialprovider.idl을 그대로 사용할 경우에는 일부 인터페이스(예를 들어 ICredentialProviderCredential2)가 Export되지 않기 때문에  파일을 수정해야 한다. 
