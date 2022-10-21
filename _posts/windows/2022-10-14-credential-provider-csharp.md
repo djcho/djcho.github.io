@@ -56,6 +56,9 @@ library CredentialProviders
 ```
 
 - `HBITMAP` 타입을 `HANDLE`로 변경
+- `HHWND` 타입을 `HANDLE`로 변경
+  - `ICredentialProviderCredentialEvents` 인터페이스의 `OnCreatingWindow()` out 파라매터로 변경되어야 정상동작 함
+
 
 
 
