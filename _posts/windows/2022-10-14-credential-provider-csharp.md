@@ -7,8 +7,8 @@ tag :
 toc: true
 toc_sticky : true
 published : true
-date : 2022-10-14
-last_modified_at : 2022-10-14
+date : 2022-10-28
+last_modified_at : 2022-10-28
 
 ---
 
@@ -18,9 +18,13 @@ last_modified_at : 2022-10-14
 
 ## Windows Credential Provider V2 with C#
 
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=djcho&repo=windows-credential-provider-dotnet)](https://github.com/djcho/windows-credential-provider-dotnet)
+
 이 문서에서는 Microsoft 에서 제공하는 Windows Credential Provider(이하 CP) C++샘플 코드를 C# 샘플 코드로 포팅하는 방법에 대해 설명한다. Windows Credential Provider 의 기본 배경 지식은 설명하지 않고 기존 C++ 샘플 코드로 커스텀 CP를 띄워보는 방법은 아래 포스팅을 참고한다.
 
-- https://djcho.github.io/winsys/credential-provider-tutorial/
+
+
+- <a href="https://djcho.github.io/winsys/credential-provider-tutorial/" target="_blank">https://djcho.github.io/winsys/credential-provider-tutorial/</a>
 
 
 
@@ -115,6 +119,163 @@ tlbimp2.exe 가 준비되었다면 이제 위에서 만든 tlb 파일로 Interop
 
 
 이제 VisualStudio 에서 CredentialProvider.Interop.dll 파일을 [참조 추가]하면 CP관련 인터페이스를 호출할 수 있게되고 C# CredentialProvider 를 개발할 준비가 끝났다.
+
+
+
+### 포팅
+
+#### 프로젝트 생성
+
+프로젝트는 C#으로 클래스 라이브러리 프로젝트로 생성한다. 
+
+![image](https://user-images.githubusercontent.com/13410737/198545561-ad080943-d9d2-453b-a20e-ff418c27f67a.png){: .align-center}
+
+위와 비슷한 프로젝트 중 .NET Standard를 대상으로 하는 클래스 라이브러리 프로젝트로 혼동하여 생성하지 않도록 주의한다. 📢
+{: .notice--warning}
+
+
+
+#### Interop.dll 참조 추가
+
+C# 프로젝트를 생성한 뒤 CP Interface 를 호출하기 위해  위에서 생성한 CredentialProvider.Interop.dll를 참조 추가 한다.
+
+![image](https://user-images.githubusercontent.com/13410737/198545774-2d3fd1dd-e2ea-47cc-953b-b76c510ef110.png){: .align-center}
+
+위와 같이 참조를 추가하면 이제 해당 프로젝트에서 `credentialprovider.idl`파일에서 export하고 있는 인터페이스를 `using`키워드로 import하여 사용할 수 있다.
+
+
+
+#### 인터페이스 구현
+
+#### Provider 인터페이스
+
+##### ICredentialProvider
+
+```C#
+public interface ICredentialProvider
+{
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int SetUsageScenario([In] _CREDENTIAL_PROVIDER_USAGE_SCENARIO cpus, [In] uint dwFlags);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int SetSerialization([In] ref _CREDENTIAL_PROVIDER_CREDENTIAL_SERIALIZATION pcpcs);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int Advise([In][MarshalAs(UnmanagedType.Interface)] ICredentialProviderEvents pcpe, [In][ComAliasName("CredentialProvider.Interop.UINT_PTR")] ulong upAdviseContext);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int UnAdvise();
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int GetFieldDescriptorCount(out uint pdwCount);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int GetFieldDescriptorAt([In] uint dwIndex, [Out] IntPtr ppcpfd);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int GetCredentialCount(out uint pdwCount, out uint pdwDefault, out int pbAutoLogonWithDefault);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int GetCredentialAt([In] uint dwIndex, [MarshalAs(UnmanagedType.Interface)] out ICredentialProviderCredential ppcpc);
+}
+```
+
+
+
+#### Credential 인터페이스
+
+##### ICredentialProviderCredential2
+
+```C#
+public interface ICredentialProviderCredential2 : ICredentialProviderCredential
+{
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int Advise([In][MarshalAs(UnmanagedType.Interface)] ICredentialProviderCredentialEvents pcpce);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int UnAdvise();
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int SetSelected(out int pbAutoLogon);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int SetDeselected();
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int GetFieldState([In] uint dwFieldID, out _CREDENTIAL_PROVIDER_FIELD_STATE pcpfs, out _CREDENTIAL_PROVIDER_FIELD_INTERACTIVE_STATE pcpfis);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int GetStringValue([In] uint dwFieldID, [MarshalAs(UnmanagedType.LPWStr)] out string ppsz);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int GetBitmapValue([In] uint dwFieldID, out IntPtr phbmp);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int GetCheckboxValue([In] uint dwFieldID, out int pbChecked, [MarshalAs(UnmanagedType.LPWStr)] out string ppszLabel);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int GetSubmitButtonValue([In] uint dwFieldID, out uint pdwAdjacentTo);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int GetComboBoxValueCount([In] uint dwFieldID, out uint pcItems, out uint pdwSelectedItem);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int GetComboBoxValueAt([In] uint dwFieldID, uint dwItem, [MarshalAs(UnmanagedType.LPWStr)] out string ppszItem);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int SetStringValue([In] uint dwFieldID, [In][MarshalAs(UnmanagedType.LPWStr)] string psz);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int SetCheckboxValue([In] uint dwFieldID, [In] int bChecked);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int SetComboBoxSelectedValue([In] uint dwFieldID, [In] uint dwSelectedItem);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int CommandLinkClicked([In] uint dwFieldID);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int GetSerialization(out _CREDENTIAL_PROVIDER_GET_SERIALIZATION_RESPONSE pcpgsr, out _CREDENTIAL_PROVIDER_CREDENTIAL_SERIALIZATION pcpcs, [MarshalAs(UnmanagedType.LPWStr)] out string ppszOptionalStatusText, out _CREDENTIAL_PROVIDER_STATUS_ICON pcpsiOptionalStatusIcon);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    new int ReportResult([In] int ntsStatus, [In] int ntsSubstatus, [MarshalAs(UnmanagedType.LPWStr)] out string ppszOptionalStatusText, out _CREDENTIAL_PROVIDER_STATUS_ICON pcpsiOptionalStatusIcon);
+
+    [MethodImpl(MethodImplOptions.PreserveSig | MethodImplOptions.InternalCall)]
+    [return: MarshalAs(UnmanagedType.Error)]
+    int GetUserSid([MarshalAs(UnmanagedType.LPWStr)] out string sid);
+}
+```
+
+
+
+##### ICredentialProviderCredentialWithFieldOptions
+
+
 
 
 
