@@ -53,7 +53,7 @@ Provider 클래스는 여러개의 인증 수단 타일(Credential)을 제공할
 
 ##### ICredentialProvider 인터페이스 구현
 
-```C#
+```c#
 [ComVisible(true)]
 [Guid(Constants.CredentialProviderUID)]
 [ClassInterface(ClassInterfaceType.None)]
@@ -105,7 +105,7 @@ Provider를 구현했다면 사용자 화면에 타일로 보여지는 Credentia
 
 ##### ICredentialProviderCredential2 인터페이스 구현
 
-```C#
+```c#
 [ComVisible(true)]
 [ClassInterface(ClassInterfaceType.None)]
 public class CSharpSampleCredential : ICredentialProviderCredential2, ICredentialProviderCredentialWithFieldOptions
