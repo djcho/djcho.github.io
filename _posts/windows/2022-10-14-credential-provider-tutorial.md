@@ -19,7 +19,7 @@ last_modified_at : 2022-10-14
 
 ## Windows Credential Provider V2
 
-Windows Credential Provider는 Windows 사용하는 자격 공급자로써 사용자에게 인증 요청해 인가된 사용자에게 자격을 제공하는 윈도우 컴포넌트이다. Windows Credential Provider 는 크게 Windows 데스크탑 진입 전 사용자 로그온 화면과 CredUI라는 사용자 인증 요청 다이얼로그 화면으로 구성된다. 이 컴포넌트는 Windows XP 시절부터 존재했었고 Windows 8 부터 V2로 사용자와 인증 화면(Credential) 을 분리하면서 대폭 개선되었다. 이 문서에서는 Microsoft에서 제공하는 Windows Credential Provider V2(이하 CP) 샘플로 커스텀 Credential 을 띄워 보는 튜토리얼을 설명한다.
+Windows Credential Provider는 Windows 시스템이 사용자에게 인증을 요구할 때 사용하는 윈도우 컴포넌트이다. Windows Credential Provider 는 크게 Windows 데스크탑 진입 전 사용자 로그온 화면과 CredUI라는 사용자 인증 요청 다이얼로그 화면으로 구성된다. 이 컴포넌트는 Windows XP 시절부터 존재했었고 Windows 8 부터 V2로 사용자와 인증 화면(Credential) 을 분리하면서 대폭 개선되었다. 이 문서에서는 Microsoft에서 제공하는 Windows Credential Provider V2(이하 CP) 샘플로 커스텀 Credential 을 띄워 보는 튜토리얼을 설명한다.
 
 
 
