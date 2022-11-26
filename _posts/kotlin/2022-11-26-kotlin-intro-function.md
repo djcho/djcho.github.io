@@ -97,7 +97,7 @@ class Person(val name: String){
 ```
 
 ```
-🖥️출력
+🖥️ 출력
 Bye Bye 
 (Ferrari, Katrina)
 (McLaren, Lucas)
@@ -127,6 +127,12 @@ fun main() {
 }
 ```
 
+```
+🖥️ 출력
+Bye Bye
+Always forgive 
+```
+
 1. `operator` 키워드를 사용하여 위의 중위 함수를 한 단계 더 수행합니다.
 2. `times()`의 연산자 기호는 `*`이므로 `2 * "Bye"`를 사용하여 함수를 호출할 수 있다.
 3. 연산자 함수를 사용하면 문자열에 대한 쉬운 범위 접근이 가능하다.
@@ -134,7 +140,7 @@ fun main() {
 
 
 
-### `Varag`(Variable number of arguments) 매개변수
+### 가변 인자(Variable number of arguments) 매개변수
 
 `Varargs` 를 사용하면 쉼표로 구분하여 여러개의 인자를 전달할 수 있다.
 
@@ -157,6 +163,20 @@ fun main() {
         printAll(*entries)
     }
 }
+```
+
+```
+🖥️ 출력
+Hello
+Hallo
+Salut
+Hola
+안녕
+Greeting: Hello
+Greeting: Hallo
+Greeting: Salut
+Greeting: Hola
+Greeting: 안녕
 ```
 
 1. `vararg` 키워드는 매개변수를 가변 인자로 바꾼다.
