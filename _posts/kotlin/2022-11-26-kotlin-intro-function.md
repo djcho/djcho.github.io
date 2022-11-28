@@ -1,5 +1,5 @@
 ---
-title : "[Kotlin] 소개 - Functions"
+title : "[Kotlin] 소개 - 함수(Functions)"
 categories:
 - Kotlin
 tag :

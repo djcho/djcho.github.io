@@ -39,7 +39,7 @@ Hello World!
 Kotlin 1.3 이전의 버전에서는 `main` 함수에 `Array<String>` 매개변수를 명시했어야 한다. 
 
 ```kotlin
-fun main(args:Array<String>){
+fun main(){
     println("Hello, World")
 }
 ```
