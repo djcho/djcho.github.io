@@ -13,10 +13,6 @@ last_modified_at : 2022-11-26 00:00:00
 
 ---
 
-## [Kotlin] 소개 - Hello world
-
-
-
 ## Hello World
 
 ```kotlin

@@ -13,13 +13,9 @@ last_modified_at : 2022-11-26 01:00:00
 
 ---
 
-## [Kotlin] 소개 - 함수(Functions)
-
-
-
 ## 함수(Functions)
 
-### 디폴트 파라메터와 네임드 아규먼트
+### 기본 매개변수와 명명된 인자(Default Parameter & Named Argument)
 
 ```kotlin
 fun printMessage(message: String): Unit {                               //1
