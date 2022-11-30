@@ -1,5 +1,5 @@
 ---
-title : "[Kotlin] 소개 - 제네릭(Generics)"
+title : "[Kotlin] 소개 - 상속(Inheritance)"
 categories:
 - Kotlin
 tag :
