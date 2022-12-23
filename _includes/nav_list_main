@@ -70,6 +70,13 @@
             </ul>
             <ul>
                 {% for category in site.categories %}
+                    {% if category[0] == "JPA" %}
+                        <li><a href="/categories/jpa" class="">JPA({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for category in site.categories %}
                     {% if category[0] == "DotNet" %}
                         <li><a href="/categories/dot-net" class="">.NET({{category[1].size}})</a></li>
                     {% endif %}
