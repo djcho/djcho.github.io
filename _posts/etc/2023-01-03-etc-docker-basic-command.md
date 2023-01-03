@@ -161,7 +161,7 @@ $ docker network connect myNetwork db1
 
 #### bridge 이용
 
-bridge 모드로 컨테이너에 부여되 IP를 확인하고, 같은 네트워크안에 묶인 IP와 통신 가능
+bridge 모드로 컨테이너에 부여된 IP를 확인하고, 같은 네트워크안에 묶인 IP와 통신 가능
 
 기본적으로 docker 는 디폴트 네트워크에 모든 컨테이너를 연결 함
 
