@@ -99,15 +99,15 @@
         <span class="nav__sub-title">🗂 기타</span>
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "Etc" %}
-                        <li><a href="/categories/etc" class="">기타 ({{category[1].size}})</a></li>
+                    {% if category[0] == "GofDesignPattern" %}
+                        <li><a href="/categories/gof-design-pattern" class="">디자인 패턴({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "GofDesignPattern" %}
-                        <li><a href="/categories/gof-design-pattern" class="">디자인 패턴({{category[1].size}})</a></li>
+                    {% if category[0] == "Etc" %}
+                        <li><a href="/categories/etc" class="">기타 ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
