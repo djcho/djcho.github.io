@@ -4,8 +4,13 @@
 
 /* Colors */
 $background-color: #252a34 !default;
+$taxonomy-item-tag-color: #ffe6e4 !default;
+$taxonomy-item-tag-hover-color: #E8564A !default;
+$taxonomy-item-category-color: #ffadad !default;
+$taxonomy-item-category-hover-color: #E8564A !default;
 $text-color: #eaeaea !default;
-$primary-color: #E8564A !default;
+//$primary-color: #E8564A !default;
+$primary-color: #e97166 !default;
 $border-color: mix(#fff, $background-color, 20%) !default;
 $code-background-color: mix(#000, $background-color, 15%) !default;
 $code-background-color-dark: mix(#000, $background-color, 20%) !default;

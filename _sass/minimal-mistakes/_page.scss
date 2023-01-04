@@ -331,13 +331,13 @@ body {
   text-decoration: none;
   border: 1px solid $background-color;
   border-radius: $border-radius;
-  background-color: #cff1ff;
+  background-color: $taxonomy-item-tag-color;
   font-family: $serif;
   color: $primary-color;
 
   &:hover {
     text-decoration: none;
-    color: mix(#26B5DC, $text-color, 40%); /* 커서 댈 때 색깔 */
+    color: mix($taxonomy-item-tag-hover-color, $text-color, 40%); /* 커서 댈 때 색깔 */
   }
 }
 
@@ -349,13 +349,13 @@ body {
   text-decoration: none;
   border: 1px solid $background-color;
   border-radius: $border-radius;
-  background-color: #bed0f4;
+  background-color: $taxonomy-item-category-color;
   font-family: $serif;
-  color: mix(#fff, $primary-color, 2%);;
+  color: mix(#fff, #000, 2%);;
 
   &:hover {
     text-decoration: none;
-    color: mix(#26B5DC, $text-color, 40%); /* 커서 댈 때 색깔 */
+    color: mix($taxonomy-item-category-hover-color, $text-color, 40%); /* 커서 댈 때 색깔 */
   }
 }
 

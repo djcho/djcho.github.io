@@ -16,10 +16,10 @@ classes: wide
     {% include head/custom.html %}
     <!-- 스크롤바 커스터마이징 -->
     <style> 
-      ::-webkit-scrollbar{width: 16px;}
-      ::-webkit-scrollbar-track {background-color:#ffffff; border-radius: 16px;}
-      ::-webkit-scrollbar-thumb {background-color:#e2e2e2; border-radius: 16px;}
-      ::-webkit-scrollbar-thumb:hover {background: #7a7a7a;}
+      ::-webkit-scrollbar{background-color: transparent; width: 16px;}
+      ::-webkit-scrollbar-track {overflow: overlay; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {overflow: overlay; background-color:#7979797b; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {overflow: overlay; background: #4848487d;}
       ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:Zend:increment 
       {
           width:12px;height:12px;background:transparent;

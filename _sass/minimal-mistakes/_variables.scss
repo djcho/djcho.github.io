@@ -71,6 +71,10 @@ $light-gray: mix(#fff, $gray, 50%) !default;
 $lighter-gray: mix(#fff, $gray, 90%) !default;
 
 $background-color: #fff !default;
+$taxonomy-item-tag-color: #cff1ff !default;
+$taxonomy-item-tag-hover-color: #26B5DC !default;
+$taxonomy-item-category-color: #bed0f4 !default;
+$taxonomy-item-category-hover-color: #26B5DC !default;
 $code-background-color: #fafafa !default;
 $code-background-color-dark: $light-gray !default;
 $text-color: $dark-gray !default;
