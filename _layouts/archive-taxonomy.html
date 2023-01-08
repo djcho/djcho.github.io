@@ -15,10 +15,10 @@ author_profile: false
   {% endunless %}
 {% endif %}
 
-<div id="main" role="main">
+<div id="main" role="main" style="height: auto !important;">
   {% include sidebar.html %}
 
-  <div class="archive">
+  <div class="archive" style="height: auto !important;">
     {% unless page.header.overlay_color or page.header.overlay_image %}
       <h1 id="page-title" class="page__title">{{ page.title }}</h1>
     {% endunless %}
