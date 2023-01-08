@@ -16,16 +16,17 @@
         <img src="{{ teaser | relative_url }}" alt="">
       </div>
     {% endif %}
-    <h2 class="archive__item-title" itemprop="headline">
-      {% if post.date %}
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> {{ post.date | date: "%Y.%m.%d" }}</p>
-      {% endif %}
-      {% if post.link %}
-        <a href="{{ post.link }}">{{ title }}</a> <a href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
-      {% else %}
-        <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
-      {% endif %}
-    </h2>
+    <div>                
+      <span>
+        <a href="{{ post.url }}">{{post.title}}</a>&nbsp
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i>{{ post.date | date: " %Y.%m.%d" }}
+        {% if site.category_archive.type and post.categories[0] and site.tag_archive.type and post.tags[0] %}
+          {%- include post__taxonomy.html -%}
+        {% endif %}
+      </small>
+    </div>
     {% if site.category_archive.type and post.categories[0] and site.tag_archive.type and post.tags[0] %}
       {%- include post__taxonomy.html -%}
     {% endif %}
