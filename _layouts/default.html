@@ -11,6 +11,9 @@
 <html lang="{{ site.locale | slice: 0,2 | default: "en" }}" class="no-js">
   <head>
     
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="{{ '/assets/css/main.css' | relative_url }}">
+
     {% include head.html %}
     {% include head/custom.html %}
     <!-- 스크롤바 커스터마이징 -->
@@ -47,15 +50,11 @@
       </footer>
     </div>
 
-    {% include scripts.html %}
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
 
-    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
-    <script>
-      addBackToTop({
-      diameter: 56,
-      backgroundColor: 'rgb(186, 6, 130)',
-      textColor: '#fff'
-    })</script>
+    {% include scripts.html %}
 
   </body>
 </html>
