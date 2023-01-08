@@ -20,13 +20,13 @@ last_modified_at : 2022-07-19
 
 
 
-## Hello World 출력하기
+# Hello World 출력하기
 
 본격적인 애플리케이션 개발에 앞서 'Hello World!'를 출력하는 애플리케이션을 만들어 보며 스프링 부트에 입문해 보자.
 
 <br>
 
-### 컨트롤러 작성하기
+## 컨트롤러 작성하기
 
 먼저 앞에서 생성한 프로젝트에 패키지를 생성해야 한다. 이 예제에서는 레이어드 아키텍처에 맞춰 도메인 구분 없이 패키지를 구성하겠다. `com.springboot.hello` 패키지에 마우스 오른쪽 버튼을 클릭한 수 [New] → [Package]를 차례로 선택해 `'controller'` 라는 이름의 하위 패키지를 생성한다. 그리고 나서 `'controller'` 패키지에 마우스 오른쪽 버튼을 클릭한 후 [New] → [Java Class]를 클릭하고  `HelloController`라는 이름의 컨트롤러를 생성한다.
 
@@ -57,7 +57,7 @@ public class HelloController {
 
 <br>
 
-### 애플리케이션 실행하기
+## 애플리케이션 실행하기
 
 애플리케이션을 실행하는 방법은 다른 자바 프로젝트와 같다. 아래와 같이 인텔리제이 IDEA 우측 상단부에 위치한 실행 버튼을 누르면 애플리케이션이 실행된다.
 
@@ -93,7 +93,7 @@ o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080
 
 <br>
 
-### 웹 브라우저를 통한 동작 테스트
+## 웹 브라우저를 통한 동작 테스트
 
 웹 브라우저로 스프링 부트가 설정한 URL에 접속하면 간단하게 실행 결과를 확인할 수 있다. 아래와 같이 웹 브라우저의 주소창에 `'http://localhost:8080/hello'` 를 입력하면 Hello World가 출력되는 것을 확인할 수 있다.
 
@@ -103,7 +103,7 @@ o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080
 
 
 
-### Talend API Tester를 통한 동작 테스트
+## Talend API Tester를 통한 동작 테스트
 
 웹 브라우저를 통한 동작 테스트는 간편하지만 상세한 응답을 확인할 수 없다는 단점이 있다. 구글 크롬의 확장 프로그램인 Talend API Tester를 사용하면 이 같은 문제를 해결할 수 있다. 크롬 브라우저의 주소창에 `'https://chrome.google.com/webstore/category/extensions?hl=ko'`에서  'Talend API Tester - Free Edition'을 찾아  설치한다.
 

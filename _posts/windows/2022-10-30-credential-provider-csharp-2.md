@@ -14,7 +14,7 @@ last_modified_at : 2022-10-30
 
 
 
-## Windows Credential Provider V2 with C# - 포팅(Porting)
+# Windows Credential Provider V2 with C# - 포팅(Porting)
 
 [![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=djcho&repo=windows-credential-provider-dotnet)](https://github.com/djcho/windows-credential-provider-dotnet)
 
@@ -24,9 +24,9 @@ last_modified_at : 2022-10-30
 
 
 
-### 포팅
+## 포팅
 
-#### 프로젝트 생성
+### 프로젝트 생성
 
 CP의 Interop.dll 생성에 성공했다면 본격적으로 C++ 샘플 프로젝트를 C# 프로젝트로 포팅하는 방법에 대해 알아보겠다. LogonUI.exe에서 COM 인터페이스로 호출할 수 있도록 dll 형태의 클래스라이브러리 C# 프로젝트를 생성한다.
 
@@ -37,7 +37,7 @@ CP의 Interop.dll 생성에 성공했다면 본격적으로 C++ 샘플 프로젝
 
 
 
-#### CredentialProvider.Interop.dll 참조 추가
+### CredentialProvider.Interop.dll 참조 추가
 
 프로젝트를 생성한 뒤 CP Interface 를 호출하기 위해  위에서 생성한 CredentialProvider.Interop.dll를 참조 추가 한다.
 
@@ -47,11 +47,11 @@ CP의 Interop.dll 생성에 성공했다면 본격적으로 C++ 샘플 프로젝
 
 
 
-#### Provider 클래스 구현
+### Provider 클래스 구현
 
 Provider 클래스는 여러개의 인증 수단 타일(Credential)을 제공할 수 있는 개념의 인증 제공자로 ICredentialProvider 인터페이스를 재정의해야 한다. 
 
-##### ICredentialProvider 인터페이스 구현
+#### ICredentialProvider 인터페이스 구현
 
 ```c#
 [ComVisible(true)]
@@ -97,13 +97,13 @@ public int GetCredentialAt(uint dwIndex, out ICredentialProviderCredential ppcpc
 
 
 
-#### Credential 클래스 구현
+### Credential 클래스 구현
 
 Provider를 구현했다면 사용자 화면에 타일로 보여지는 Credential 를 구현해야 한다. Credential은 Provider에서 정의한 UI 필드에 대한 구체적인 동작을 LogonUI에게 전달하며, 실제로 인증을 수행해야 한다.
 
 
 
-##### ICredentialProviderCredential2 인터페이스 구현
+#### ICredentialProviderCredential2 인터페이스 구현
 
 ```c#
 [ComVisible(true)]
@@ -115,7 +115,7 @@ public class CSharpSampleCredential : ICredentialProviderCredential2, ICredentia
 
 마찬가지로 COM노출이 되어야하기 때문에 Provider와 동일하게 `ComVisible` 속성과 `ClassInterface` 속성을 부여해야 한다. 
 
-##### 필드 관련 메서드
+#### 필드 관련 메서드
 
 필드 관련 메서드들은 아래 코드와 처럼 `dwFieldId`에 해당하는 필드id를 필드 자료구조에서 찾아 값을 설정해 주거나 리턴해 주도록 구현하면 된다.
 
@@ -166,7 +166,7 @@ public int SetStringValue(uint dwFieldID, string psz)
 
 
 
-##### 인증 관련 메서드
+#### 인증 관련 메서드
 
 인증 관련 메서드는 실제로 인증을 위해 필요한 데이터를 직렬화하여 LSA에게 인증 요청 패킷을 보내는 `GetSerialization()`, 인증 결과를 통보 받는 `ReportResult()` 메서드가 있다.
 
@@ -228,7 +228,7 @@ internal static int KerbInteractiveUnlockLogonPack(PInvoke.KERB_INTERACTIVE_UNLO
 
 
 
-### 설치 방법
+## 설치 방법
 
 포팅이 완료된 C#용 CP 바이너리를 테스트하기 위해서는 우선 COM으로 해당 바이너리를 등록 시킨 후 Windows 시스템에 Guid를 등록해야 한다.
 
@@ -236,7 +236,7 @@ internal static int KerbInteractiveUnlockLogonPack(PInvoke.KERB_INTERACTIVE_UNLO
 
 
 
-###### COM등록
+### COM등록
 
 regass.exe /codebase {테스트 CP바이너리 경로}
 
@@ -246,7 +246,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe /codebase "CSharpCred
 
 
 
-###### CP 등록
+### CP 등록
 
 CP를 시스템에 등록하기 위해 위 Provider 클래스에서 지정한 Guid를 레지스트리에 등록 시킨다. 아래 코드를 .reg 파일로 따로 생성하여 실행하도록 한다.
 

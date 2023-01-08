@@ -20,7 +20,7 @@ last_modified_at : 2022-07-28
 
 
 
-## 반복되는 코드의 작성을 생략하는 방법 - 롬복
+# 반복되는 코드의 작성을 생략하는 방법 - 롬복
 
 <a href="https://projectlombok.org" target="_blank">롬복(Lombok)</a>은 데이터(모델) 클래스를 생성할 때 반복적으로 사용하는 getter/setter 같은 메서드를 어노테이션으로 대체하는 기능을 제공하는 라이브러리이다. 자바에서 데이터 클래스를 작성하면 대개 많은 멤버 변수를 선언하고, 각 멤버 변수별로 getter/setter 메서드를 만들어 코드가 길어지고 가독성이 낮아진다. 인텔리제이 IDEA나 이클립스 같은 IDE에서는 이러한 메서드를 자동으로 생성하는 기능을 제공하긴 하지만 가독성이 떨어진다는 점에서는 마찬가지다.
 
@@ -34,7 +34,7 @@ last_modified_at : 2022-07-28
 
 
 
-### 롬복 설치
+## 롬복 설치
 
 이 책에서는 프로젝트를 생성하는 단계에서 롬복을 의존성에 추가해 둔 상태이다. `pom.xml` 파일에 아래와 같은 코드가 추가돼 있는지 확인해 보자.
 
@@ -73,7 +73,7 @@ Marketplace에서 'lombok'을 검색해 설치하면 [Installed] 탭에서 Lombo
 
 
 
-### 롬복 적용
+## 롬복 적용
 
 앞에서 설명한 설치와 설정 과정을 모두 마쳤다면 정상적으로 롬복을 사용할 수 있다. 지금까지 프로젝트 실습을 진행하면서 생성한 데이터 클래스에 롬복을 적용하면서 각 어노테이션의 기능을 살펴보겠다.
 
@@ -165,11 +165,11 @@ public class Product {
 
 
 
-### 롬복의 주요 어노테이션
+## 롬복의 주요 어노테이션
 
 롬복은 다양한 어노테이션을 제공하고 있다. 그중 많이 사용하는 어노테이션들을 소개한다.
 
-#### @Getter, @Setter
+### @Getter, @Setter
 
 클래스에 선언돼 있는 필드에 대한 getter/setter 메서드를 생성한다. 아래의 `Product` 클래스에서 쓰인 `@Getter`, `@Setter` 를 실제 코드로 추출한 결과는 아래와 같다.
 
@@ -231,7 +231,7 @@ public void setUpdatedAt(LocalDateTime updatedAt) {
 
 
 
-#### 생성자 자동 생성 어노테이션
+### 생성자 자동 생성 어노테이션
 
 데이터 클래스의 초기화를 위한 생성자를 자동으로 만들어주는 어노테이션은 다음의 세 가지가 있다.
 
@@ -263,7 +263,7 @@ public Product() {
 
 
 
-#### @ToString
+### @ToString
 
 이름 그래도 `toString()` 메서드를 생성하는 어노테이션이다. `Product` 클래스에 `@toString()` 을 적용해 Delombok을 수행하면 아래와 같은 코드가 생성된다.
 
@@ -291,7 +291,7 @@ public class Product {
 
 <br>
 
-#### @EqualsAndHashCode
+### @EqualsAndHashCode
 
 `@EqualsAndHashCode`는객체의 동등성(Equality)와 동일성(Identity)을 비교하는 연산 메서드를 생성한다. `Product` 클래스에 `@EqualsAndHashCode` 어노테시션을 적용한 후 Delombok을 수행하면 아래와 같다.
 
@@ -383,7 +383,7 @@ public class Product extends BaseEntity {
 
 
 
-#### @Data
+### @Data
 
 `@Data` 는 앞서 설먕힌 `@Getter/Setter`, `@RequiredArgsConstructor`, `@ToString`, `@EqualsAndHashCode` 를 모두 포괄하는 어노테이션이다. 즉, 앞에서 살펴본 각각의 어노테이션에서 생성하는 대부분의 코드가 필요하다면 `@Data` 어노테이션으로 앞에서 설명한 코드를 전부 한 번에 생성할 수 있다.
 

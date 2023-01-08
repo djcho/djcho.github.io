@@ -20,7 +20,7 @@ last_modified_at : 2022-07-19
 
 
 
-## GET API 만들기
+# GET API 만들기
 
 GET API는 웹 애플리케이션 서버에서 값을 가져올 때 사용하는  API이다. GET API를 작성하는 방법은 다양하며, 이번 장에서는 애플리케이션으로 들어오는 여러 요청에 대한 처리 방법의 하나로서 소개한다.
 
@@ -55,7 +55,7 @@ public class GetController {
 
 <br>
 
-### @RequestMapping으로 구현하기
+## @RequestMapping으로 구현하기
 
 `@RequestMapping` 어노테이션을 별다른 설정 없이 선언하면 HTTP의 모든 요청을 받는다. 그러나 GET형식의 요청만 받기 위해서는 어노테이션에 별도 설정이 필요하다. 아래와 같이 `@RequestMapping` 어노테이션의 `method`요소의 값을 `RequestMethod.Get`으로 설정하면 요청 형식을 GET으로만 설정할 수 있다.
 
@@ -100,7 +100,7 @@ public class GetController {
 
 
 
-### 매개변수가 없는 GET메서드 구현
+## 매개변수가 없는 GET메서드 구현
 
 별도의 매개변수 없이 GET API를 구현하는 경우 아래와 같이 코드를 작성할 수 있다.
 
@@ -126,7 +126,7 @@ public class GetController {
 
 
 
-### @PathVariable을 활요한 GET메서드 구현
+## @PathVariable을 활요한 GET메서드 구현
 
 실무 환경에서는 매개변수를 받지 않는 메서드가 거의 쓰이지 않는다.. 웹 통신의 기본 목적은 데이터를 주고 받는 것이기 때문에 대부분 매개변수를 받는 메서드를 작성하게 된다.  매개변수를 받을 때 자주 쓰이는 방법 중 하나는 URL 자체에 값을 담아 요청하는 것이다. 아래는 URL에 값을 담아 전달되는 요청을 처리하는 방법을 보여준다.
 
@@ -176,7 +176,7 @@ public String getVariable2(@PathVariable(value = "variable") String var) {
 
 <br>
 
-### @RequestParam을 활용한 GET 메서드 구현
+## @RequestParam을 활용한 GET 메서드 구현
 
 GET 요청을 구현할 때 앞에서 살펴본 방법처럼 URL 경로에 값을 담에 요청을 보내는 방법 외에도 쿼리 형식으로 값을 전달할 수도 있다. 즉, URI에서 `'?'`를 기준으로 우측에 `'{키} = {값}'` 형태로 구성된 요청을 전송하는 방법이다. 애플리케이션에서 이 같은 형식을 처리하려면 `@RequestParam`을 활용하면 되는데, 아래와 같이 매개변수 부분에 `@RequestParam` 어노테이션을 명시해 쿼리 값과 매핑하면 된다.
 
@@ -239,9 +239,9 @@ GET 요청을 구현할 때 앞에서 살펴본 방법처럼 URL 경로에 값�
 
 <br>
 
-### DTO 객체를 활용한 GET 메서드 구현
+## DTO 객체를 활용한 GET 메서드 구현
 
-#### DTO란?
+### DTO란?
 
 DTO는 Data Transfer Object의 약자로, 다른 레이어 간의 데이터 교환에 활용된다. 간략하게 설명하자면 클래스 및 인터페이스를 호출하면서 전달하는 매개변수로 사용되는 데이터 객체이다.
 

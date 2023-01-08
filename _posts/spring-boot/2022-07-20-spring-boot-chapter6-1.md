@@ -20,7 +20,7 @@ last_modified_at : 2022-07-20
 
 
 
-## MariaDB 설치
+# MariaDB 설치
 
 마리아 DB를 내려받기 위해 다운로드 페이지(<a href="https://mariadb.org/download" target="_blank">https://mariadb.org/download/</a>)에 접속하면 아래와 같 은 화면을 볼 수 있다.
 

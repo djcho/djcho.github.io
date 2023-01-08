@@ -26,7 +26,7 @@ last_modified_at : 2022-08-11
 
 
 
-## RestTemplate 이란?
+# RestTemplate 이란?
 
 `RestTemplate`은 스프링에서 HTTP 통신 기능을 손쉽게 사용하도록 설계된 템플릿이다. HTTP서버와 통신을 단순화한 이 템플릿을 이용하면 RESTful 원칙을 따르는 서비스를 편리하게 만들 수 있다. `RestTemplate` 은 기본적으로 동기 방식으로 처리되며, 비동기 방식으로 사용하고 싶을 경우 `AsyncRestTemplate`을 사용하면 된다. 다만 `RestTemplate`은 현업에서는 많이 쓰이나 지원 중단(deprecated)된 상태라서 향후 빈번하게 쓰이게 될 `WebClient`방식도 함께 알아둘 것을 권장한다.
 
@@ -40,7 +40,7 @@ last_modified_at : 2022-08-11
 
 
 
-### RestTemplate의 동작 원리
+## RestTemplate의 동작 원리
 
 `RestTemplate`의 동작을 도식화하면 아래와 같다.
 
@@ -62,7 +62,7 @@ last_modified_at : 2022-08-11
 
 
 
-### RestTemplate의 대표적인 메서드
+## RestTemplate의 대표적인 메서드
 
 `RestTemplate`에서는 더욱 편리하게 외부 API로 요청을 보낼 수 있도록 다음과 같은 다양한 메서드를 제공한다.
 

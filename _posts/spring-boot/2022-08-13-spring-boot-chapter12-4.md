@@ -22,13 +22,13 @@ last_modified_at : 2022-08-13
 
 
 
-## WebClient 사용하기
+# WebClient 사용하기
 
 이제 환경이 구성됐으므로 `WebClient`를 활용한 코드를 작성해보겠다. 다만 지금까지의 실습은 리액티브 프로그래밍을 기반으로 작성된 애플리케이션이 아니기 때문에 `WebClient`를 온전히 사용하기에는 제약사항이 있다.
 
 
 
-### WebClient 구현
+## WebClient 구현
 
 `WebClient`를 생성하는 방법은 다음과 같이 크게 두 가지가 있다.
 

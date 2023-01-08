@@ -20,7 +20,7 @@ last_modified_at : 2022-07-19
 
 
 
-## 로깅 라이브러리 - Logback
+# 로깅 라이브러리 - Logback
 
 로깅(logging)이란 애플리케이션이 동작하는 동안 시스템의 상태나 동작 정보를 시간순으로 기록하는 것을 의미한다.
 
@@ -51,7 +51,7 @@ Logback의 특징은 다음과 같다.
 
 <br>
 
-### Logback 설정
+## Logback 설정
 
 이제 Logback을 사용하기 위한 설정 파일을 만들어보자. 일반적으로 클래스패스(classpath)에 있는 설정 파일을 자동으로 참조하므로 Logback 설정 파일은 리소스 폴더 안에 생성한다. 파일명의 경우 일반적인 자바 또는 스프링 프로젝트에서는 `logback.xml`이라는 이름으로 참조하지만 스프링 부트에서는 `logback-spring.xml` 파일을 참조한다. 따라서 아래와 같이 `logback-spring.xml` 파일을 추가한다.
 
@@ -106,7 +106,7 @@ Logback의 특징은 다음과 같다.
 
 <br>
 
-#### Appender 영역
+### Appender 영역
 
 Appender 영역은 로그의 형태를 설정하고 어떤 방법으로 출력할지를 설정하는 곳이다. Appender자체는 하나의 인터페이스를 의미하며, 하위에 여러 구현체가 존재한다. Appender의 상속 구조는 아래와 같다.
 
@@ -187,7 +187,7 @@ Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현�
 
 <br>
 
-#### Root 영역
+### Root 영역
 
 설정 파일에 정의된 Appender를 활용하려면 Root 영역에서 Appender를 참조해서 로깅 레벨을 설정한다. 만약 특정 패키지에 대해 다른 로깅 레벨을 설정하고 싶다면 root 대신 logger를 사용해 아래와 같이 지정할 수 있다.
 
@@ -227,7 +227,7 @@ Logback의 설정 파일을 이용하면 위 그림에 등장하는 각 구현�
 
 <br>
 
-#### Logback 적용하기
+### Logback 적용하기
 
 이제 실습 중인 프로젝트에 Logback를 적용해 보겠다. Logback은 출력할 메시지를 Appender에게 전달할 Logger 객체를 각 클래스에 정의해서 사용한다. 이전에 작성했던 `GetController`에 `Logger`를 적용해보겠다.  아래와 같이 `GetController`의 `LOGGER` 전역 변수로 `Logger`객체를 정의한다.
 

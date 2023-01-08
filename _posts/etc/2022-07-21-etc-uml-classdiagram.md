@@ -12,11 +12,11 @@ last_modified_at : 2022-07-21
 ---
 
 
-## 클래스 다이어그램 작성법
+# 클래스 다이어그램 작성법
 많은 개발자들이 오랫동안 클래스 다이어그램을 사용해 왔다. 하지만 클래스 다이어그램을 그릴 때 마다 항상 혼란스러웠던 경험은 모두 있었을 거라 생각된다. 이 포스트에서는 그런 사람들에게 도움이 되고자 간단하게 UML 과 클래스다이어그램의 소개 하고 구조 다이어그램인 클래스 다이어그램의 작성 법을 Java 샘플을 통해 알아본다. 
 <br>
 
-### UML
+## UML
 
 UML이란 Unified Modeling Language 의 약어로 1997년 OMG(Object Management Group)에서 표준으로 채택한 통합 모델링 언어이다. 즉, 모델을 만드는 표준 언어이다. UML의 큰 목적은 다음과 같다.
 
@@ -27,13 +27,13 @@ UML이란 Unified Modeling Language 의 약어로 1997년 OMG(Object Management 
 UML은 크게 시스템의 개념, 관계 등을 나타내고 각 요소들의 정적인 면을 보기 위한 구조 다이어그램과  각 요소들의 변화나 흐름, 주고 받는 데이터 등의 동작을 보기 위한 행위 다이어그램이 존재한다. 각 유형에는 7개 씩 총 14개의 세부 다이어그램이 존재하며 클래스 다이어그램은 구조 다이어그램에 속한다.
 <br>
 
-### 클래스 다이어그램
+## 클래스 다이어그램
 클래스 다이어그램은 클래스 내부의 정적인 내용이나 클래스 사이의 관계를 표현하는 다이어그램으로 시스템의 일부 또는 전체 구조를 나타낼 수 있다. 클래스 다이어그램은 의존 관계를 명확히 보여주며 순환 의존이 발생하는 지점을 찾아낼 수도 있다. 클래스 다이어그램의 모양새는 아래 그림과 같다.
 
 ![image](https://user-images.githubusercontent.com/13410737/180127877-7e6ed339-f30f-4ac2-848d-f09feab418cc.png){: .align-center}
 <br>
 
-### 클래스 표현
+## 클래스 표현
 클래스의 세부사항들을 상세하게 적는 것이 유용할 때도 있지만 UML 다이어그램은 필드나 메서드를 모두 선언하는 곳이 아니기 때문에 다이어 그램을 그리는 목적에 필요한 것만 사용하는 것이 좋다. 
 <br>
 
@@ -91,7 +91,7 @@ public class Person {
 
 <br>
 
-### 스테레오 타입
+## 스테레오 타입
 스테레오 타입이란 UML에서 제공하는 기본 요소 외에 추가적인 확장요소를 나타내는 것으로 길러멧(guillemt, ≪≫)사이에 적는다.  이 길러멧이란 기호는 쌍 꺾쇠와는 다른 것으로 일반 업무에서 사용할 때는 쌍꺾쇠를 사용해도 좋지만 공식적인 문서라면 이 기호를 사용하는 것이 좋다.
 
 ```java
@@ -123,7 +123,7 @@ public class Math {
 
 <br>
 
-### 추상 클래스에서의 표현
+## 추상 클래스에서의 표현
 
 추상 클래스에서의 표현은 이름과 메서드는 italic 체나, 필드 및 메서드 뒤에 `{abstract}` 프로퍼티를 사용하여 표기한다. 
 
@@ -137,7 +137,7 @@ public abstract class Person {
 
 <br>
 
-### 클래스 관계
+## 클래스 관계
 클래스 다이어그램의 주 목적은 클래스간의 관계를 한눈에 쉽게 보고 의존 관계를 파악하는 것에 있다. 표현할 수 있는 관계는 아래와 같다. 
 <br>
 
@@ -151,7 +151,7 @@ public abstract class Person {
 | 집합, 집합연관(Aggregation)    | ![image](https://user-images.githubusercontent.com/13410737/180135776-e5b7a260-af33-47ce-b0a0-ed2d2e8a0078.png){: .align-center} |
 | 합성, 복합연관(Composition)    | ![image](https://user-images.githubusercontent.com/13410737/180135832-a33e5d2d-d33d-4c43-b065-2a940d8c7b8a.png){: .align-center} |
 
-#### 일반화(Generalization)
+### 일반화(Generalization)
 일반화 관계는 슈퍼 클래스와 서브 클래스간에 상속 관계를 나타낸다. 여기서 일반화란 서브 클래스가 주체가 되어 서브 클래스를 슈퍼 클래스로 일반화 하는 것을 말하고 반대의 개념은 슈퍼 클래스를 서브 클래스로 Specialize(구체화)하는 것이다.
 <br>
 
@@ -184,7 +184,7 @@ public class Admin extends User {
 ![image](https://user-images.githubusercontent.com/13410737/180137232-f8ed4067-b737-4f14-8b38-fc8960530708.png){: .align-center}
 <br>
 
-#### **실체화(Realization)**
+### 실체화(Realization)
 실체화 관계는 interface의 스펙만 있는 메서드를 오버라이딩 하여 실제 기능을 구현하는 것을 말한다.
 <br>
 
@@ -208,7 +208,7 @@ public class ServiceImpl implements Service{
 Realization을 나타내는 표기법은 2가지가 있다. 첫 번째는 인터페이스를 클래스처럼 표기하고 스테레오 타입 « interface » 를 추가한다. 그리고 인터페이스와 클래스 사이의 Realize 관계는 점선과 인터페이스 쪽의 비어있는 삼각형으로 연결한다. 두 번째는 인터페이스를 원으로 표기하고 인터페이스의 이름을 명시한다. 그리고 인터페이스와 클래스 사이의 관계는 실선으로 연결한다.
 <br>
 
-#### 의존(Dependency)
+### 의존(Dependency)
 
 의존 관계는 클래스 다이어그램에서 일반적으로 가장 많이 사용되는 관계로 어떤 클래스가 다른 클래스를 참조하는 것을 말한다.
 
@@ -229,7 +229,7 @@ public class X{
 클래스의 메서드에 매개변수로 들어오거나 **로컬 변수**로 특정 클래스를 참조할 경우 의존 관계라 한다. 추가로 스테레오 타입으로 점선 화살표 위에 어떤 목적의 의존인지 의미를 명확히 표시할 수도 있다.
 <br>
 
-#### 연관, 방향성 있는 연관(Association, Directed Association)
+### 연관, 방향성 있는 연관(Association, Directed Association)
 연관 관계는 어떤 클래스가 다른 클래스를 필드로  가진다는 의미이다. (C++에서는 포인터 및 참조를 필드로 가질 경우 연관 관계라 한다.) 
 ```java
 public User{
@@ -248,7 +248,7 @@ public User{
 ![image](https://user-images.githubusercontent.com/13410737/180144528-74cd5ae6-0e72-45e4-85eb-0bacdc65b068.png){: .align-center}
 <br>
 
-#### 집합(Aggregation)
+### 집합(Aggregation)
 집합 관계는 합성(Composition) 관계와 함께 연관(Association) 관계를 조금 더 특수하게 나타낸 것으로 전체(whole)와 부분(part)의 관계를 나타낸다. 연관 관계는 집합이라는 의미를 내포하고 있지 않지만 집합 관계는 집합이라는 의미를 가지고 있다.
 
 ```java
@@ -264,7 +264,7 @@ public User{
 > 코드를 보면 연관 관계와 똑같은걸 알 수 있는데 집합 관계와 연관 관계는 집합이라는 개념적인 차이는 있지만 코드에서 이 차이를 구분하기는 힘들다. UML은 집합이라는 개념 외에 명확한 연관 관계의 정의를 제공하지 않았다 그래서 여러 프로그래머나 분석가, 설계사가 연관 관계에 대해 자기 나름대로 정의를 내리는 혼란이 생겨 집합 관계는 되도록이면 사용하지 않는 것이 좋다고 한다.
 <br>
 
-#### 합성(Composition)
+### 합성(Composition)
 합성 관계도 집합 관계와 비슷하게 전체( whole)와 부분(part)의 집합 관계를 나타내지만 개념적으로 집합 관계보다 더 강한 집합을 의미한다.
 
 ![image](https://user-images.githubusercontent.com/13410737/180147663-91093301-234d-48be-986c-de67b230ba2f.png){: .align-center}

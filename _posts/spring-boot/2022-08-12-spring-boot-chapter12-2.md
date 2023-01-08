@@ -22,13 +22,13 @@ last_modified_at : 2022-08-12
 
 
 
-## RestTemplate 사용하기
+# RestTemplate 사용하기
 
 이제 `RestTemplate`을 사용해보겠다. 요청을 보낼 서버 용도로 별도의 프로젝트를 하나 생성하고 다른 프로젝트에서 `RestTemplate`을 통해 요청을 보내는 방식으로 실습을 진행할 예정이다.
 
 
 
-### 서버 프로젝트 생성하기
+## 서버 프로젝트 생성하기
 
 먼저 `RestTemplate`의 동작을 확인하기 위해 서버 용도의 프로젝트를 생성하겠다. 실습 환경에서는 한 컴퓨터 안에서 두 개의 프로젝트를 가동시켜야 하기 때문에 톰캣의 포트를 변경해야 한다. 프로젝트에는 `spring-boot-starter-web` 모듈만 의존성으로 추가하며, 이 책에서는 `serverBox`라는 이름으로 프로젝트를 생성했다. 이 프로젝트의 구조는 아래와 같다.
 
@@ -156,7 +156,7 @@ public class MemberDto {
 
 
 
-### RestTemplate구현하기
+## RestTemplate구현하기
 
 일반적으로 `RestTemplate`은 별도의 유틸리티 클래스로 생성하거나 서비스 또는 비즈니스 계층에 구현된다. 앞서 생성한 서버 프로젝트에 요청을 날리기 위해 서버의 역할을 수행하면서 다른 서버로 요청을 보내는 클라이언트의 역할도 수행하는 새로운 프로젝트를 생성한다. 간단하게 도식화하면 아래와 같다.
 
@@ -182,7 +182,7 @@ public class MemberDto {
 
 <br>
 
-#### GET 형식의 RestTemplate 작성하기
+### GET 형식의 RestTemplate 작성하기
 
 먼저 GET 형식의 `RestTemplate` 예제를 살펴보겠다.
 
@@ -264,7 +264,7 @@ public final UriComponentsBuilder encode() {
 
 
 
-#### POST 형식의 RestTemplate 작성
+### POST 형식의 RestTemplate 작성
 
 POST 형식의 `RestTemplate` 사용법은 아래와 같다.
 
@@ -419,7 +419,7 @@ Around Hub Studio
 
 
 
-### RestTemplate 커스텀 설정
+## RestTemplate 커스텀 설정
 
 `RestTemplate`은 `HTTPClient`를 추상화하고 있다. `HttpClient`의 종류에 따라 기능에 차이가 다소 있는데, 가장 큰 차이는 커넥션 풀(Connection Poll)이다.
 

@@ -20,7 +20,7 @@ last_modified_at : 2022-07-19
 
 
 
-## PUT API 만들기
+# PUT API 만들기
 
 PUT API는 웹 애플리케이션 서버를 통해 데이터베이스 같은 저장소에 존재하는 리소스 값을 업데이트하는 데 사용한다. POST API와 비교하면 요청을 받아 실제 데이터베이스에 반영하는 과정(서비스 로직)에서 차이가 있지만 컨트롤러 클래스를 구현하는 방법은 POST API와 거의 동일하다. 리소스를 서버에 전달하기 위해 HTTP Body를 활용해야 하기 때문이다.
 먼저 아래와 같이 `PutController `라는 컨트롤러 클래스를 작성한다.
@@ -42,7 +42,7 @@ public class PutController {
 
 <br>
 
-### @RequestBody 를 활용한 PUT 메서드 구현
+## @RequestBody 를 활용한 PUT 메서드 구현
 
 PUT API는 POST 메서드와 마찬가지로 값을 HTTP Body에 담아 전달한다. 서버에서는 이 값을 받기 위해 아래와 같이 `@RequestBody`를 사용한다.
 
@@ -118,7 +118,7 @@ PUT API는 POST 메서드와 마찬가지로 값을 HTTP Body에 담아 전달�
 
 <br>
 
-### @ResponseEntity를 활용한 PUT 메서드 구현
+## @ResponseEntity를 활용한 PUT 메서드 구현
 
 스프링 프레임워크에는 `HttpEntity`라는 클래스가 있다. `HttpEntity`는 다음과 같이 헤더(Header)와 Body로 구성된 HTTP 요청과 응답을 구성하는 역할을 수행한다.
 

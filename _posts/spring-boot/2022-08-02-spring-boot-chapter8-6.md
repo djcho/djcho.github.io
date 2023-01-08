@@ -20,7 +20,7 @@ last_modified_at : 2022-08-02
 
 
 
-## QueryDSL 적용하기
+# QueryDSL 적용하기
 
 앞에서는 `@Query` 어노테이션을 사용해 직접 JPQL의 쿼리를 작성하는 방법을 알아봤다. 메서드의 이름을 기반으로 생성하는 JPQL의 한계는 `@Query` 어노테이션을 통해 대부분 해소할 수 있지만 직접 문자열을 입력하기 때문에 컴파일 시점에 에러를 잡지 못하고 런타임 에러가 발생할 수 있다. 쿼리의 문자열이 잘못된 경우에는 애플리케이션이 실행된 후 로직이 실행되고 나서야 오류를 발견할 수 있다. 이러한 이유로 개발 환경에서는 문제가 없는 것처럼 보이다가 실제 운영 환경에 애플리케이션을 배포하고 나서 오류가 발견되는 리스크를 유발한다.
 
@@ -28,7 +28,7 @@ last_modified_at : 2022-08-02
 
 
 
-### QueryDSL
+## QueryDSL
 
 <a href="https://querydsl.com" target="_blank">QueryDSL</a>은 정적 타입을 이용해 SQL과 같은 쿼리를 생성할 수 있도록 지원하는 프레임워크이다. 문자열이나 XML 파일을 통해 쿼리를 작성하는 대신 QueryDSL이 제공하는 플루언트(Fluent) API를 활용해 쿼리를 생성할 수 있다.
 
@@ -45,7 +45,7 @@ last_modified_at : 2022-08-02
 
 
 
-### QueryDSL의 장점
+## QueryDSL의 장점
 
 QueryDSL을 사용하면 다음과 같은 장점이 있다.
 
@@ -57,7 +57,7 @@ QueryDSL을 사용하면 다음과 같은 장점이 있다.
 
 
 
-### QueryDSL을 사용하기 위한 프로젝트 설정
+## QueryDSL을 사용하기 위한 프로젝트 설정
 
 QueryDSL을 사용하려면 몇 가지 설정이 필요하다. 먼저 `pom.xml`파일에 아래와 같이 의존성을 추가한다.
 
@@ -143,7 +143,7 @@ QueryDSL은 지금까지 작성했던 엔티티 클래스와 Q도메인(QDomain)
 
 
 
-### 기본적인 QueryDSL 사용하기
+## 기본적인 QueryDSL 사용하기
 
 앞의 프로젝트 설정을 마치면 QueryDSL을 사용할 준비가 끝났다. 우선 테스트 코드로 기본적인 QueryDSL 사용법을 알아보겠다. 아래와 같이 테스트 코드를 작성해서 QueryDSL의 동작을 확인할 수 있다.
 
@@ -319,13 +319,13 @@ void queryDslTest4() {
 
 
 
-### QuerydslPredicateExecutor, QuerydslRepositorySupport 활용
+## QuerydslPredicateExecutor, QuerydslRepositorySupport 활용
 
 스프링 데이터 JPA 에서는 QueryDSL을 더욱 편하게 사용할 수 있게 `QuerydslPredicateExecutor` 인터페이스와 `QuerydslRepositorySupport` 클래스를 제공한다. 이번 절에서는 이 두 클래스의 활용법을 살펴보겠다.
 
 
 
-#### QuerydslPredicateExecutor
+### QuerydslPredicateExecutor
 
 `QuerydslPredicateExecutor`는 `JpaRepository`와 함께 리포지토리에서 QueryDSL을 사용할 수 있게 인터페이스를 제공한다. 아래와 같이 리포지토리를 보자. 기존 리포지토리를 그대로 이용해도 되지만 예제를 구분하기 위해 `QProductRepository`라는 이름의 클래스를 생성했다.
 
@@ -440,7 +440,7 @@ public void queryDSLTest2() {
 
 
 
-#### QuerydslRepositorySupport 추상 클래스 사용하기
+### QuerydslRepositorySupport 추상 클래스 사용하기
 
 `QuerydslRepositorySupport` 클래스 역시 QueryDSL 라이브러리를 사용하는 데 유용한 기능을 제공한다. 이번 절에서는 `QuerydslRepositorySupport` 클래스를 사용하는 여러 방법 중 가장 일반적인 사용법을 소개하겠다.
 

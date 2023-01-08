@@ -18,13 +18,7 @@ last_modified_at : 2022-08-16
 장정우님이 지음, [스프링부트 핵심가이드 :: 스프링 부트를 활용한 애플리케이션 개발 실무] 책을 읽고 정리한 필기입니다.📢
 {: .notice--warning}
 
-
-
-
-
-
-
-## 스프링 시큐리티와 JWT 적용
+# 스프링 시큐리티와 JWT 적용
 
 이제 애플리케이션에 스프링 시큐리티와 JWT를 적용해보겠다. 먼저 프로젝트를 생성하겠다. 먼저 다음과 같은 설정으로 프로젝트를 생성한다.
 
@@ -70,7 +64,7 @@ last_modified_at : 2022-08-16
 
 
 
-### UserDetails와 UserDetailsService 구현
+## UserDetails와 UserDetailsService 구현
 
 먼저 아래와 같이 사용자 정보를 담는 엔티티를 생성한다.
 
@@ -240,7 +234,7 @@ public interface UserDetailsService{
 
 
 
-### JwtTokenProvider 구현
+## JwtTokenProvider 구현
 
 이제 JWT 토큰을 생성하는 데 필요한 정보를 `UserDetails`에서 가져올 수 있기 때문에 JWT 토큰을 생성하는 `JwtTokenProvider`를 생성한다. 구현 클래스는 아래와 같다.
 
@@ -461,7 +455,7 @@ public boolean validateToken(String token){
 
 
 
-### JwtAuthenticationFilter 구현
+## JwtAuthenticationFilter 구현
 
 `JwtAuthenticationFilter`는 JWT 토큰을 인증하고 `SecurityContextHolder`에 추가하는 필터를 설정하는 클래스이다. 우선 전체 코드를 보면 아래와 같다.
 
@@ -550,7 +544,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean{
 
 
 
-### SecurityConfiguration 구현
+## SecurityConfiguration 구현
 
 지금까지 실습을 통해 스프링 시큐리티를 적용하기 위한 컴포넌트를 구현했다. 이제 스프링 시큐리티와 관련된 설정을 진행하겠다. 스프링 시큐리티를 설정하는 대표적인 방법은 `WebSecurityConfigureAdapter`를 상속받는 `Configuration` 클래스를 구현하는 것이다. 전체적인 `SecurityConfiguration` 클래스의 구현은 아래와 같다.
 
@@ -669,7 +663,7 @@ REST PI 기반 애플리케이션의 동작 방식을 설정한다. 지금 진�
 
 
 
-#### 커스텀 AccessDeniedhandler, AuthenticationEntryPoint 구현
+### 커스텀 AccessDeniedhandler, AuthenticationEntryPoint 구현
 
 앞에서 살펴본 예제에서는 인증과 인가 과정의 예외 상황에서 `CustomAccessDeniedHandler`와 `CustomAuthenticationEntryPoint`로 예외를 전달하고 있었다. 이번 절에서는 이렇란 클래스를 작성하는 방법을 알아보겠다.
 
@@ -774,7 +768,7 @@ public void commence(HttpServletRequest httpServletRequest, HttpServletResponse 
 
 
 
-### 회원가입과 로그인 구현
+## 회원가입과 로그인 구현
 
 앞절에서 인증에 사용되는 `UserDetails` 인터페이스 구현제 클래스로 `User`엔티티를 생성했다. 지금까지는 `User` 객체를 통해 인증하는 방법을 구현했는데, 이번 절에서는 `User` 객체를 생성하기 위해 회원가입을 구현하고 `User` 객체로 인증을 시도하는 로그인을 구현하겠다.
 
@@ -1063,13 +1057,13 @@ public class SignInResultDto extends SignUpResultDto{
 
 
 
-### 스프링 시큐리티 테스트
+## 스프링 시큐리티 테스트
 
 이번에는 클라이언트 입장이 되어 스프링 시큐리티가 동작하는 상황에서 테스트를 수행해 보겠다. Swagger를 활용할 예정이며, Swagger 페이지를 접속하는 경로는 앞에 예제에서 `WebSecurity`를 사용하는 `configure()`메서드에서 인증에 대한 예외 처리를 했기 때문에 정상적으로 접속이 가능하다.
 
 
 
-#### 애플리케이션 가동 로그
+### 애플리케이션 가동 로그
 
 먼저 애플리케이션을 가동했을 때 나타나는 스프링 시큐리티와 관련된 로그를 살펴보겠다. 애플리케이션이 가동되면 스프링 시큐리티와 관련된 빈도 초기화되어 등록되면서 몇 가지 로그를 확인할 수 있다. `DEBUG` 레벨에서 로그를 확인하면 내용이 너무 많아지기 때문에 `INFO`레벨에서 확인할 수 있는 로그와 예제에서 작성한 커스텀 로그들을 살펴보겠다. 맨 먼저 살펴볼 로그는 다음과 같다.
 
@@ -1143,7 +1137,7 @@ public final class DefaultSecurityFilterChain implements SecurityFilterChain {
 
 
 
-#### 정상적인 동작 시나리오
+### 정상적인 동작 시나리오
 
 그럼 정상적으로 동작하는 시나리오를 기반으로 테스트를 수행하겠다. 절차는 다음과 같다.
 
@@ -1321,7 +1315,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 
 
-#### 비정상적인 동작 시나리오 - 인가 예외 발생
+### 비정상적인 동작 시나리오 - 인가 예외 발생
 
 그 다음은 인가 과정에서 예외가 발생하는 상황이다. 절차는 다음과 같다.
 

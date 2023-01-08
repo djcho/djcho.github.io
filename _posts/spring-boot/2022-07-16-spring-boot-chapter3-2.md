@@ -20,7 +20,7 @@ last_modified_at : 2022-07-16
 
 
 
-## 인텔리제이 IDEA 설치
+# 인텔리제이 IDEA 설치
 
 인텔리제이 IDEA(Intelij IDEA)는 제트브레인(Jetbrains)에서 제작한 자바용 통합 개발 환경(IDE)이다. 이전에는 자바용 IDE로 [이클립스(Eclipse)]가 많이 사용 됐는데, 최근에는 인텔리제이 IDEA가 많이 사용되는 추세이다.
 

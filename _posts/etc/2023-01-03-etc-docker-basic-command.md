@@ -11,11 +11,11 @@ date : 2023-01-03 00:00:00
 last_modified_at : 2022-01-03 00:00:00
 ---
 
-## Docker 명령어 정리
+# Docker 명령어 정리
 
-### 컨테이너 명령어
+## 컨테이너 명령어
 
-#### 컨테이너 생성하기
+### 컨테이너 생성하기
 
 ```bash
 $ docker run -d {image id|name} {CMD} {parameter}
@@ -36,7 +36,7 @@ $ docker run -d pcloudesire/tomcat:7-jre7 -p 8090:8080 /run.sh
 | --restart        | 컨테이너 종료시, 재시작 정책 설정 --restart="always" : 항상 재시작 --restart="on-failure" : 종료 스테이터스가 0이 아닐 때 재시작 * --rm 옵션과 --restart 옵션은 동시에 사용할 수 없습니다. |
 | --privileged     | 컨테이너 안에서 호스트의 리눅스 커널 기능을 모두 사용        |
 
-#### 컨테이너 실행하기
+### 컨테이너 실행하기
 
 ```bash
 $ docker start {container id|name}
@@ -44,13 +44,13 @@ $ docker stop {container id|name}
 $ docker restart {container id|name}
 ```
 
-#### 모든 컨테이너 확인하기
+### 모든 컨테이너 확인하기
 
 ```bash
 $ docker ps -a
 ```
 
-#### 컨테이너 내부 bash 쉘 진입
+### 컨테이너 내부 bash 쉘 진입
 
 ```bash
 $ docker exec -it {container id|name} /bin/bash
@@ -59,7 +59,7 @@ $ docker exec -it {container id|name} /bin/bash
 $ docker exec -it web1 /bin/bash
 ```
 
-#### 컨테이너 정보 확인
+### 컨테이너 정보 확인
 
 ```bash
 $ docker inspect {container id|name}
@@ -68,7 +68,7 @@ $ docker inspect {container id|name}
 $ docker inspect web1
 ```
 
-#### 컨테이너에 연결하기
+### 컨테이너에 연결하기
 
 ```bash
 $ docker attach {container id|name}
@@ -77,7 +77,7 @@ $ docker attach {container id|name}
 $ docker attach web1
 ```
 
-#### 컨테이너 로그 출력
+### 컨테이너 로그 출력
 
 ```bash
 $ docker logs -f {container id|name}
@@ -88,15 +88,15 @@ $ docker logs -f web1
 
 
 
-### 이미지 수정하기
+## 이미지 수정하기
 
-#### 이미지 목록 확인하기
+### 이미지 목록 확인하기
 
 ```bash
 $ docker image ls
 ```
 
-#### 이미지 수정하기
+### 이미지 수정하기
 
 현재 구동중인 컨테이너 쉘에 접속하여 원하는 파일을 변경한 뒤 변경한 컨테이너를 대상으로 이미지 파일에 커밋한다.
 
@@ -109,9 +109,9 @@ $ docker commit --change='CMD ["/run.sh"]' web1 cloudesire/tomcat-mariadb-webapp
 
 
 
-### 네트워크 명령어
+## 네트워크 명령어
 
-#### 네트워크 주소 확인하기
+### 네트워크 주소 확인하기
 
 ```bash
 sudo ip addr show docker0 #도커 네트워크에 할당된 IP확인
@@ -123,13 +123,13 @@ sudo ip addr show docker0 #도커 네트워크에 할당된 IP확인
        valid_lft forever preferred_lft forever
 ```
 
-#### 네트워크 목록 확인하기
+### 네트워크 목록 확인하기
 
 ```bash
 $ docker network inspect ls
 ```
 
-#### 네트워크 생성하기
+### 네트워크 생성하기
 
 ```bash
 $ docker network create {network name}
@@ -138,7 +138,7 @@ $ docker network create {network name}
 docker network create myNetwork
 ```
 
-#### 네트워크 정보 확인하기
+### 네트워크 정보 확인하기
 
 ```bash
 $ docker network inspect {network name}
@@ -147,7 +147,7 @@ $ docker network inspect {network name}
 $ docker network inspect myNetwork
 ```
 
-#### 컨테이너끼리 커스텀 네트워크로 연결
+### 컨테이너끼리 커스텀 네트워크로 연결
 
 ```bash
 $ docker network connet {network name} {container id|name}
@@ -157,15 +157,15 @@ $ docker network connect myNetwork web1
 $ docker network connect myNetwork db1
 ```
 
-### 컨테이너간 통신
+## 컨테이너간 통신
 
-#### bridge 이용
+### bridge 이용
 
 bridge 모드로 컨테이너에 부여된 IP를 확인하고, 같은 네트워크안에 묶인 IP와 통신 가능
 
 기본적으로 docker 는 디폴트 네트워크에 모든 컨테이너를 연결 함
 
-##### 같은 네트워크에 연결 되었는지 확인
+#### 같은 네트워크에 연결 되었는지 확인
 
 ```bash
 $ docker network ls
@@ -227,7 +227,7 @@ $ docker network inspect docker_default
 
 
 
-#### 네트워크 및 IP지정하여 컨테이너 생성
+### 네트워크 및 IP지정하여 컨테이너 생성
 
 ```bash
 $ docker run -it --rm --network docker_default --ip 172.18.0.9 -p 8281:8080 -d cloudesire/tomcat:latest /run.sh
@@ -235,7 +235,7 @@ $ docker run -it --rm --network docker_default --ip 172.18.0.9 -p 8281:8080 -d c
 
 
 
-#### host 이용
+### host 이용
 
 network-mode 를 host 로 지정할 경우 호스트의 설정들을 모두 따르므로 port forwarding 은 동작하지 않음
 
@@ -243,7 +243,7 @@ network-mode 를 host 로 지정할 경우 호스트의 설정들을 모두 따�
 $ docker run --net=host {image id|name} {container id|name}
 ```
 
-### docker-compose 구성
+## docker-compose 구성
 
 ```yml
 version : '3'
@@ -282,7 +282,7 @@ services :
 
 
 
-#### 컨테이너간 통신 여부 확인하기
+### 컨테이너간 통신 여부 확인하기
 
 ```bash
 $ docker-compose exec {service1 name} ping {service1 name}

@@ -20,7 +20,7 @@ last_modified_at : 2022-07-19
 
 
 
-## DELETE API 만들기
+# DELETE API 만들기
 
 DELETE API는 웹 애플리케이션 서버를 거쳐 데이터베이스 등의 저장소에 있는 리소스를 삭제할 때 사용한다. 서버에서는 클라이언트로부터 리소르를 식별할 수 있는 값을 받아 데이터베이스나 캐시에 있는 리소스를 조회하고 삭제하는 역할을 수행한다. 이때 컨트롤러를 통해 값을 받는 단계에서는 간단한 값을 받기 때문에 GET메서드와 같이 URI에 값을 넣어 요청을 받는 형식으로 구현된다.
 
@@ -43,7 +43,7 @@ public class DeleteController {
 
 <br>
 
-### @PathVariable과 @RequestParam을 활용한 DELETE 메서드 구현
+## @PathVariable과 @RequestParam을 활용한 DELETE 메서드 구현
 
 `@PathVariable`을 이용하면 URI에 포함된 값을 받아 로직을 처리할 수 있다.
 

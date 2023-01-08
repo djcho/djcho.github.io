@@ -22,7 +22,7 @@ last_modified_at : 2022-08-13
 
 
 
-## WebClient 란?
+# WebClient 란?
 
 일반적으로 실제 운영환경에 적용되는 애플리케이션은 정식 버전으로 출시된 스프링 부트의 버전보다 낮은 경우가 많다. 그렇기 때문에 `RestTemplate`을 많이 사용하고 있다. 하지만 최신 버전에서는 `RestTemplate`이 지원 중단되어 `WebClient`를 사용할 것을 권고하고 있다. 이러한 흐름에 맞춰 현재 빈번히 가용되고 있는 `RestTemplate`과 앞으로 많이 사용될 `WebClient`를 모두 알고 있는 것이 좋다.
 
@@ -39,7 +39,7 @@ Spring WebFlux는 HTTP 요청을 수행하는 클라이언트로 `WebClient`를 
 
 
 
-### WebClient 구성
+## WebClient 구성
 
 `WebClient`를 사용하려면 WebFlux 모듈에 대한 의존성을 추가해야 한다. 아래와 같이 `pom.xml`파일에 의종성을 추가한다.
 

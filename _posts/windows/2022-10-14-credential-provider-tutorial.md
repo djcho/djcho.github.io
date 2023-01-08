@@ -17,7 +17,7 @@ last_modified_at : 2022-10-14
 
 
 
-## Windows Credential Provider V2
+# Windows Credential Provider V2
 
 Windows Credential Provider는 Windows 시스템이 사용자에게 인증을 요구할 때 사용하는 윈도우 컴포넌트이다. Windows Credential Provider 는 크게 Windows 데스크탑 진입 전 사용자 로그온 화면과 CredUI라는 사용자 인증 요청 다이얼로그 화면으로 구성된다. 이 컴포넌트는 Windows XP 시절부터 존재했었고 Windows 8 부터 V2로 사용자와 인증 화면(Credential) 을 분리하면서 대폭 개선되었다. 이 문서에서는 Microsoft에서 제공하는 Windows Credential Provider V2(이하 CP) 샘플로 커스텀 Credential 을 띄워 보는 튜토리얼을 설명한다.
 
@@ -28,7 +28,7 @@ CP는 Windows 의 데스크탑 진입 전의 모듈인만큼 문제가 발생 �
 
 
 
-### 샘플 프로젝트 다운로드 및 빌드
+## 샘플 프로젝트 다운로드 및 빌드
 
 [![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=microsoft&repo=Windows-classic-samples)](https://github.com/microsoft/windows-classic-samples/tree/main/Samples/CredentialProvider)
 
@@ -40,7 +40,7 @@ CP는 Windows 의 데스크탑 진입 전의 모듈인만큼 문제가 발생 �
 
 
 
-### 테스트 환경에 적용
+## 테스트 환경에 적용
 
 테스트 환경에 적용하기 위해 위에서 빌드한 SampleV2CredcentialProvider.dll 와 프로젝트 내부에 포함되어 있는 register.reg 파일을 테스트 환경으로 복사한다.
 
@@ -49,7 +49,7 @@ CP는 Windows 의 데스크탑 진입 전의 모듈인만큼 문제가 발생 �
 
 
 
-#### 커스텀 CP 바이너리 복사
+### 커스텀 CP 바이너리 복사
 
 SampleV2CredentialProvider.dll 을 아래 경로에 위치 시킨다.
 
@@ -57,7 +57,7 @@ SampleV2CredentialProvider.dll 을 아래 경로에 위치 시킨다.
 
 
 
-#### COM 등록
+### COM 등록
 
 register.reg 파일을 실행하여 빌드한 테스트 바이너리를 시스템에 등록한다. register.reg 파일은 아래와 같다. 
 
@@ -113,9 +113,9 @@ DEFINE_GUID(CLSID_CSample, 0x5fd3d285, 0x0dd9, 0x4362, 0x88, 0x55, 0xe0, 0xab, 0
 
 
 
-### 샘플 프로젝트 분석
+## 샘플 프로젝트 분석
 
-#### ICredentialProvider 인터페이스
+### ICredentialProvider 인터페이스
 
 이 인터페이스에서는 커스텀 CP에서 다루고자하는 UI 정보들을 LogonUI 에서 얻어갈 수 있도록 메서드들이 구성되어 있다. 
 
@@ -153,7 +153,7 @@ IFACEMETHODIMP SetUserArray(_In_ ICredentialProviderUserArray *users);
 
 CPUS_UNLOCK_WORKSTATION은 CredentialProvider V1의 잔재로 V2에서는 실제로 화면 잠금 시나리오에서도 CPUS_LOGON으로 입력된다.{: .notice--warning}
 
-#### ICredentialProviderCredential2 인터페이스
+### ICredentialProviderCredential2 인터페이스
 
 CP는 LogonUI.exe 에 의해 호출되는 입장이기 때문에 구성된 메서드들은 모두 LogonUI.exe 에게 정보를 반환하는 모양을 띈다. 주요 인터페이스 메서드들은 아래와 같으며 메서드에 맞게 기능을 구현해 줘야 정상 동작한다. 크게 CP UI를 제어하기 위해 정보를 얻는 메서드군과 인증 파트 메서드 군으로 나눌 수 있다. 
 

@@ -20,7 +20,7 @@ last_modified_at : 2022-07-11
 
 
 
-## 스프링 부트의 동작 방식
+# 스프링 부트의 동작 방식
 
 스프링 부트에서 spring-boot-starter-web 모듈을 사용하면 기본적으로 톰캣(Tomcat)을 사용하는 스프링 MVC 구조를 기반으로 동작한다.
 

@@ -16,7 +16,7 @@ last_modified_at : 2022-10-28
 
 
 
-## Windows Credential Provider V2 with C#
+# Windows Credential Provider V2 with C#
 
 [![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=djcho&repo=windows-credential-provider-dotnet)](https://github.com/djcho/windows-credential-provider-dotnet)
 
@@ -35,13 +35,13 @@ Windows 의 데스크탑 진입 전의 모듈인만큼 문제가 발생 시 최�
 
 
 
-### COM Interop 파일 생성
+## COM Interop 파일 생성
 
 CP는 COM Interface의 구현체이며 이 구현체 바이너리를 시스템에 COM 등록시켜 노출 시키고  LogonUI.exe 에 의해 호출될 수 있도록 Windows 가 관리하는 CP 목록 레지스트리에 이 구현체의 GUID를 등록한다. 이 말은 C++이던 C#이던 CP Interface만 잘 구현해 놓고 시스템에 등록해 둔다면 LogonUI.exe 에서 호출될 수 있음을 의미하는데, 그러려면 우선 Windows 에서 정의해둔 CP 관련 COM Interface를 C# 코드에서 사용할 수 있도록 COM Interop 라이브러리가 필요하다. 다행히도 이 라이브러리는 Windows SDK에서 제공하는 credentialprovider.idl 파일을 사용하여 개발자가 직접 만들 수 있으며 이 CP with C# 프로젝트를 시작할 수 있게 해주는 핵심 라이브러리이다.
 
 
 
-#### idl 파일 수정
+### idl 파일 수정
 
 Windows SDK 에서 제공하는 기본 credentialprovider.idl을 그대로 사용할 경우에는 일부 인터페이스(예를 들어 ICredentialProviderCredential2)가 Export되지 않기 때문에  파일을 수정해야 한다. 
 
@@ -67,7 +67,7 @@ library CredentialProviders
 
 
 
-#### TypeLibrary 파일 생성
+### TypeLibrary 파일 생성
 
 위에서 수정한 credentialprovider.idl 파일이 준비되었다면 **x64 Native Tools Command Prompt VS 2022** 를 실행하여 아래와 같이 명령어를 입력하고 tlb 파일을 생성한다.
 
@@ -88,7 +88,7 @@ CredentialProvider는 Windows 의 LogonUI.exe 에 의해 호출되므로 Windows
 
 ![image](https://user-images.githubusercontent.com/13410737/196322863-f561a3da-eb39-4aa8-b1b9-115f25f8d8ea.png){: .align-center}
 
-#### TypeLibraryImporter2 빌드
+### TypeLibraryImporter2 빌드
 
 기본  Microsoft 에서 제공하는 tlbimp.exe 를 사용하여 컴파일할 경우에는 HRESULT 반환 유형을 생략하고 .NET의 예외(Exception)을 사용하도록 변경되므로 Winlogon 또는 credUI 호스트앱이 예외를 발생시키면서 프로스가 종료되는 이슈가 있다. 때문에 이를 해결하려면 tlbimp2.exe 를 사용해 컴파일 해야 한다.
 
@@ -106,7 +106,7 @@ TypeLibraryImporter2 Github 저장소 : https://github.com/clrinterop/TypeLibrar
 
 ![image](https://user-images.githubusercontent.com/13410737/196322208-99757655-f0df-4104-b450-4c64fe0927a2.png){: .align-center}
 
-### Interop 파일 생성
+## Interop 파일 생성
 
 tlbimp2.exe 가 준비되었다면 이제 위에서 만든 tlb 파일로 Interop.dll 을 생성할 차례이다. 위에서와 마찬가지로 **x64 Native Tools Command Prompt VS 2022** 를 관리자로 실행하여 아래와 같이 명령을 입력한다.
 
@@ -120,7 +120,7 @@ tlbimp2.exe 가 준비되었다면 이제 위에서 만든 tlb 파일로 Interop
 
 
 
-### 레퍼런스
+## 레퍼런스
 
 - https://github.com/phaetto/windows-credentials-provider
 - https://stackoverflow.com/questions/36425318/windows-credential-provider-in-c-sharp
