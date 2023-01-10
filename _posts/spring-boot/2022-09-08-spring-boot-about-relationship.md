@@ -3,7 +3,7 @@ title : "[SpringBoot] Jpa 연관 관계에 대한 고찰"
 categories:
 - SpringBoot
 tag :
-- [SpringBoot, Spring, Java, Intelij, jpa, relationship]
+- [SpringBoot, Spring, Java, Intelij, JPA, Hibernate, relationship]
 toc: true
 toc_sticky : true
 published : true
