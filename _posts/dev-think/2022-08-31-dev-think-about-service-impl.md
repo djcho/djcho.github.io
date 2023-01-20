@@ -1,7 +1,7 @@
 ---
 title : "[SpringBoot] Service/Impl 에 대하여"
 categories:
-- SpringBoot
+- DevThink
 tag :
 - [SpringBoot, Spring, Java, Intelij, interface]
 toc: true

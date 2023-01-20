@@ -106,6 +106,13 @@
             </ul>
             <ul>
                 {% for category in site.categories %}
+                    {% if category[0] == "DevThink" %}
+                        <li><a href="/categories/dev-think" class="">개발 생각 ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for category in site.categories %}
                     {% if category[0] == "Etc" %}
                         <li><a href="/categories/etc" class="">기타 ({{category[1].size}})</a></li>
                     {% endif %}
