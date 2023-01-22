@@ -19,9 +19,24 @@ last_modified_at : 2023-01-20
 
 
 
-## 예외란 무엇인가
+요지는 크게 두가이였다.
 
-예외란 기능의 의도치 않은 동작을 말한다. 그리고  어느 정도 개발자가 예측가능한 부분
+1. 언제 throw를 해야 하는지
+    1. 예외란 무엇인가
+    2. 
+2. 언제 catch를 해야 하는지
+    1. 비지니스 코드의 예외
+    2. 다시 예외를 던지는 기준
+
+
+
+
+
+## 언제 throw를 해야 하는가
+
+### 예외란 무엇인가
+
+언제 예외를 던져야 하는지 생각해보려면 우선 예외가 무엇인지부터 생각 해야한다. 예외란 무엇일까, 한 마디로 표현하자면 예외란 기능의 의도치 않은 동작을 말한다. 그리고  어느 정도 예측이 가능하기 때문에 개발자는 예측되는 시점에 예외를 처리하는 코드를 작성해야 한다. 예외를 throw한다는 것은 기능의 의도치 않은 동작을 명시하는 행위이다. 
 
 
 
@@ -31,16 +46,16 @@ Exception 이 존재하지 않는 C언어의 프로그래밍 방식에서는 함
 
 ```c
 int value = 0;
-bool result = foo(&value);
-if(result != true){
+int result = foo(&value);
+if(result != ERROR_SUCCESS){
     //실패 처리
-    return ERROR_CODE;
+    return ERROR_GET_VALUE_FAILED;
 }
 
 result = goo(&value);
-if(result != true){
+if(result != ERROR_SUCCESS){
     //실패 처리
-    return ERROR_CODE;
+    return ERROR_GET_VALUE_FAILED;
 }
 ```
 
