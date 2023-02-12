@@ -1,14 +1,14 @@
 ---
 title : "[Java] Reference"
 categories:
-- DevThink
+- Etc
 tag :
-- [Common, Java, Reference]
+- [Etc, Java, Reference]
 toc: true
 toc_sticky : true
 published : true
-date : 2023-02-12
-last_modified_at : 2023-02-12
+date : 2023-02-12 00:00:00
+last_modified_at : 2023-02-12 00:00:00
 
 ---
 
