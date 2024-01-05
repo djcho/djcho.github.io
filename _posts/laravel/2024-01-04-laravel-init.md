@@ -3,7 +3,7 @@ title : "[Laravel] 라라벨 개발 환경 구성"
 categories:
 - Laravel
 tag :
-- [Laravel, PHP]
+- [Laravel, PHP, Composer, Sail]
 toc: true
 toc_sticky : true
 published : true
