@@ -18,7 +18,7 @@ last_modified_at : 2024-01-05
 
 # 프로젝트 설정
 
-라라벨의 설정을 배워본다. 라라벨의 모든 설정은 기본적으로 `config` 디렉토리에서 관리된다. `config` 폴더에 저장되어 있는 설정 값들은 `config` 라는 메서드로 불러올 수 있다.![image](https://github.com/djcho/ot-laravel-basic/assets/13410737/71f2618b-746a-465c-8b81-7b2fd30f5f80)
+라라벨의 설정을 배워본다. 라라벨의 모든 설정은 기본적으로 `config` 디렉토리에서 관리된다. `config` 폴더에 저장되어 있는 설정 값들은 `config` 라는 메서드로 불러올 수 있다.![image](https://github.com/djcho/ot-laravel-basic/assets/13410737/1a8c8268-cf10-4b18-b5d2-fe4abdbeedea)
 
 또한 `env()`는 `.env`파일에 정의되어 있는 설정을 불러올 수 있는 메서드이다. 
 
