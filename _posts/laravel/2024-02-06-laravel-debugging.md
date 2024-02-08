@@ -70,7 +70,7 @@ Scan for additional .ini files in: /opt/homebrew/etc/php/8.3/conf.d
 Additional .ini files parsed:      /opt/homebrew/etc/php/8.3/conf.d/ext-opcache.
 ```
 
-`Loaded Configuration File` 에 출력되는 php.ini 파일을 열어 아래 값을 추가한다.
+2번째 줄 `Loaded Configuration File` 에 출력되는 php.ini 파일을 열어 아래 값을 추가한다.
 
 ```ini
 zend_extension="xdebug.so"
@@ -98,13 +98,16 @@ xdebug.log=xdebug.log
 
 VSCode의 확장 프로그램 탭에서 "PHP Debug" 확장을 찾아 설치한다.
 
-
+<img width="1399" alt="image" src="https://github.com/djcho/api-laravel-basic/assets/13410737/8f9fdf4f-1f50-4260-8887-8c336ffb5994">
 
 ### 브레이크포인트 설정과 디버깅 실행
 
 #### launch.json 작성
 
+![launch.json](https://github.com/djcho/api-laravel-basic/assets/13410737/a5d0330d-4ec4-4176-9a16-ca158a76de2c){: .align-center width="300"}
+
 디버깅을 시작하려면 `launch.json` 파일을 설정하여 디버깅 환경을 구성해야 한다. 이 파일은 VSCode의 디버깅 탭에서 최초로 디버깅을 실행할 경우 자동로 프로젝트의 `.vscode` 폴더 내에 생성된다. 만약 폴더가 없다면 직접 생성한 뒤 아래 내용을 추가한다.
+
 
 ```json
 // .vscode/launch.json
@@ -120,8 +123,9 @@ VSCode의 확장 프로그램 탭에서 "PHP Debug" 확장을 찾아 설치한�
     }
   ]
 }
-
 ```
+
+
 
 딱히 많은 설정이 필요하지 않다. 중요한 부분은 `port`와 `hostname`은 위 php.ini 내 Xdebug 설정과 일치 해야 한다. 
 
@@ -129,7 +133,7 @@ VSCode의 확장 프로그램 탭에서 "PHP Debug" 확장을 찾아 설치한�
 
 `php artisan serve` 를 수행 후 디버깅을 원하는 코드에서 중단점을 설정한 뒤 F5를 눌러 디버깅 세션을 시작하면 된다.
 
-<img width="537" alt="스크린샷 2024-02-07 17 34 46" src="https://github.com/djcho/api-laravel-basic/assets/13410737/ab3fe6e7-c5e3-4e53-9988-e38a9c35a639">
+![](https://github.com/djcho/api-laravel-basic/assets/13410737/ab3fe6e7-c5e3-4e53-9988-e38a9c35a639){: .align-center width="500"}
 
 <img width="1243" alt="스크린샷 2024-02-07 17 35 07" src="https://github.com/djcho/api-laravel-basic/assets/13410737/c40e3d18-4e0c-4661-9c47-7bcaba23e178">
 
