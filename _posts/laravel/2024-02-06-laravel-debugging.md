@@ -13,8 +13,6 @@ last_modified_at : 2024-02-07
 
 
 
-이현석님의, [이현석의 라라벨 입문] 영상 강의를 보고 정리한 필기입니다.📢
-{: .notice--warning}
 
 # 라라벨 개발 환경 구축 : Debugging with VSCode
 
