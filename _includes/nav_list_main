@@ -8,7 +8,7 @@
   <ul class="nav__items" id="category_tag_menu">
       <!--전체 글 수-->
       <li>
-        📃 <span style="font-family:'GowunDodum-Regular';">전체 글 수</style> <span style="font-family:'GowunDodum-Regular';">{{sum}}</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+        📃 <span style="font-family:'GowunDodum-Regular';">전체 글 수</style> <span style="font-family:'GowunDodum-Regular';">{{sum}}</style> <span style="font-family:'Cafe24Oneprettynight';">개</style>
       </li>
       <li>
         <!--span 태그로 카테고리들을 크게 분류 ex) Languages-->
@@ -16,7 +16,7 @@
             <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
             <ul>
                 <!--Languages 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
-                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시-->
                 {% for category in site.categories %}
                     {% if category[0] == "Cpp" %}
                         <li><a href="/categories/cpp" class="">C++ ({{category[1].size}})</a></li>
@@ -81,6 +81,14 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+          <span class="nav__sub-title">🗂 Infra</span>
+          <ul>
+              {% for category in site.categories %}
+                  {% if category[0] == "AWS" %}
+                      <li><a href="/categories/aws" class="">AWS({{category[1].size}})</a></li>
+                  {% endif %}
+              {% endfor %}
+          </ul>
         <span class="nav__sub-title">🗂 Coding Test</span>
             <ul>
                 {% for category in site.categories %}
@@ -126,8 +134,8 @@
                 {% endfor %}
             </ul>
       </li>
-      <li>	
-        <br>      
+      <li>
+        <br>
         <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fdjcho.github.io&count_bg=%233D8CC8&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
   </li>
   </ul>
